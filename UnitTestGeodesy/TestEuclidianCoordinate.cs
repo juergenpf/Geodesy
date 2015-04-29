@@ -82,5 +82,14 @@ namespace UnitTestGeodesy
             var e2 = new EuclidianCoordinate(projection, -3, -4 + 1e-13);
             Assert.AreNotEqual(e1.GetHashCode(), e2.GetHashCode());
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestNotSameProjection()
+        {
+            var e1 = new EuclidianCoordinate(projection, -3, -4);
+            var e2 = new EuclidianCoordinate(new EllipticalMercatorProjection(), -3, -4);
+            var d = e1.DistanceTo(e2);
+        }
     }
 }
