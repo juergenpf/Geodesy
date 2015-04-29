@@ -152,6 +152,24 @@ namespace Geodesy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The euclidian coordinate does not belong to this projection..
+        /// </summary>
+        internal static string POINT_NOT_OWNED {
+            get {
+                return ResourceManager.GetString("POINT_NOT_OWNED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The euclidian coordinates do not belong to the same projection.
+        /// </summary>
+        internal static string POINT_NOT_SAME_PROJECTION {
+            get {
+                return ResourceManager.GetString("POINT_NOT_SAME_PROJECTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The projection argument must not be null..
         /// </summary>
         internal static string PROJECTION_NULL {

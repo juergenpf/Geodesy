@@ -463,7 +463,7 @@ namespace Geodesy
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is UtmGrid))
+            if (obj==null || !(obj is UtmGrid))
                 return false;
             else
             {

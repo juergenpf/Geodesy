@@ -22,6 +22,16 @@ namespace Geodesy
         /// </summary>
         public UtmGrid Grid { get; private set; }
 
+        public override bool IsSameProjection(EuclidianCoordinate other)
+        {
+            var utmOther = other as UtmCoordinate;
+            if (null != utmOther)
+            {
+                return utmOther.Grid.Equals(Grid);
+            }
+            return false;
+        }
+
         private void Compute()
         {
             var c = Grid.Projection.FromEuclidian(this, out _scaleFactor, out _meridianConvergence);

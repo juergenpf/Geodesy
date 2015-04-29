@@ -17,7 +17,18 @@ namespace Geodesy
         /// The Mercator projection that owns these coordinates
         /// </summary>
         public MercatorProjection Projection { get; protected set; }
-     
+
+
+        /// <summary>
+        /// Check whether another euclidian point belongs to the same projection
+        /// </summary>
+        /// <param name="other">The other point</param>
+        /// <returns>True if they belong to the same projection, false otherwise</returns>
+        public virtual bool IsSameProjection(EuclidianCoordinate other)
+        {
+            return (other != null && other.Projection.Equals(Projection));
+        }
+
         /// <summary>
         /// The X coordinate
         /// </summary>
@@ -70,6 +81,8 @@ namespace Geodesy
         /// <returns>The distance</returns>
         public virtual double DistanceTo(EuclidianCoordinate other)
         {
+            if (!IsSameProjection(other))
+                throw new ArgumentException(Properties.Resources.POINT_NOT_SAME_PROJECTION);
             return Math.Sqrt((X - other.X)*(X - other.X) + (Y - other.Y)*(Y - other.Y));
         }
 
@@ -83,6 +96,8 @@ namespace Geodesy
             EuclidianCoordinate other, 
             double precision=DefaultPrecision)
         {
+            if (!IsSameProjection(other))
+                return false;
             return (other != null && other.Projection.Equals(Projection) &&
                 other.X.IsApproximatelyEqual(X, precision) &&
                 other.Y.IsApproximatelyEqual(Y, precision));

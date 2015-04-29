@@ -122,6 +122,12 @@ namespace Geodesy
         /// <returns>The distance between the points</returns>
         public double EuclidianDistance(EuclidianCoordinate point1, EuclidianCoordinate point2)
         {
+            if (point1 == null || point2 == null)
+                throw new ArgumentNullException();
+            if (!(point1.Projection.Equals(this) && point2.Projection.Equals(this)))
+                throw new ArgumentException(Properties.Resources.POINT_NOT_OWNED);
+            if (!point2.IsSameProjection(point2))
+                throw new ArgumentException(Properties.Resources.POINT_NOT_SAME_PROJECTION);
             return point1.DistanceTo(point2);
         }
 

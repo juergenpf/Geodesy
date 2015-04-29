@@ -147,6 +147,12 @@
   <data name="NO_UTM_COORDINATE" xml:space="preserve">
     <value>The coordinate must be an _UtmCoordinate.</value>
   </data>
+  <data name="POINT_NOT_OWNED" xml:space="preserve">
+    <value>The euclidian coordinate does not belong to this projection.</value>
+  </data>
+  <data name="POINT_NOT_SAME_PROJECTION" xml:space="preserve">
+    <value>The euclidian coordinates do not belong to the same projection</value>
+  </data>
   <data name="PROJECTION_NULL" xml:space="preserve">
     <value>The projection argument must not be null.</value>
   </data>
