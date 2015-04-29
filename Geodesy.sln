@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geodesy", "Geodesy\Geodesy.csproj", "{5A302B4D-27B5-4AB4-931E-D7D58E50D6F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF8F4D95-524D-4139-AD45-68E3392FA6D9}"
+	ProjectSection(SolutionItems) = preProject
+		License.md = License.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geodesy.PCL", "Geodesy.PCL\Geodesy.PCL.csproj", "{4096E8CE-2FBE-4F84-B18F-06B759DBDBEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestGeodesy", "UnitTestGeodesy\UnitTestGeodesy.csproj", "{8DC6AE74-72EC-4676-81BA-85B902CF60AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A302B4D-27B5-4AB4-931E-D7D58E50D6F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A302B4D-27B5-4AB4-931E-D7D58E50D6F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A302B4D-27B5-4AB4-931E-D7D58E50D6F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A302B4D-27B5-4AB4-931E-D7D58E50D6F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4096E8CE-2FBE-4F84-B18F-06B759DBDBEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4096E8CE-2FBE-4F84-B18F-06B759DBDBEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4096E8CE-2FBE-4F84-B18F-06B759DBDBEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4096E8CE-2FBE-4F84-B18F-06B759DBDBEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DC6AE74-72EC-4676-81BA-85B902CF60AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DC6AE74-72EC-4676-81BA-85B902CF60AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DC6AE74-72EC-4676-81BA-85B902CF60AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DC6AE74-72EC-4676-81BA-85B902CF60AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
