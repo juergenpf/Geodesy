@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geodesy", "Geodesy\Geodesy.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF8F4D95-524D-4139-AD45-68E3392FA6D9}"
 	ProjectSection(SolutionItems) = preProject
+		Geodesy.nuspec = Geodesy.nuspec
 		License.md = License.md
 		README.md = README.md
 	EndProjectSection
@@ -14,6 +15,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geodesy.PCL", "Geodesy.PCL\Geodesy.PCL.csproj", "{4096E8CE-2FBE-4F84-B18F-06B759DBDBEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestGeodesy", "UnitTestGeodesy\UnitTestGeodesy.csproj", "{8DC6AE74-72EC-4676-81BA-85B902CF60AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{07D6A768-B330-4E81-BD88-5ADC780AAA38}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\copynuget.cmd = Scripts\copynuget.cmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -80,8 +80,10 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>PUSHD "$(SolutionDir)"
+  CALL .\Scripts\copynuget  "$(ConfigurationName)" "$(TargetDir)" "$(TargetName)" "$(TargetExt)" "net45"
+POPD
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

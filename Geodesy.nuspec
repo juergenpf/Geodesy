@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Geodesy</id>
+        <version>1.0.0</version>
+        <title>Simple geodesic algorithms</title>
+        <authors>Jürgen Pfeifer</authors>
+        <owners>Jürgen Pfeifer</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A library with various geodesic algorithms.</description>
+        <copyright>(C) Microsoft</copyright>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="NuGetBuild\Release\lib\net45\Geodesy.dll" target="lib\net45\Geodesy.dll" />
+        <file src="NuGetBuild\Release\lib\net45\Geodesy.xml" target="lib\net45\Geodesy.xml" />
+        <file src="NuGetBuild\Release\lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.dll" target="lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.dll" />
+        <file src="NuGetBuild\Release\lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.xml" target="lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.xml" />
+    </files>
+</package>
