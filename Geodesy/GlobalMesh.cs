@@ -6,10 +6,15 @@ using System;
 namespace Geodesy
 {
     /// <summary>
-    /// This class overlays the globe with a mesh of squares
+    /// This class overlays the globe with a mesh of squares.
+    /// The algorithm is based on subdividing the UTM grids into
+    /// finer cell structures, so the coverage is for latitudes
+    /// between 80° South and 84° North.
     /// </summary>
     public class GlobalMesh
     {
+        const int MinimumMeshSize = 10;
+
         private readonly UtmProjection _utm = new UtmProjection();
         private readonly double _maxWidth, _maxHeight;
         private readonly int _squareSize;
@@ -35,15 +40,18 @@ namespace Geodesy
         /// <summary>
         /// Instantiate the Mesh with the given nuber of meters as the size
         /// of the mesh squares. We do not support squares less than 10m.
+        /// Please note that the actual mesh size used is a derived value
+        /// that approximates the requested mesh size in order to provide
+        /// better computational efficiency.
         /// </summary>
         /// <param name="squareSizeinMeters">The size of the squares in meter</param>
         public GlobalMesh(int squareSizeinMeters)
         {
-            if (squareSizeinMeters <= 10)
+            if (squareSizeinMeters <= MinimumMeshSize)
                 throw new ArgumentOutOfRangeException(Properties.Resources.MESHSIZE_MIN_10);
 
             _squareSize = squareSizeinMeters;
-            var s = (double) squareSizeinMeters;
+            var dblSquareSize = (double) squareSizeinMeters;
 
             for (var zone = 1; zone <= UtmGrid.NumberOfZones; zone++)
             {
@@ -61,8 +69,10 @@ namespace Geodesy
                 }
             }
 
-            var xModulus = (long)Math.Round((_maxWidth  + s - 1.0) / s, MidpointRounding.AwayFromZero);
-            var yModulus = (long)Math.Round((_maxHeight + s - 1.0) / s, MidpointRounding.AwayFromZero);
+            var xModulus = (long)Math.Round((_maxWidth  + dblSquareSize - 1.0) / dblSquareSize, MidpointRounding.AwayFromZero);
+            var yModulus = (long)Math.Round((_maxHeight + dblSquareSize - 1.0) / dblSquareSize, MidpointRounding.AwayFromZero);
+            if (xModulus < 2 || yModulus < 2)
+                throw new ArgumentOutOfRangeException(Properties.Resources.MESHSIZE_TOO_BIG);
             var m = Math.Max(xModulus, yModulus);
             var lnmod = (int)Math.Round(Math.Log(m)/Math.Log(2) + 0.5, MidpointRounding.AwayFromZero);
             while ((1 << lnmod) < m) lnmod++;
@@ -111,8 +121,8 @@ namespace Geodesy
         /// Return the central coordinates of a Mesh given by its number.
         /// Please note that this center is on the UTM map, but at the borders
         /// of a grid this coordinate may actually overlap and belong to another
-        /// grid. So if you convert them to a Latitude/Longitude and then back to
-        /// an UtmCoordinate, you may get different values.
+        /// UTM grid. So if you convert them to a Latitude/Longitude and then back
+        /// to an UtmCoordinate, you may get different values.
         /// </summary>
         /// <param name="meshNumber">The number of the mesh</param>
         /// <returns>The UTM coordinates of the center of the square</returns>

@@ -141,6 +141,9 @@
   <data name="MESHSIZE_MIN_10" xml:space="preserve">
     <value>The mesh size must be at least 10 meters.</value>
   </data>
+  <data name="MESHSIZE_TOO_BIG" xml:space="preserve">
+    <value>The mesh size is to big, it doesn't divide all UTMGrids into multiple cells.</value>
+  </data>
   <data name="MINSEC_0_TO_60" xml:space="preserve">
     <value>Minutes or seconds must have a value between 0 and 60.</value>
   </data>

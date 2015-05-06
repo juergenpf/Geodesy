@@ -134,6 +134,15 @@ namespace Geodesy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The mesh size is to big, it doesn&apos;t divide all UTMGrids into multiple cells..
+        /// </summary>
+        internal static string MESHSIZE_TOO_BIG {
+            get {
+                return ResourceManager.GetString("MESHSIZE_TOO_BIG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minutes or seconds must have a value between 0 and 60..
         /// </summary>
         internal static string MINSEC_0_TO_60 {
