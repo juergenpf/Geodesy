@@ -8,4 +8,9 @@ Finally - based on UTM - I implement an algorithm to put a finer grain mesh over
 the earth to be able to classify a geo-location by a discrete globally unique mesh number. This
 is done in order to facilitacte the application of some discrete algorithms - especially in the
 area of machine learning - on geo locations.
+
+You may access this library in your own projects through my personal NuGet feed. The feed URL
+is: https://home.familiepfeifer.de/nuFeed/nuget
+You must add that feed in VisualStudio (Tools -> Options -> NuGet Package Manager -> Package Sources)
+
   
