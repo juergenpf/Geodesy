@@ -138,8 +138,8 @@
   <data name="INVALID_ZONE" xml:space="preserve">
     <value>Invalid UTM Zone specified</value>
   </data>
-  <data name="MESHSIZE_MIN_10" xml:space="preserve">
-    <value>The mesh size must be at least 10 meters.</value>
+  <data name="MESHSIZE_MIN_VIOLATION" xml:space="preserve">
+    <value>The mesh size must be at least 1 meter.</value>
   </data>
   <data name="MESHSIZE_TOO_BIG" xml:space="preserve">
     <value>The mesh size is to big, it doesn't divide all UTMGrids into multiple cells.</value>

@@ -13,7 +13,7 @@ namespace Geodesy
     /// </summary>
     public class GlobalMesh
     {
-        const int MinimumMeshSize = 10;
+        const int MinimumMeshSize = 1;
 
         private readonly UtmProjection _utm = new UtmProjection();
         private readonly double _maxWidth, _maxHeight;
@@ -39,16 +39,16 @@ namespace Geodesy
 
         /// <summary>
         /// Instantiate the Mesh with the given nuber of meters as the size
-        /// of the mesh squares. We do not support squares less than 10m.
+        /// of the mesh squares. We do not support squares less than 1m.
         /// Please note that the actual mesh size used is a derived value
         /// that approximates the requested mesh size in order to provide
         /// better computational efficiency.
         /// </summary>
-        /// <param name="squareSizeinMeters">The size of the squares in meter</param>
-        public GlobalMesh(int squareSizeinMeters)
+        /// <param name="squareSizeinMeters">The size of the squares in meter. The defauklt value is 1000m.</param>
+        public GlobalMesh(int squareSizeinMeters=1000)
         {
             if (squareSizeinMeters <= MinimumMeshSize)
-                throw new ArgumentOutOfRangeException(Properties.Resources.MESHSIZE_MIN_10);
+                throw new ArgumentOutOfRangeException(Properties.Resources.MESHSIZE_MIN_VIOLATION);
 
             _squareSize = squareSizeinMeters;
             var dblSquareSize = (double) squareSizeinMeters;
