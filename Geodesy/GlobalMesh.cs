@@ -135,5 +135,82 @@ namespace Geodesy
             var relY = (local%_modulus)*_squareSize + _squareSize/2;
             return new UtmCoordinate(theGrid,theGrid.Origin.X+relX,theGrid.Origin.Y+relY);
         }
+
+        /// <summary>
+        /// Return the lower left corner coordinates of a Mesh given by its number.
+        /// Please note that this point is on the UTM map, but at the borders
+        /// of a grid this coordinate may actually overlap and belong to another
+        /// UTM grid. So if you convert them to a Latitude/Longitude and then back
+        /// to an UtmCoordinate, you may get different values.
+        /// </summary>
+        /// <param name="meshNumber"></param>
+        /// <returns>The UTM coordinates of the lower left corner of the Mesh</returns>
+        public UtmCoordinate LowerLeft(long meshNumber)
+        {
+            var ord = (int)(meshNumber / _meshCount);
+            var local = meshNumber % (_meshCount);
+            var theGrid = new UtmGrid(_utm, ord);
+            var relX = (local / _modulus) * _squareSize;
+            var relY = (local % _modulus) * _squareSize;
+            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+        }
+    
+        /// <summary>
+        /// Return the lower right corner coordinates of a Mesh given by its number.
+        /// Please note that this point is on the UTM map, but at the borders
+        /// of a grid this coordinate may actually overlap and belong to another
+        /// UTM grid. So if you convert them to a Latitude/Longitude and then back
+        /// to an UtmCoordinate, you may get different values.
+        /// </summary>
+        /// <param name="meshNumber"></param>
+        /// <returns>The UTM coordinates of the lower right corner of the Mesh</returns>
+        public UtmCoordinate LowerRight(long meshNumber)
+        {
+            var ord = (int)(meshNumber / _meshCount);
+            var local = meshNumber % (_meshCount);
+            var theGrid = new UtmGrid(_utm, ord);
+            var relX = (local / _modulus) * _squareSize + _squareSize;
+            var relY = (local % _modulus) * _squareSize;
+            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+        }
+
+        /// <summary>
+        /// Return the upper left corner coordinates of a Mesh given by its number.
+        /// Please note that this point is on the UTM map, but at the borders
+        /// of a grid this coordinate may actually overlap and belong to another
+        /// UTM grid. So if you convert them to a Latitude/Longitude and then back
+        /// to an UtmCoordinate, you may get different values.
+        /// </summary>
+        /// <param name="meshNumber"></param>
+        /// <returns>The UTM coordinates of the upper left corner of the Mesh</returns>
+        public UtmCoordinate UpperLeft(long meshNumber)
+        {
+            var ord = (int)(meshNumber / _meshCount);
+            var local = meshNumber % (_meshCount);
+            var theGrid = new UtmGrid(_utm, ord);
+            var relX = (local / _modulus) * _squareSize;
+            var relY = (local % _modulus) * _squareSize + _squareSize;
+            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+        }
+
+        /// <summary>
+        /// Return the upper right corner coordinates of a Mesh given by its number.
+        /// Please note that this point is on the UTM map, but at the borders
+        /// of a grid this coordinate may actually overlap and belong to another
+        /// UTM grid. So if you convert them to a Latitude/Longitude and then back
+        /// to an UtmCoordinate, you may get different values.
+        /// </summary>
+        /// <param name="meshNumber"></param>
+        /// <returns>The UTM coordinates of the upper right corner of the Mesh</returns>
+        public UtmCoordinate UpperRight(long meshNumber)
+        {
+            var ord = (int)(meshNumber / _meshCount);
+            var local = meshNumber % (_meshCount);
+            var theGrid = new UtmGrid(_utm, ord);
+            var relX = (local / _modulus) * _squareSize + _squareSize;
+            var relY = (local % _modulus) * _squareSize + _squareSize;
+            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+        }
+
     }
 }
