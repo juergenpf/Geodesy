@@ -97,11 +97,29 @@ namespace Geodesy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid distance.
+        /// </summary>
+        internal static string INVALID_DISTANCE {
+            get {
+                return ResourceManager.GetString("INVALID_DISTANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The UTM projection ownly allows latitudes from -80° to +84°.
         /// </summary>
         internal static string INVALID_LATITUDE {
             get {
                 return ResourceManager.GetString("INVALID_LATITUDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The mesh number is invalid.
+        /// </summary>
+        internal static string INVALID_MESH_NUMBER {
+            get {
+                return ResourceManager.GetString("INVALID_MESH_NUMBER", resourceCulture);
             }
         }
         

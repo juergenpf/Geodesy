@@ -129,8 +129,14 @@
   <data name="INVALID_BAND" xml:space="preserve">
     <value>Invalid UTM Band specified.</value>
   </data>
+  <data name="INVALID_DISTANCE" xml:space="preserve">
+    <value>Invalid distance</value>
+  </data>
   <data name="INVALID_LATITUDE" xml:space="preserve">
     <value>The UTM projection ownly allows latitudes from -80° to +84°</value>
+  </data>
+  <data name="INVALID_MESH_NUMBER" xml:space="preserve">
+    <value>The mesh number is invalid</value>
   </data>
   <data name="INVALID_ORDINAL" xml:space="preserve">
     <value>The ordinal number of the Grid is invalid.</value>

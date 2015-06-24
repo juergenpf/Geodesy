@@ -2,6 +2,7 @@
  * File: GlobalMesh.cs
 */
 using System;
+using System.Collections.Generic;
 
 namespace Geodesy
 {
@@ -30,11 +31,19 @@ namespace Geodesy
         }
 
         /// <summary>
-        /// The total number of meshes used to cover the Globe.
+        /// The total number of meshes used to cover an UTM Grid.
         /// </summary>
         public long Count
         {
             get { return _meshCount; }
+        }
+
+        /// <summary>
+        /// The total number of meshes used to cover the globe.
+        /// </summary>
+        public long GlobalCount
+        {
+            get { return _meshCount*UtmGrid.NumberOfGrids; }
         }
 
         /// <summary>
@@ -52,6 +61,8 @@ namespace Geodesy
 
             _squareSize = squareSizeinMeters;
             var dblSquareSize = (double) squareSizeinMeters;
+            _maxWidth = double.MinValue;
+            _maxHeight = double.MinValue;
 
             for (var zone = 1; zone <= UtmGrid.NumberOfZones; zone++)
             {
@@ -117,6 +128,12 @@ namespace Geodesy
             return MeshNumber(new GlobalCoordinates(latitude, longitude));
         }
 
+        void ValidateMeshNumber(long meshNumber)
+        {
+            if (meshNumber < 0 || meshNumber >= GlobalCount)
+                throw new ArgumentOutOfRangeException(Properties.Resources.INVALID_MESH_NUMBER);
+        }
+
         /// <summary>
         /// Return the central coordinates of a Mesh given by its number.
         /// Please note that this center is on the UTM map, but at the borders
@@ -128,6 +145,7 @@ namespace Geodesy
         /// <returns>The UTM coordinates of the center of the square</returns>
         public UtmCoordinate CenterOf(long meshNumber)
         {
+            ValidateMeshNumber(meshNumber);
             var ord = (int)(meshNumber/_meshCount);
             var local = meshNumber%(_meshCount);
             var theGrid = new UtmGrid(_utm,ord);
@@ -147,6 +165,7 @@ namespace Geodesy
         /// <returns>The UTM coordinates of the lower left corner of the Mesh</returns>
         public UtmCoordinate LowerLeft(long meshNumber)
         {
+            ValidateMeshNumber(meshNumber);
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
@@ -166,6 +185,7 @@ namespace Geodesy
         /// <returns>The UTM coordinates of the lower right corner of the Mesh</returns>
         public UtmCoordinate LowerRight(long meshNumber)
         {
+            ValidateMeshNumber(meshNumber);
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
@@ -185,6 +205,7 @@ namespace Geodesy
         /// <returns>The UTM coordinates of the upper left corner of the Mesh</returns>
         public UtmCoordinate UpperLeft(long meshNumber)
         {
+            ValidateMeshNumber(meshNumber);
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
@@ -204,6 +225,7 @@ namespace Geodesy
         /// <returns>The UTM coordinates of the upper right corner of the Mesh</returns>
         public UtmCoordinate UpperRight(long meshNumber)
         {
+            ValidateMeshNumber(meshNumber);
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
@@ -212,5 +234,46 @@ namespace Geodesy
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
+        /// <summary>
+        /// Get the list of neighbor meshes in a specified "distance". Distance 1 means
+        /// direct neighbors, 2 means neighbors that are 2 meshes away etc.
+        /// </summary>
+        /// <param name="meshNumber">The mesh number</param>
+        /// <param name="distance">The distance (0-1 currently supported)</param>
+        /// <returns>The list of mesh numbers of the neighbors</returns>
+        public List<long> Neighborhood(long meshNumber, int distance)
+        {
+            ValidateMeshNumber(meshNumber);
+            if (distance < 0 || distance > 1)
+                throw new ArgumentOutOfRangeException(Properties.Resources.INVALID_DISTANCE);
+            if (distance == 0)
+            {
+                return new List<long> {meshNumber};
+            }
+            else
+            {
+                var ord = (int)(meshNumber / _meshCount);
+                var local = meshNumber % (_meshCount);
+                var relX = (local/_modulus);
+                var relY = (local % _modulus);
+                var result = new List<long>();
+                for (var x = -1; x <= 1; x++)
+                {
+                    for (var y = -1; y <= 1; y++)
+                    {
+                        if (x == 0 && y == 0)
+                            break;
+                        var nx = relX + x;
+                        if (nx < 0 || nx >= _modulus)
+                            break;
+                        var ny = relY + y;
+                        if (ny < 0 || ny >= _modulus)
+                            break;
+                        result.Add(ord*_meshCount + nx*_modulus + ny);
+                    }
+                }
+                return result;
+            }
+        }
     }
 }
