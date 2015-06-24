@@ -261,15 +261,18 @@ namespace Geodesy
                 {
                     for (var y = -1; y <= 1; y++)
                     {
-                        if (x == 0 && y == 0)
-                            break;
-                        var nx = relX + x;
-                        if (nx < 0 || nx >= _modulus)
-                            break;
-                        var ny = relY + y;
-                        if (ny < 0 || ny >= _modulus)
-                            break;
-                        result.Add(ord*_meshCount + nx*_modulus + ny);
+                        if (!(x == 0 && y == 0))
+                        {
+                            var nx = relX + x;
+                            if (!(nx < 0 || nx >= _modulus))
+                            {
+                                var ny = relY + y;
+                                if (!(ny < 0 || ny >= _modulus))
+                                {
+                                    result.Add(ord*_meshCount + nx*_modulus + ny);
+                                }
+                            }
+                        }
                     }
                 }
                 return result;
