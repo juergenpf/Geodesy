@@ -24,7 +24,6 @@ namespace UnitTestGeodesy
             Assert.AreEqual(Math.Round(1000000 * curve.Azimuth.Degrees) / 1000000,
                 342.302315);
             Assert.AreEqual(curve.Calculator,calc);
-            Assert.AreEqual(curve.ToString(),"s=43232.3169911973;a12=342.302315080678;a21=162.302315080678;");
         }
 
         [TestMethod]

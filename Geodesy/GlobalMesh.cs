@@ -239,12 +239,13 @@ namespace Geodesy
         /// direct neighbors, 2 means neighbors that are 2 meshes away etc.
         /// </summary>
         /// <param name="meshNumber">The mesh number</param>
-        /// <param name="distance">The distance (0-1 currently supported)</param>
+        /// <param name="distance">The distance (0-3 currently supported)</param>
         /// <returns>The list of mesh numbers of the neighbors</returns>
         public List<long> Neighborhood(long meshNumber, int distance)
         {
+            const int maxDistance = 3;
             ValidateMeshNumber(meshNumber);
-            if (distance < 0 || distance > 1)
+            if (distance < 0 || distance > maxDistance)
                 throw new ArgumentOutOfRangeException(Properties.Resources.INVALID_DISTANCE);
             if (distance == 0)
             {
@@ -257,10 +258,11 @@ namespace Geodesy
                 var relX = (local/_modulus);
                 var relY = (local % _modulus);
                 var result = new List<long>();
-                for (var x = -1; x <= 1; x++)
+                for (var y = -distance; y <= distance; y++)
                 {
-                    for (var y = -1; y <= 1; y++)
+                    for (var x = -distance; x <= distance; x++)
                     {
+                        var add = false;
                         if (!(x == 0 && y == 0))
                         {
                             var nx = relX + x;
@@ -269,7 +271,15 @@ namespace Geodesy
                                 var ny = relY + y;
                                 if (!(ny < 0 || ny >= _modulus))
                                 {
-                                    result.Add(ord*_meshCount + nx*_modulus + ny);
+                                    if (Math.Abs(y) == distance)
+                                        add = true;
+                                    else
+                                    {
+                                        if (Math.Abs(x) == distance)
+                                            add = true;
+                                    }
+                                    if (add)
+                                        result.Add(ord*_meshCount + nx*_modulus + ny);
                                 }
                             }
                         }

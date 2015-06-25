@@ -15,7 +15,7 @@ using System.Resources;
 #else
 [assembly: AssemblyTitle("Geodesy.PCL")]
 #endif
-[assembly: AssemblyDescription("Class with some geodesic algorithms.")]
+[assembly: AssemblyDescription("Class library with some geodesic algorithms.")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug Version")]
 #else
@@ -27,8 +27,8 @@ using System.Resources;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
-[assembly: AssemblyVersion("1.0.5.0")]
-[assembly: AssemblyFileVersion("1.0.5.0")]
+[assembly: AssemblyVersion("1.0.6.0")]
+[assembly: AssemblyFileVersion("1.0.6.0")]
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: NeutralResourcesLanguageAttribute("en")]
