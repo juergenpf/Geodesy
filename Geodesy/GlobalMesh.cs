@@ -15,13 +15,17 @@ namespace Geodesy
     /// </summary>
     public class GlobalMesh
     {
-        const int MinimumMeshSize = 1;
+        private const int MinimumMeshSize = 1;
 
         private readonly UtmProjection _utm = new UtmProjection();
         private readonly double _maxWidth, _maxHeight;
-        private readonly int _squareSize;
         private readonly long _modulus;
         private readonly long _meshCount;
+
+        /// <summary>
+        /// The size of the mesh squares in meters. We only support full meters.
+        /// </summary>
+        public int MeshSize { get; private set; }
 
         /// <summary>
         /// The UTM Projection for the Globe we cover with the mesh.
@@ -54,14 +58,14 @@ namespace Geodesy
         /// that approximates the requested mesh size in order to provide
         /// better computational efficiency.
         /// </summary>
-        /// <param name="squareSizeinMeters">The size of the squares in meter. The defauklt value is 1000m.</param>
-        public GlobalMesh(int squareSizeinMeters=1000)
+        /// <param name="meshSizeinMeters">The size of the squares in meter. The defauklt value is 1000m.</param>
+        public GlobalMesh(int meshSizeinMeters=1000)
         {
-            if (squareSizeinMeters <= MinimumMeshSize)
+            if (meshSizeinMeters <= MinimumMeshSize)
                 throw new ArgumentOutOfRangeException(Properties.Resources.MESHSIZE_MIN_VIOLATION);
 
-            _squareSize = squareSizeinMeters;
-            var dblSquareSize = (double) squareSizeinMeters;
+            MeshSize = meshSizeinMeters;
+            var dblSquareSize = (double) meshSizeinMeters;
             _maxWidth = double.MinValue;
             _maxHeight = double.MinValue;
 
@@ -99,8 +103,8 @@ namespace Geodesy
         /// <returns>The mesh number to which the coordinate belongs</returns>
         public long MeshNumber(UtmCoordinate coord)
         {
-            var relX = (long)Math.Round(coord.X - coord.Grid.Origin.X,MidpointRounding.AwayFromZero)/_squareSize;
-            var relY = (long)Math.Round(coord.Y - coord.Grid.Origin.Y,MidpointRounding.AwayFromZero)/_squareSize;
+            var relX = (long)Math.Round(coord.X - coord.Grid.Origin.X,MidpointRounding.AwayFromZero)/MeshSize;
+            var relY = (long)Math.Round(coord.Y - coord.Grid.Origin.Y,MidpointRounding.AwayFromZero)/MeshSize;
             var res = coord.Grid.Ordinal*_meshCount +  relX*_modulus + relY;
             return res;
         }
@@ -149,8 +153,8 @@ namespace Geodesy
             var ord = (int)(meshNumber/_meshCount);
             var local = meshNumber%(_meshCount);
             var theGrid = new UtmGrid(_utm,ord);
-            var relX = (local/_modulus)*_squareSize + _squareSize/2;
-            var relY = (local%_modulus)*_squareSize + _squareSize/2;
+            var relX = (local/_modulus)*MeshSize + MeshSize/2;
+            var relY = (local%_modulus)*MeshSize + MeshSize/2;
             return new UtmCoordinate(theGrid,theGrid.Origin.X+relX,theGrid.Origin.Y+relY);
         }
 
@@ -169,8 +173,8 @@ namespace Geodesy
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * _squareSize;
-            var relY = (local % _modulus) * _squareSize;
+            var relX = (local / _modulus) * MeshSize;
+            var relY = (local % _modulus) * MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
     
@@ -189,8 +193,8 @@ namespace Geodesy
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * _squareSize + _squareSize;
-            var relY = (local % _modulus) * _squareSize;
+            var relX = (local / _modulus) * MeshSize + MeshSize;
+            var relY = (local % _modulus) * MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
@@ -209,8 +213,8 @@ namespace Geodesy
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * _squareSize;
-            var relY = (local % _modulus) * _squareSize + _squareSize;
+            var relX = (local / _modulus) * MeshSize;
+            var relY = (local % _modulus) * MeshSize + MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
@@ -229,8 +233,8 @@ namespace Geodesy
             var ord = (int)(meshNumber / _meshCount);
             var local = meshNumber % (_meshCount);
             var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * _squareSize + _squareSize;
-            var relY = (local % _modulus) * _squareSize + _squareSize;
+            var relX = (local / _modulus) * MeshSize + MeshSize;
+            var relY = (local % _modulus) * MeshSize + MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
