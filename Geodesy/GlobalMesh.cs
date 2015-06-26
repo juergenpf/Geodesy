@@ -2,6 +2,7 @@
  * File: GlobalMesh.cs
 */
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 
 namespace Geodesy
@@ -98,7 +99,6 @@ namespace Geodesy
         /// <returns>The mesh number to which the coordinate belongs</returns>
         public long MeshNumber(UtmCoordinate coord)
         {
-            var gridOrdinal = coord.Grid.Ordinal;
             var relX = (long)Math.Round(coord.X - coord.Grid.Origin.X,MidpointRounding.AwayFromZero)/_squareSize;
             var relY = (long)Math.Round(coord.Y - coord.Grid.Origin.Y,MidpointRounding.AwayFromZero)/_squareSize;
             var res = coord.Grid.Ordinal*_meshCount +  relX*_modulus + relY;
@@ -234,6 +234,27 @@ namespace Geodesy
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
+        private void GetDimension(long meshNumber, out long maxx, out long maxy)
+        {
+            ValidateMeshNumber(meshNumber);
+            var ord = (int)(meshNumber / _meshCount);
+            var grid = new UtmGrid(_utm,ord);
+            var ll = MeshNumber(grid.LowerLeftCorner) % _meshCount;
+            var llx = ll / _modulus;
+            var lly = ll % _modulus;
+            var lr = MeshNumber(grid.LowerRightCorner) % _meshCount;
+            var lrx = lr / _modulus;
+            var lry = lr % _modulus;
+            var ul = MeshNumber(grid.UpperLeftCorner) % _meshCount;
+            var ulx = ul / _modulus;
+            var uly = ul % _modulus;
+            var ur = MeshNumber(grid.UpperRightCorner) % _meshCount;
+            var urx = ur / _modulus;
+            var ury = ur % _modulus;
+            maxx = Math.Max(lrx, urx);
+            maxy = Math.Max(uly, ury);
+        }
+
         /// <summary>
         /// Get the list of neighbor meshes in a specified "distance". Distance 1 means
         /// direct neighbors, 2 means neighbors that are 2 meshes away etc.
@@ -253,6 +274,8 @@ namespace Geodesy
             }
             else
             {
+                long maxx, maxy;
+                GetDimension(meshNumber,out maxx,out maxy);
                 var ord = (int)(meshNumber / _meshCount);
                 var local = meshNumber % (_meshCount);
                 var relX = (local/_modulus);
@@ -266,10 +289,10 @@ namespace Geodesy
                         if (!(x == 0 && y == 0))
                         {
                             var nx = relX + x;
-                            if (!(nx < 0 || nx >= _modulus))
+                            if (!(nx < 0 || nx > maxx))
                             {
                                 var ny = relY + y;
-                                if (!(ny < 0 || ny >= _modulus))
+                                if (!(ny < 0 || ny > maxy))
                                 {
                                     if (Math.Abs(y) == distance)
                                         add = true;
