@@ -9,15 +9,16 @@
  * project.  It comes with no warranty.
  *
  */
+
 using System;
-using System.Text;
 using System.Globalization;
+using System.Text;
 
 namespace Geodesy
 {
     /// <summary>
-    /// This is the outcome of a three dimensional geodetic calculation.  It represents
-    /// the path a between two GlobalPositions for a specified reference ellipsoid.
+    ///     This is the outcome of a three dimensional geodetic calculation.  It represents
+    ///     the path a between two GlobalPositions for a specified reference ellipsoid.
     /// </summary>
     public struct GeodeticMeasurement
     {
@@ -31,32 +32,32 @@ namespace Geodesy
         private readonly double _mP2P;
 
         /// <summary>
-        /// The calculator used to compute this measurement
-        /// </summary>
-        public GeodeticCalculator Calculator
-        {
-            get { return _mCurve.Calculator;  }
-        }
-
-        /// <summary>
-        /// Creates a new instance of GeodeticMeasurement.
+        ///     Creates a new instance of GeodeticMeasurement.
         /// </summary>
         /// <param name="averageCurve">the geodetic curve as measured at the average elevation between two points</param>
         /// <param name="elevationChange">the change in elevation, in meters, going from the starting point to the ending point</param>
         internal GeodeticMeasurement(
-            GeodeticCurve averageCurve, 
+            GeodeticCurve averageCurve,
             double elevationChange)
         {
             var ellDist = averageCurve.EllipsoidalDistance;
 
             _mCurve = averageCurve;
             _mElevationChange = elevationChange;
-            _mP2P = Math.Sqrt(ellDist * ellDist + _mElevationChange * _mElevationChange);
+            _mP2P = Math.Sqrt(ellDist*ellDist + _mElevationChange*_mElevationChange);
         }
 
         /// <summary>
-        /// Get the average geodetic curve.  This is the geodetic curve as measured
-        /// at the average elevation between two points.
+        ///     The calculator used to compute this measurement
+        /// </summary>
+        public GeodeticCalculator Calculator
+        {
+            get { return _mCurve.Calculator; }
+        }
+
+        /// <summary>
+        ///     Get the average geodetic curve.  This is the geodetic curve as measured
+        ///     at the average elevation between two points.
         /// </summary>
         public GeodeticCurve AverageCurve
         {
@@ -64,8 +65,8 @@ namespace Geodesy
         }
 
         /// <summary>
-        /// Get the ellipsoidal distance (in meters).  This is the length of the average geodetic
-        /// curve.  For actual point-to-point distance, use PointToPointDistance property.
+        ///     Get the ellipsoidal distance (in meters).  This is the length of the average geodetic
+        ///     curve.  For actual point-to-point distance, use PointToPointDistance property.
         /// </summary>
         public double EllipsoidalDistance
         {
@@ -73,7 +74,7 @@ namespace Geodesy
         }
 
         /// <summary>
-        /// Get the azimuth.  This is angle from north from start to end.
+        ///     Get the azimuth.  This is angle from north from start to end.
         /// </summary>
         public Angle Azimuth
         {
@@ -81,7 +82,7 @@ namespace Geodesy
         }
 
         /// <summary>
-        /// Get the reverse azimuth.  This is angle from north from end to start.
+        ///     Get the reverse azimuth.  This is angle from north from end to start.
         /// </summary>
         public Angle ReverseAzimuth
         {
@@ -89,7 +90,7 @@ namespace Geodesy
         }
 
         /// <summary>
-        /// Get the elevation change, in meters, going from the starting to the ending point.
+        ///     Get the elevation change, in meters, going from the starting to the ending point.
         /// </summary>
         public double ElevationChange
         {
@@ -97,7 +98,7 @@ namespace Geodesy
         }
 
         /// <summary>
-        /// Get the distance travelled, in meters, going from one point to the next.
+        ///     Get the distance travelled, in meters, going from one point to the next.
         /// </summary>
         public double PointToPointDistance
         {
@@ -105,14 +106,14 @@ namespace Geodesy
         }
 
         /// <summary>
-        /// Get the GeodeticMeasurement as a culture invariant string
+        ///     Get the GeodeticMeasurement as a culture invariant string
         /// </summary>
         /// <returns>The measurement as culture invariant string</returns>
         public override string ToString()
         {
             var builder = new StringBuilder();
 
-            builder.Append(_mCurve.ToString());
+            builder.Append(_mCurve);
             builder.Append(";elev12=");
             builder.Append(_mElevationChange.ToString(NumberFormatInfo.InvariantInfo));
             builder.Append(";p2p=");

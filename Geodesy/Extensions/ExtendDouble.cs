@@ -1,23 +1,24 @@
 ﻿/* See License.md in the solution root for license information.
  * File: ExtendDouble.cs
 */
+
 using System;
 
 namespace Geodesy.Extensions
 {
     /// <summary>
-    /// Extend the double class with methods to do numerically more proper
-    /// comparisons of two double numbers.
+    ///     Extend the double class with methods to do numerically more proper
+    ///     comparisons of two double numbers.
     /// </summary>
     public static class ExtendDouble
     {
         /// <summary>
-        /// The default precision to use when comparing two doubles
+        ///     The default precision to use when comparing two doubles
         /// </summary>
         public const double DefaultPrecision = 0.000000000001;
 
         /// <summary>
-        /// Test whether or not a double is equal to another double in the limits of a given precision
+        ///     Test whether or not a double is equal to another double in the limits of a given precision
         /// </summary>
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
@@ -27,20 +28,17 @@ namespace Geodesy.Extensions
             double delta = DefaultPrecision)
         {
             if (double.IsNaN(a)) return double.IsNaN(b);
-            else if (double.IsInfinity(a)) return double.IsInfinity(b);
-            else if (a.Equals(b)) return true;
-            else
-            {
-                var scale = 1.0;
-                if (!(a.Equals(0.0) || b.Equals(0.0)))
-                    scale = Math.Max(Math.Abs(a), Math.Abs(b));
-                return Math.Abs(a - b) <= scale * delta;
-            }
+            if (double.IsInfinity(a)) return double.IsInfinity(b);
+            if (a.Equals(b)) return true;
+            var scale = 1.0;
+            if (!(a.Equals(0.0) || b.Equals(0.0)))
+                scale = Math.Max(Math.Abs(a), Math.Abs(b));
+            return Math.Abs(a - b) <= scale*delta;
         }
 
         /// <summary>
-        /// Test wether or not a double is smaller than another one,
-        /// as long as they are not approximately equal.
+        ///     Test wether or not a double is smaller than another one,
+        ///     as long as they are not approximately equal.
         /// </summary>
         /// <param name="value1">The first number</param>
         /// <param name="value2">The second number</param>
@@ -54,18 +52,17 @@ namespace Geodesy.Extensions
         }
 
         /// <summary>
-        /// Test wether a double is zero
+        ///     Test wether a double is zero
         /// </summary>
         /// <param name="val">The value to test</param>
         /// <returns>True, if the number is zero</returns>
-
         public static bool IsZero(this double val)
         {
             return (Math.Sign(val) == 0);
         }
-        
+
         /// <summary>
-        /// Test wether a double is negative
+        ///     Test wether a double is negative
         /// </summary>
         /// <param name="val">The value to test</param>
         /// <returns>True, if the number is negative</returns>
@@ -75,7 +72,7 @@ namespace Geodesy.Extensions
         }
 
         /// <summary>
-        /// Test wether a double is positive
+        ///     Test wether a double is positive
         /// </summary>
         /// <param name="val">The value to test</param>
         /// <returns>True, if the number is positive</returns>
