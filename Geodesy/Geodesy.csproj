@@ -48,6 +48,7 @@
     <Compile Include="EllipticalMercatorProjection.cs" />
     <Compile Include="EuclidianCoordinate.cs" />
     <Compile Include="Extensions\ExtendDouble.cs" />
+    <Compile Include="GeodesyException.cs" />
     <Compile Include="GeodeticCalculator.cs" />
     <Compile Include="GeodeticCurve.cs" />
     <Compile Include="GeodeticMeasurement.cs" />

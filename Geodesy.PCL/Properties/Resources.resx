@@ -153,6 +153,15 @@
   <data name="MINSEC_0_TO_60" xml:space="preserve">
     <value>Minutes or seconds must have a value between 0 and 60.</value>
   </data>
+  <data name="NO_NORTH_NEIGHBOR" xml:space="preserve">
+    <value>The grid is in the most northern band, there is no northern neighbor.</value>
+  </data>
+  <data name="NO_SOUTH_NEIGHBOR" xml:space="preserve">
+    <value>The grid is in the most southern band, there is no southern neighbor.</value>
+  </data>
+  <data name="NO_UNIQUE_NORTH_NEIGHBOR" xml:space="preserve">
+    <value>The UTM grid has no unique norther neighbor (exceptionoal grids in northern hemisphere)</value>
+  </data>
   <data name="NO_UTM_COORDINATE" xml:space="preserve">
     <value>The coordinate must be an _UtmCoordinate.</value>
   </data>

@@ -4,6 +4,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Geodesy
 {
@@ -32,7 +33,7 @@ namespace Geodesy
         /// </summary>
         public UtmProjection Projection
         {
-            get { return _utm;  }
+            get { return _utm; }
         }
 
         /// <summary>
@@ -48,7 +49,20 @@ namespace Geodesy
         /// </summary>
         public long GlobalCount
         {
-            get { return _meshCount*UtmGrid.NumberOfGrids; }
+            get { return _meshCount * UtmGrid.NumberOfGrids; }
+        }
+
+        /// <summary>
+        /// Return the UtmGrid this mesh belongs to
+        /// </summary>
+        /// <param name="meshNumber"></param>
+        /// <returns>The UtmGrid in which this mesh cell is located</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        public UtmGrid Grid(long meshNumber)
+        {
+            ValidateMeshNumber(meshNumber);
+            var ord = (int)(meshNumber / _meshCount);
+            return new UtmGrid(_utm, ord);
         }
 
         /// <summary>
@@ -59,13 +73,14 @@ namespace Geodesy
         /// better computational efficiency.
         /// </summary>
         /// <param name="meshSizeinMeters">The size of the squares in meter. The defauklt value is 1000m.</param>
-        public GlobalMesh(int meshSizeinMeters=1000)
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh size is specified</exception>
+        public GlobalMesh(int meshSizeinMeters = 1000)
         {
             if (meshSizeinMeters <= MinimumMeshSize)
                 throw new ArgumentOutOfRangeException(Properties.Resources.MESHSIZE_MIN_VIOLATION);
 
             MeshSize = meshSizeinMeters;
-            var dblSquareSize = (double) meshSizeinMeters;
+            var dblSquareSize = (double)meshSizeinMeters;
             _maxWidth = double.MinValue;
             _maxHeight = double.MinValue;
 
@@ -85,15 +100,15 @@ namespace Geodesy
                 }
             }
 
-            var xModulus = (long)Math.Round((_maxWidth  + dblSquareSize - 1.0) / dblSquareSize, MidpointRounding.AwayFromZero);
+            var xModulus = (long)Math.Round((_maxWidth + dblSquareSize - 1.0) / dblSquareSize, MidpointRounding.AwayFromZero);
             var yModulus = (long)Math.Round((_maxHeight + dblSquareSize - 1.0) / dblSquareSize, MidpointRounding.AwayFromZero);
             if (xModulus < 2 || yModulus < 2)
                 throw new ArgumentOutOfRangeException(Properties.Resources.MESHSIZE_TOO_BIG);
             var m = Math.Max(xModulus, yModulus);
-            var lnmod = (int)Math.Round(Math.Log(m)/Math.Log(2) + 0.5, MidpointRounding.AwayFromZero);
+            var lnmod = (int)Math.Round(Math.Log(m) / Math.Log(2) + 0.5, MidpointRounding.AwayFromZero);
             while ((1 << lnmod) < m) lnmod++;
             _modulus = 1 << lnmod;
-            _meshCount = _modulus*_modulus;
+            _meshCount = _modulus * _modulus;
         }
 
         /// <summary>
@@ -103,9 +118,9 @@ namespace Geodesy
         /// <returns>The mesh number to which the coordinate belongs</returns>
         public long MeshNumber(UtmCoordinate coord)
         {
-            var relX = (long)Math.Round(coord.X - coord.Grid.Origin.X,MidpointRounding.AwayFromZero)/MeshSize;
-            var relY = (long)Math.Round(coord.Y - coord.Grid.Origin.Y,MidpointRounding.AwayFromZero)/MeshSize;
-            var res = coord.Grid.Ordinal*_meshCount +  relX*_modulus + relY;
+            var relX = (long)Math.Round(coord.X - coord.Grid.Origin.X, MidpointRounding.AwayFromZero) / MeshSize;
+            var relY = (long)Math.Round(coord.Y - coord.Grid.Origin.Y, MidpointRounding.AwayFromZero) / MeshSize;
+            var res = coord.Grid.Ordinal * _meshCount + relX * _modulus + relY;
             return res;
         }
 
@@ -138,6 +153,13 @@ namespace Geodesy
                 throw new ArgumentOutOfRangeException(Properties.Resources.INVALID_MESH_NUMBER);
         }
 
+        private void MeshOrigin(long meshNumber, out long relX, out long relY)
+        {
+            var local = meshNumber % (_meshCount);
+            relX = (local / _modulus) * MeshSize;
+            relY = (local % _modulus) * MeshSize;
+        }
+
         /// <summary>
         /// Return the central coordinates of a Mesh given by its number.
         /// Please note that this center is on the UTM map, but at the borders
@@ -147,15 +169,15 @@ namespace Geodesy
         /// </summary>
         /// <param name="meshNumber">The number of the mesh</param>
         /// <returns>The UTM coordinates of the center of the square</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate CenterOf(long meshNumber)
         {
-            ValidateMeshNumber(meshNumber);
-            var ord = (int)(meshNumber/_meshCount);
-            var local = meshNumber%(_meshCount);
-            var theGrid = new UtmGrid(_utm,ord);
-            var relX = (local/_modulus)*MeshSize + MeshSize/2;
-            var relY = (local%_modulus)*MeshSize + MeshSize/2;
-            return new UtmCoordinate(theGrid,theGrid.Origin.X+relX,theGrid.Origin.Y+relY);
+            long relX, relY;
+            var theGrid = Grid(meshNumber);
+            MeshOrigin(meshNumber, out relX, out relY);
+            relX += MeshSize / 2;
+            relY += MeshSize / 2;
+            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
         /// <summary>
@@ -167,17 +189,15 @@ namespace Geodesy
         /// </summary>
         /// <param name="meshNumber"></param>
         /// <returns>The UTM coordinates of the lower left corner of the Mesh</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate LowerLeft(long meshNumber)
         {
-            ValidateMeshNumber(meshNumber);
-            var ord = (int)(meshNumber / _meshCount);
-            var local = meshNumber % (_meshCount);
-            var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * MeshSize;
-            var relY = (local % _modulus) * MeshSize;
+            long relX, relY;
+            var theGrid = Grid(meshNumber);
+            MeshOrigin(meshNumber, out relX, out relY);
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
-    
+
         /// <summary>
         /// Return the lower right corner coordinates of a Mesh given by its number.
         /// Please note that this point is on the UTM map, but at the borders
@@ -187,14 +207,13 @@ namespace Geodesy
         /// </summary>
         /// <param name="meshNumber"></param>
         /// <returns>The UTM coordinates of the lower right corner of the Mesh</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate LowerRight(long meshNumber)
         {
-            ValidateMeshNumber(meshNumber);
-            var ord = (int)(meshNumber / _meshCount);
-            var local = meshNumber % (_meshCount);
-            var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * MeshSize + MeshSize;
-            var relY = (local % _modulus) * MeshSize;
+            long relX, relY;
+            var theGrid = Grid(meshNumber);
+            MeshOrigin(meshNumber, out relX, out relY);
+            relX += MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
@@ -207,14 +226,13 @@ namespace Geodesy
         /// </summary>
         /// <param name="meshNumber"></param>
         /// <returns>The UTM coordinates of the upper left corner of the Mesh</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate UpperLeft(long meshNumber)
         {
-            ValidateMeshNumber(meshNumber);
-            var ord = (int)(meshNumber / _meshCount);
-            var local = meshNumber % (_meshCount);
-            var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * MeshSize;
-            var relY = (local % _modulus) * MeshSize + MeshSize;
+            long relX, relY;
+            var theGrid = Grid(meshNumber);
+            MeshOrigin(meshNumber, out relX, out relY);
+            relY += MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
@@ -227,36 +245,33 @@ namespace Geodesy
         /// </summary>
         /// <param name="meshNumber"></param>
         /// <returns>The UTM coordinates of the upper right corner of the Mesh</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate UpperRight(long meshNumber)
         {
-            ValidateMeshNumber(meshNumber);
-            var ord = (int)(meshNumber / _meshCount);
-            var local = meshNumber % (_meshCount);
-            var theGrid = new UtmGrid(_utm, ord);
-            var relX = (local / _modulus) * MeshSize + MeshSize;
-            var relY = (local % _modulus) * MeshSize + MeshSize;
+            long relX, relY;
+            var theGrid = Grid(meshNumber);
+            MeshOrigin(meshNumber, out relX, out relY);
+            relX += MeshSize;
+            relY += MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
-        private void GetDimension(long meshNumber, out long maxx, out long maxy)
+        private long GetDimensionX(UtmGrid grid)
         {
-            ValidateMeshNumber(meshNumber);
-            var ord = (int)(meshNumber / _meshCount);
-            var grid = new UtmGrid(_utm,ord);
-            var ll = MeshNumber(grid.LowerLeftCorner) % _meshCount;
-            var llx = ll / _modulus;
-            var lly = ll % _modulus;
             var lr = MeshNumber(grid.LowerRightCorner) % _meshCount;
             var lrx = lr / _modulus;
-            var lry = lr % _modulus;
-            var ul = MeshNumber(grid.UpperLeftCorner) % _meshCount;
-            var ulx = ul / _modulus;
-            var uly = ul % _modulus;
             var ur = MeshNumber(grid.UpperRightCorner) % _meshCount;
             var urx = ur / _modulus;
+            return Math.Max(lrx, urx);
+        }
+
+        private long GetDimensionY(UtmGrid grid)
+        {
+            var ul = MeshNumber(grid.UpperLeftCorner) % _meshCount;
+            var uly = ul % _modulus;
+            var ur = MeshNumber(grid.UpperRightCorner) % _meshCount;
             var ury = ur % _modulus;
-            maxx = Math.Max(lrx, urx);
-            maxy = Math.Max(uly, ury);
+            return Math.Max(uly, ury);
         }
 
         /// <summary>
@@ -266,48 +281,84 @@ namespace Geodesy
         /// <param name="meshNumber">The mesh number</param>
         /// <param name="distance">The distance (0-3 currently supported)</param>
         /// <returns>The list of mesh numbers of the neighbors</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public List<long> Neighborhood(long meshNumber, int distance)
         {
             const int maxDistance = 3;
-            ValidateMeshNumber(meshNumber);
+
             if (distance < 0 || distance > maxDistance)
                 throw new ArgumentOutOfRangeException(Properties.Resources.INVALID_DISTANCE);
+
             if (distance == 0)
             {
-                return new List<long> {meshNumber};
+                return new List<long> { meshNumber };
             }
             else
             {
-                long maxx, maxy;
-                GetDimension(meshNumber,out maxx,out maxy);
-                var ord = (int)(meshNumber / _meshCount);
+                var theGrid = Grid(meshNumber);
+                var maxx = GetDimensionX(theGrid);
+                var maxy = GetDimensionY(theGrid);
                 var local = meshNumber % (_meshCount);
-                var relX = (local/_modulus);
+                var relX = (local / _modulus);
                 var relY = (local % _modulus);
                 var result = new List<long>();
+
                 for (var y = -distance; y <= distance; y++)
                 {
                     for (var x = -distance; x <= distance; x++)
                     {
+                        var grid = theGrid;
                         var add = false;
+                        var hasNeighbor = true;
                         if (!(x == 0 && y == 0))
                         {
                             var nx = relX + x;
-                            if (!(nx < 0 || nx > maxx))
+                            if (nx < 0)
                             {
-                                var ny = relY + y;
-                                if (!(ny < 0 || ny > maxy))
+                                grid = grid.West;
+                                nx = GetDimensionX(grid);
+                            }
+                            else if (nx > maxx)
+                            {
+                                grid = grid.East;
+                                nx = 0;
+                            }
+                            var ny = relY + y;
+                            if (ny < 0)
+                            {
+                                try
                                 {
-                                    if (Math.Abs(y) == distance)
-                                        add = true;
-                                    else
-                                    {
-                                        if (Math.Abs(x) == distance)
-                                            add = true;
-                                    }
-                                    if (add)
-                                        result.Add(ord*_meshCount + nx*_modulus + ny);
+                                    grid = grid.South;
+                                    ny = GetDimensionY(grid);
                                 }
+                                catch (GeodesyException)
+                                {
+                                    hasNeighbor = false;
+                                }
+                            }
+                            else if (ny > maxy)
+                            {
+                                try
+                                {
+                                    grid = grid.North;
+                                    ny = 0;
+                                }
+                                catch (GeodesyException)
+                                {
+                                    hasNeighbor = false;
+                                }
+                            }
+                            if (hasNeighbor)
+                            {
+                                if (Math.Abs(y) == distance)
+                                    add = true;
+                                else
+                                {
+                                    if (Math.Abs(x) == distance)
+                                        add = true;
+                                }
+                                if (add)
+                                    result.Add(grid.Ordinal*_meshCount + nx*_modulus + ny);
                             }
                         }
                     }

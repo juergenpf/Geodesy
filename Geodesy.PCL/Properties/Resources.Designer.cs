@@ -170,6 +170,33 @@ namespace Geodesy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The grid is in the most northern band, there is no northern neighbor..
+        /// </summary>
+        internal static string NO_NORTH_NEIGHBOR {
+            get {
+                return ResourceManager.GetString("NO_NORTH_NEIGHBOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The grid is in the most southern band, there is no southern neighbor..
+        /// </summary>
+        internal static string NO_SOUTH_NEIGHBOR {
+            get {
+                return ResourceManager.GetString("NO_SOUTH_NEIGHBOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The UTM grid has no unique norther neighbor (exceptionoal grids in northern hemisphere).
+        /// </summary>
+        internal static string NO_UNIQUE_NORTH_NEIGHBOR {
+            get {
+                return ResourceManager.GetString("NO_UNIQUE_NORTH_NEIGHBOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The coordinate must be an _UtmCoordinate..
         /// </summary>
         internal static string NO_UTM_COORDINATE {

@@ -129,8 +129,8 @@ namespace Geodesy
 
         /// <summary>
         /// The UTM zone the point belongs to.
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if an invalid UTM zone number is specified</exception>
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid UTM zone number is specified</exception>
         public int Zone
         {
             get { return _zone; }
@@ -148,6 +148,7 @@ namespace Geodesy
         /// <summary>
         /// Get the numeric representation of the band (0 based)
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid UTM band number is specified</exception>
         public int BandNr
         {
             get { return _band; }
@@ -164,8 +165,9 @@ namespace Geodesy
 
         /// <summary>
         /// The UTM band the point belongs to.
-        /// <exception cref="ArgumentOutOfRangeException">If the band character is out of its limits</exception>
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">If the band character is out of its limits</exception>
+        //TODO Check the correct Exception type
         public char Band
         {
             get { return BandChars[_band]; }
@@ -454,6 +456,72 @@ namespace Geodesy
             get { return _llCoordinates.Longitude + Width*0.5; }
         }
 
+        #endregion
+
+        #region Neighbors
+        /// <summary>
+        /// The western neighbor of the grid
+        /// </summary>
+        public UtmGrid West
+        {
+            get
+            {
+                var newZone = _zone - 1;
+                if (newZone < MinZone)
+                    newZone = MaxZone;
+                if (_band==MaxBand && (newZone == 32 || newZone == 34 || newZone == 36))
+                    newZone--;
+                return new UtmGrid(_utm,newZone,_band);
+            }
+        }
+
+        /// <summary>
+        /// The eastern neighbor of the grid
+        /// </summary>
+        public UtmGrid East
+        {
+            get
+            {
+                var newZone = _zone + 1;
+                if (newZone > MaxZone)
+                    newZone = MinZone;
+                if (_band==MaxBand && (newZone == 32 || newZone == 34 || newZone == 36))
+                    newZone++;
+                return new UtmGrid(_utm, newZone, _band);
+            }
+        }
+
+        /// <summary>
+        /// The northern neighbor of the grid
+        /// </summary>
+        /// <exception cref="GeodesyException">If there is no northern neighbor</exception>
+        public UtmGrid North
+        {
+            get
+            {
+                var newBand = _band + 1;
+                if (newBand > MaxBand)
+                    throw new GeodesyException(Properties.Resources.NO_NORTH_NEIGHBOR);
+                if (newBand == (MaxBand-1) && (_zone==32 || _zone == 34 || _zone==36))
+                    throw new GeodesyException(Properties.Resources.NO_UNIQUE_NORTH_NEIGHBOR);   
+                return new UtmGrid(_utm, _zone, newBand);
+            }
+        }
+
+        /// <summary>
+        /// The southern neighbor of the grid
+        /// </summary>
+        /// <exception cref="GeodesyException">If there is no southern neighbor</exception>
+        public UtmGrid South
+        {
+            get
+            {
+                var newBand = _band - 1;
+                if (newBand < MinBand)
+                    throw new GeodesyException(Properties.Resources.NO_SOUTH_NEIGHBOR);
+                return new UtmGrid(_utm, _zone, newBand);
+            }
+        }
         #endregion
 
         /// <summary>

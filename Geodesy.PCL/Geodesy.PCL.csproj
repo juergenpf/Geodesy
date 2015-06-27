@@ -60,6 +60,9 @@
     <Compile Include="..\Geodesy\Extensions\ExtendDouble.cs">
       <Link>Extensions\ExtendDouble.cs</Link>
     </Compile>
+    <Compile Include="..\Geodesy\GeodesyException.cs">
+      <Link>GeodesyException.cs</Link>
+    </Compile>
     <Compile Include="..\Geodesy\GeodeticCalculator.cs">
       <Link>GeodeticCalculator.cs</Link>
     </Compile>
