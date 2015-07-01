@@ -32,7 +32,8 @@ namespace Geodesy
         public const int NumberOfBands = 1 + MaxBand;
 
         /// <summary>
-        ///     The number of UTM Grids on the globe
+        ///     The theoretical number of UTM Grids on the globe. Actually there are
+        ///     fewer ones, because there are exceptions.  <seealso cref="NumberOfUsedGrids"/>
         /// </summary>
         public const int NumberOfGrids = MaxZone*(1 + MaxBand);
 

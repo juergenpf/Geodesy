@@ -17,14 +17,13 @@ namespace Geodesy
     public class GlobalMesh
     {
         private const int MinimumMeshSize = 1;
-        private readonly double _maxWidth, _maxHeight;
         private readonly UtmProjection _utm = new UtmProjection();
         
         // The maximum number of cells required for any UTM Grid 
-        private readonly long _meshCount;
+        private readonly long _maxMeshesPerGrid;
         
         // The maximum vertical number of cells in any UTM Grid
-        private readonly long _yModulus;
+        private readonly long _maxVerticalMeshes;
 
         /// <summary>
         ///     Instantiate the Mesh with the given nuber of meters as the size
@@ -39,29 +38,29 @@ namespace Geodesy
         {
             if (meshSizeinMeters <= MinimumMeshSize)
                 throw new ArgumentOutOfRangeException(Resources.MESHSIZE_MIN_VIOLATION);
-
+            
             MeshSize = meshSizeinMeters;
             var dblSquareSize = (double) meshSizeinMeters;
-            _maxWidth = double.MinValue;
-            _maxHeight = double.MinValue;
+            var maxWidth = double.MinValue;
+            var maxHeight = double.MinValue;
 
             for (var ord = 0; ord < UtmGrid.NumberOfGrids; ord++)
             {
                 if (UtmGrid.IsValidOrdinal(ord))
                 {
                     var theGrid = new UtmGrid(_utm, ord);
-                    _maxWidth = Math.Max(_maxWidth, theGrid.MapWidth);
-                    _maxHeight = Math.Max(_maxHeight, theGrid.MapHeight);
+                    maxWidth = Math.Max(maxWidth, theGrid.MapWidth);
+                    maxHeight = Math.Max(maxHeight, theGrid.MapHeight);
                 }
             }
 
-            var _xModulus =
-                (long) Math.Round((_maxWidth + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
-            _yModulus =
-                (long) Math.Round((_maxHeight + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
-            if (_xModulus < 2 || _yModulus < 2)
+            var maxHorizontalMeshes =
+                (long) Math.Round((maxWidth + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
+            _maxVerticalMeshes =
+                (long) Math.Round((maxHeight + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
+            if (maxHorizontalMeshes < 2 || _maxVerticalMeshes < 2)
                 throw new ArgumentOutOfRangeException(Resources.MESHSIZE_TOO_BIG);
-            _meshCount = _xModulus*_yModulus;
+            _maxMeshesPerGrid = maxHorizontalMeshes*_maxVerticalMeshes;
         }
 
         /// <summary>
@@ -78,11 +77,12 @@ namespace Geodesy
         }
 
         /// <summary>
-        ///     The total number of meshes used to cover an UTM Grid.
+        ///     The (maximum) total number of meshes used to cover an UTM Grid.
+        ///     Individual Grids may actually be covered by fewer mesh-cells.
         /// </summary>
         public long Count
         {
-            get { return _meshCount; }
+            get { return _maxMeshesPerGrid; }
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Geodesy
         /// </summary>
         public long GlobalCount
         {
-            get { return _meshCount*UtmGrid.NumberOfGrids; }
+            get { return _maxMeshesPerGrid*UtmGrid.NumberOfGrids; }
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Geodesy
         public UtmGrid Grid(long meshNumber)
         {
             ValidateMeshNumber(meshNumber);
-            var ord = (int) (meshNumber/_meshCount);
+            var ord = (int) (meshNumber/_maxMeshesPerGrid);
             return new UtmGrid(_utm, ord);
         }
 
@@ -115,7 +115,7 @@ namespace Geodesy
         {
             var relX = (long) Math.Round(coord.X - coord.Grid.Origin.X, MidpointRounding.AwayFromZero)/MeshSize;
             var relY = (long) Math.Round(coord.Y - coord.Grid.Origin.Y, MidpointRounding.AwayFromZero)/MeshSize;
-            var res = coord.Grid.Ordinal*_meshCount + relX*_yModulus + relY;
+            var res = coord.Grid.Ordinal*_maxMeshesPerGrid + relX*_maxVerticalMeshes + relY;
             return res;
         }
 
@@ -150,9 +150,9 @@ namespace Geodesy
 
         private void MeshOrigin(long meshNumber, out long relX, out long relY)
         {
-            var local = meshNumber%(_meshCount);
-            relX = (local/_yModulus)*MeshSize;
-            relY = (local%_yModulus)*MeshSize;
+            var local = meshNumber%(_maxMeshesPerGrid);
+            relX = (local/_maxVerticalMeshes)*MeshSize;
+            relY = (local%_maxVerticalMeshes)*MeshSize;
         }
 
         /// <summary>
@@ -278,7 +278,9 @@ namespace Geodesy
             for (var y = -distance; y <= distance; y++)
             {
                 var bearing = Math.Sign(y) < 0 ? 180.0 : 0.0;
-                var vertical = y!=0 ? calc.CalculateEndingGlobalCoordinates(center, bearing, (double)(Math.Abs(y) * MeshSize)) : center;
+                var vertical = (y != 0) ? 
+                    calc.CalculateEndingGlobalCoordinates(center, bearing, (double)(Math.Abs(y) * MeshSize)) 
+                    : center;
                 for (var x = -distance; x <= distance; x++)
                 {
                     if ((x != 0 || y != 0)) {
@@ -296,7 +298,8 @@ namespace Geodesy
                         {
                             bearing = Math.Sign(x) < 0 ? 270.0 : 90.0;
                             var horizontal = (x != 0) ? 
-                                calc.CalculateEndingGlobalCoordinates(vertical, bearing, (double)(Math.Abs(x) * MeshSize)) : vertical;
+                                calc.CalculateEndingGlobalCoordinates(vertical, bearing, (double)(Math.Abs(x) * MeshSize)) 
+                                : vertical;
                             try
                             {
                                 result.Add(MeshNumber(horizontal));
