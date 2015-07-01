@@ -170,6 +170,15 @@ namespace Geodesy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distance cannot be negative..
+        /// </summary>
+        internal static string NEGATIVE_DISTANCE {
+            get {
+                return ResourceManager.GetString("NEGATIVE_DISTANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The grid is in the most northern band, there is no northern neighbor..
         /// </summary>
         internal static string NO_NORTH_NEIGHBOR {

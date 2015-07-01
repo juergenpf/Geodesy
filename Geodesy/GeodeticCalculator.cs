@@ -75,6 +75,9 @@ namespace Geodesy
             var cosU1 = 1.0/Math.Sqrt(1.0 + tanU1*tanU1);
             var sinU1 = tanU1*cosU1;
 
+            if (Math.Sign(distance) < 0)
+                throw new ArgumentOutOfRangeException(Resources.NEGATIVE_DISTANCE);
+
             // eq. 1
             var sigma1 = Math.Atan2(tanU1, cosAlpha1);
 

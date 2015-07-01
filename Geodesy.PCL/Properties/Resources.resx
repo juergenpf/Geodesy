@@ -153,6 +153,9 @@
   <data name="MINSEC_0_TO_60" xml:space="preserve">
     <value>Minutes or seconds must have a value between 0 and 60.</value>
   </data>
+  <data name="NEGATIVE_DISTANCE" xml:space="preserve">
+    <value>Distance cannot be negative.</value>
+  </data>
   <data name="NO_NORTH_NEIGHBOR" xml:space="preserve">
     <value>The grid is in the most northern band, there is no northern neighbor.</value>
   </data>

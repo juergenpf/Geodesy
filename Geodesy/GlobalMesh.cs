@@ -18,9 +18,13 @@ namespace Geodesy
     {
         private const int MinimumMeshSize = 1;
         private readonly double _maxWidth, _maxHeight;
-        private readonly long _meshCount;
-        private readonly long _modulus;
         private readonly UtmProjection _utm = new UtmProjection();
+        
+        // The maximum number of cells required for any UTM Grid 
+        private readonly long _meshCount;
+        
+        // The maximum vertical number of cells in any UTM Grid
+        private readonly long _yModulus;
 
         /// <summary>
         ///     Instantiate the Mesh with the given nuber of meters as the size
@@ -41,33 +45,23 @@ namespace Geodesy
             _maxWidth = double.MinValue;
             _maxHeight = double.MinValue;
 
-            for (var zone = 1; zone <= UtmGrid.NumberOfZones; zone++)
+            for (var ord = 0; ord < UtmGrid.NumberOfGrids; ord++)
             {
-                for (var band = 0; band < UtmGrid.NumberOfBands; band++)
+                if (UtmGrid.IsValidOrdinal(ord))
                 {
-                    try
-                    {
-                        var theGrid = new UtmGrid(_utm, zone, band);
-                        _maxWidth = Math.Max(_maxWidth, theGrid.MapWidth);
-                        _maxHeight = Math.Max(_maxHeight, theGrid.MapHeight);
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    var theGrid = new UtmGrid(_utm, ord);
+                    _maxWidth = Math.Max(_maxWidth, theGrid.MapWidth);
+                    _maxHeight = Math.Max(_maxHeight, theGrid.MapHeight);
                 }
             }
 
-            var xModulus =
+            var _xModulus =
                 (long) Math.Round((_maxWidth + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
-            var yModulus =
+            _yModulus =
                 (long) Math.Round((_maxHeight + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
-            if (xModulus < 2 || yModulus < 2)
+            if (_xModulus < 2 || _yModulus < 2)
                 throw new ArgumentOutOfRangeException(Resources.MESHSIZE_TOO_BIG);
-            var m = Math.Max(xModulus, yModulus);
-            var lnmod = (int) Math.Round(Math.Log(m)/Math.Log(2) + 0.5, MidpointRounding.AwayFromZero);
-            while ((1 << lnmod) < m) lnmod++;
-            _modulus = 1 << lnmod;
-            _meshCount = _modulus*_modulus;
+            _meshCount = _xModulus*_yModulus;
         }
 
         /// <summary>
@@ -92,7 +86,7 @@ namespace Geodesy
         }
 
         /// <summary>
-        ///     The total number of meshes used to cover the globe.
+        ///     The maximum number of a mesh
         /// </summary>
         public long GlobalCount
         {
@@ -121,7 +115,7 @@ namespace Geodesy
         {
             var relX = (long) Math.Round(coord.X - coord.Grid.Origin.X, MidpointRounding.AwayFromZero)/MeshSize;
             var relY = (long) Math.Round(coord.Y - coord.Grid.Origin.Y, MidpointRounding.AwayFromZero)/MeshSize;
-            var res = coord.Grid.Ordinal*_meshCount + relX*_modulus + relY;
+            var res = coord.Grid.Ordinal*_meshCount + relX*_yModulus + relY;
             return res;
         }
 
@@ -157,8 +151,8 @@ namespace Geodesy
         private void MeshOrigin(long meshNumber, out long relX, out long relY)
         {
             var local = meshNumber%(_meshCount);
-            relX = (local/_modulus)*MeshSize;
-            relY = (local%_modulus)*MeshSize;
+            relX = (local/_yModulus)*MeshSize;
+            relY = (local%_yModulus)*MeshSize;
         }
 
         /// <summary>
@@ -176,9 +170,9 @@ namespace Geodesy
             long relX, relY;
             var theGrid = Grid(meshNumber);
             MeshOrigin(meshNumber, out relX, out relY);
-            relX += MeshSize/2;
-            relY += MeshSize/2;
-            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+            double nx = (double)relX + 0.5*(double)MeshSize;
+            double ny = (double)relY + 0.5*(double)MeshSize;
+            return new UtmCoordinate(theGrid, theGrid.Origin.X + nx, theGrid.Origin.Y + ny);
         }
 
         /// <summary>
@@ -257,24 +251,6 @@ namespace Geodesy
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
-        private long GetDimensionX(UtmGrid grid)
-        {
-            var lr = MeshNumber(grid.LowerRightCorner)%_meshCount;
-            var lrx = lr/_modulus;
-            var ur = MeshNumber(grid.UpperRightCorner)%_meshCount;
-            var urx = ur/_modulus;
-            return Math.Max(lrx, urx);
-        }
-
-        private long GetDimensionY(UtmGrid grid)
-        {
-            var ul = MeshNumber(grid.UpperLeftCorner)%_meshCount;
-            var uly = ul%_modulus;
-            var ur = MeshNumber(grid.UpperRightCorner)%_meshCount;
-            var ury = ur%_modulus;
-            return Math.Max(uly, ury);
-        }
-
         /// <summary>
         ///     Get the list of neighbor meshes in a specified "distance". Distance 1 means
         ///     direct neighbors, 2 means neighbors that are 2 meshes away etc.
@@ -294,70 +270,38 @@ namespace Geodesy
             {
                 return new List<long> {meshNumber};
             }
-            var theGrid = Grid(meshNumber);
-            var maxx = GetDimensionX(theGrid);
-            var maxy = GetDimensionY(theGrid);
-            var local = meshNumber%(_meshCount);
-            var relX = (local/_modulus);
-            var relY = (local%_modulus);
+
+            var center = _utm.FromEuclidian(CenterOf(meshNumber));
+            var calc = new GeodeticCalculator(_utm.ReferenceGlobe);
             var result = new List<long>();
 
             for (var y = -distance; y <= distance; y++)
             {
+                var bearing = Math.Sign(y) < 0 ? 180.0 : 0.0;
+                var vertical = y!=0 ? calc.CalculateEndingGlobalCoordinates(center, bearing, (double)(Math.Abs(y) * MeshSize)) : center;
                 for (var x = -distance; x <= distance; x++)
                 {
-                    var grid = theGrid;
-                    var add = false;
-                    var hasNeighbor = true;
-                    if (!(x == 0 && y == 0))
-                    {
-                        var nx = relX + x;
-                        if (nx < 0)
+                    if ((x != 0 || y != 0)) {
+                        var add = false;
+                        if (Math.Abs(y) == distance)
                         {
-                            grid = grid.West;
-                            nx = GetDimensionX(grid);
+                            add = true;
                         }
-                        else if (nx > maxx)
+                        else
                         {
-                            grid = grid.East;
-                            nx = 0;
-                        }
-                        var ny = relY + y;
-                        if (ny < 0)
-                        {
-                            try
-                            {
-                                grid = grid.South;
-                                ny = GetDimensionY(grid);
-                            }
-                            catch (GeodesyException)
-                            {
-                                hasNeighbor = false;
-                            }
-                        }
-                        else if (ny > maxy)
-                        {
-                            try
-                            {
-                                grid = grid.North;
-                                ny = 0;
-                            }
-                            catch (GeodesyException)
-                            {
-                                hasNeighbor = false;
-                            }
-                        }
-                        if (hasNeighbor)
-                        {
-                            if (Math.Abs(y) == distance)
+                            if (Math.Abs(x) == distance)
                                 add = true;
-                            else
+                        }
+                        if (add)
+                        {
+                            bearing = Math.Sign(x) < 0 ? 270.0 : 90.0;
+                            var horizontal = (x != 0) ? 
+                                calc.CalculateEndingGlobalCoordinates(vertical, bearing, (double)(Math.Abs(x) * MeshSize)) : vertical;
+                            try
                             {
-                                if (Math.Abs(x) == distance)
-                                    add = true;
+                                result.Add(MeshNumber(horizontal));
                             }
-                            if (add)
-                                result.Add(grid.Ordinal*_meshCount + nx*_modulus + ny);
+                            catch (Exception) { }
                         }
                     }
                 }

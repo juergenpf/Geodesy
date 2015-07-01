@@ -37,6 +37,12 @@ namespace Geodesy
         public const int NumberOfGrids = MaxZone*(1 + MaxBand);
 
         /// <summary>
+        ///     The number of UTM Grids really used. There are 3 potential combinations
+        ///     in the X-Band that are an exception and not used (32X, 34X, 36X)
+        /// </summary>
+        public const int NumberOfUsedGrids = NumberOfGrids - 3;
+
+        /// <summary>
         ///     Horizontal stepwidth for the Grids
         /// </summary>
         public static readonly Angle Xstep = 6.0;

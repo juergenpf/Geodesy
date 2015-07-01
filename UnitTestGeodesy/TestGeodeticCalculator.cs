@@ -72,6 +72,28 @@ namespace UnitTestGeodesy
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestEndingNegDist()
+        {
+            var final = calc.CalculateEndingGlobalCoordinates(
+                Constants.MyHome,
+                0.0,
+                -1.0);
+        }
+
+        [TestMethod]
+        public void TestEndingZeroDist()
+        {
+            var curve = calc.CalculateGeodeticCurve(Constants.MyHome, Constants.MyOffice);
+            var final = calc.CalculateEndingGlobalCoordinates(
+                Constants.MyHome,
+                curve.Azimuth,
+                0.0);
+            Assert.AreEqual(final, Constants.MyHome);
+            Assert.AreEqual(curve.Calculator, calc);
+        }
+
+        [TestMethod]
         public void TestPath1()
         {
             var path = calc.CalculateGeodeticPath(Constants.MyHome, Constants.MyOffice, 2);
