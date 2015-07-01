@@ -315,5 +315,108 @@ namespace UnitTestGeodesy
             var g2 = new UtmGrid(utm, 1, 'D');
             Assert.IsTrue(g1 != g2);
         }
+
+        [TestMethod]
+        public void TestNeighbors()
+        {
+            var g = new UtmGrid(utm,Constants.MyHome);
+            Assert.IsTrue(g.Band=='U' && g.Zone==32);
+            var n = g.North;
+            Assert.IsTrue(n.Band == 'V' && n.Zone == 32);
+            var s = g.South;
+            Assert.IsTrue(s.Band == 'T' && s.Zone == 32);
+            var w = g.West;
+            Assert.IsTrue(w.Band == 'U' && w.Zone == 31);
+            var e = g.East;
+            Assert.IsTrue(e.Band == 'U' && e.Zone == 33);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestNorth1()
+        {
+            var g = new UtmGrid(utm,31,'U');
+            var n = g.North;
+        }
+    
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestNorth2()
+        {
+            var g = new UtmGrid(utm, 32, 'W');
+            var n = g.North;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestNorth3()
+        {
+            var g = new UtmGrid(utm, 34, 'W');
+            var n = g.North;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestNorth4()
+        {
+            var g = new UtmGrid(utm, 36, 'W');
+            var n = g.North;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestNorth5()
+        {
+            var g = new UtmGrid(utm, 1, 'X');
+            var n = g.North;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestSouth1()
+        {
+            var g = new UtmGrid(utm, 31, 'W');
+            var n = g.South;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestSouth2()
+        {
+            var g = new UtmGrid(utm, 31, 'X');
+            var n = g.South;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestSouth3()
+        {
+            var g = new UtmGrid(utm, 33, 'X');
+            var n = g.South;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestSouth4()
+        {
+            var g = new UtmGrid(utm, 35, 'X');
+            var n = g.South;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestSouth5()
+        {
+            var g = new UtmGrid(utm, 37, 'X');
+            var n = g.South;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GeodesyException))]
+        public void TestSouth6()
+        {
+            var g = new UtmGrid(utm, 37, 'C');
+            var n = g.South;
+        }
     }
 }

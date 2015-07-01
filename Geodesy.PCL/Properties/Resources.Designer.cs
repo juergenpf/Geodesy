@@ -197,11 +197,20 @@ namespace Geodesy.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The UTM grid has no unique norther neighbor (exceptionoal grids in northern hemisphere).
+        ///   Looks up a localized string similar to The UTM grid has no unique northern neighbor (exceptionoal grids in northern hemisphere).
         /// </summary>
         internal static string NO_UNIQUE_NORTH_NEIGHBOR {
             get {
                 return ResourceManager.GetString("NO_UNIQUE_NORTH_NEIGHBOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The UTM grid has no unique southern neighbor (exceptionoal grids in northern hemisphere).
+        /// </summary>
+        internal static string NO_UNIQUE_SOUTH_NEIGHBOR {
+            get {
+                return ResourceManager.GetString("NO_UNIQUE_SOUTH_NEIGHBOR", resourceCulture);
             }
         }
         
