@@ -163,7 +163,10 @@
     <value>The grid is in the most southern band, there is no southern neighbor.</value>
   </data>
   <data name="NO_UNIQUE_NORTH_NEIGHBOR" xml:space="preserve">
-    <value>The UTM grid has no unique norther neighbor (exceptionoal grids in northern hemisphere)</value>
+    <value>The UTM grid has no unique northern neighbor (exceptionoal grids in northern hemisphere)</value>
+  </data>
+  <data name="NO_UNIQUE_SOUTH_NEIGHBOR" xml:space="preserve">
+    <value>The UTM grid has no unique southern neighbor (exceptionoal grids in northern hemisphere)</value>
   </data>
   <data name="NO_UTM_COORDINATE" xml:space="preserve">
     <value>The coordinate must be an _UtmCoordinate.</value>

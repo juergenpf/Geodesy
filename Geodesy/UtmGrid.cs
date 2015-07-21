@@ -32,7 +32,8 @@ namespace Geodesy
         public const int NumberOfBands = 1 + MaxBand;
 
         /// <summary>
-        ///     The number of UTM Grids on the globe
+        ///     The theoretical number of UTM Grids on the globe. Actually there are
+        ///     fewer ones, because there are exceptions.  <seealso cref="NumberOfUsedGrids"/>
         /// </summary>
         public const int NumberOfGrids = MaxZone*(1 + MaxBand);
 
@@ -556,11 +557,12 @@ namespace Geodesy
         {
             get
             {
+                if ((Band == 'U' && _zone == 31) || 
+                    ((Band == 'W') && (_zone == 32 || _zone == 34 || _zone == 36)))
+                    throw new GeodesyException(Resources.NO_UNIQUE_NORTH_NEIGHBOR);
                 var newBand = _band + 1;
                 if (newBand > MaxBand)
                     throw new GeodesyException(Resources.NO_NORTH_NEIGHBOR);
-                if (newBand == (MaxBand - 1) && (_zone == 32 || _zone == 34 || _zone == 36))
-                    throw new GeodesyException(Resources.NO_UNIQUE_NORTH_NEIGHBOR);
                 return new UtmGrid(_utm, _zone, newBand);
             }
         }
@@ -573,6 +575,8 @@ namespace Geodesy
         {
             get
             {
+                if ((Band=='W' && _zone==31) || ((Band=='X') && _zone>=31 && _zone <=37))
+                    throw new GeodesyException(Resources.NO_UNIQUE_SOUTH_NEIGHBOR);
                 var newBand = _band - 1;
                 if (newBand < MinBand)
                     throw new GeodesyException(Resources.NO_SOUTH_NEIGHBOR);
