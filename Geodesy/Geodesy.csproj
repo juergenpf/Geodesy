@@ -43,30 +43,68 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Angle.cs" />
-    <Compile Include="Ellipsoid.cs" />
-    <Compile Include="EllipticalMercatorProjection.cs" />
-    <Compile Include="EuclidianCoordinate.cs" />
-    <Compile Include="Extensions\ExtendDouble.cs" />
-    <Compile Include="GeodesyException.cs" />
-    <Compile Include="GeodeticCalculator.cs" />
-    <Compile Include="GeodeticCurve.cs" />
-    <Compile Include="GeodeticMeasurement.cs" />
-    <Compile Include="GlobalCoordinates.cs" />
-    <Compile Include="GlobalMercatorProjection.cs" />
-    <Compile Include="GlobalMesh.cs" />
-    <Compile Include="GlobalPosition.cs" />
-    <Compile Include="MercatorProjection.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Geodesy.Core\Angle.cs">
+      <Link>Angle.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\Ellipsoid.cs">
+      <Link>Ellipsoid.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\EllipticalMercatorProjection.cs">
+      <Link>EllipticalMercatorProjection.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\EuclidianCoordinate.cs">
+      <Link>EuclidianCoordinate.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\Extensions\ExtendDouble.cs">
+      <Link>Extensions\ExtendDouble.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GeodesyException.cs">
+      <Link>GeodesyException.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GeodeticCalculator.cs">
+      <Link>GeodeticCalculator.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GeodeticCurve.cs">
+      <Link>GeodeticCurve.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GeodeticMeasurement.cs">
+      <Link>GeodeticMeasurement.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GlobalCoordinates.cs">
+      <Link>GlobalCoordinates.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GlobalMercatorProjection.cs">
+      <Link>GlobalMercatorProjection.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GlobalMesh.cs">
+      <Link>GlobalMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\GlobalPosition.cs">
+      <Link>GlobalPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\MercatorProjection.cs">
+      <Link>MercatorProjection.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\SphericalMercatorProjection.cs">
+      <Link>SphericalMercatorProjection.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\UtmCoordinate.cs">
+      <Link>UtmCoordinate.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\UtmGrid.cs">
+      <Link>UtmGrid.cs</Link>
+    </Compile>
+    <Compile Include="..\Geodesy.Core\UtmProjection.cs">
+      <Link>UtmProjection.cs</Link>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SphericalMercatorProjection.cs" />
-    <Compile Include="UtmCoordinate.cs" />
-    <Compile Include="UtmGrid.cs" />
-    <Compile Include="UtmProjection.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

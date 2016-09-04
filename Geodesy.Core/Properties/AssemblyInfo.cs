@@ -11,7 +11,11 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 #if !PCL
+#if DNX
+[assembly: AssemblyTitle("Geodesy.Core")]
+#else
 [assembly: AssemblyTitle("Geodesy")]
+#endif
 #else
 [assembly: AssemblyTitle("Geodesy.PCL")]
 #endif
@@ -27,8 +31,8 @@ using System.Resources;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
-[assembly: AssemblyVersion("1.0.14.0")]
-[assembly: AssemblyFileVersion("1.0.14.0")]
+[assembly: AssemblyVersion("1.0.15.0")]
+[assembly: AssemblyFileVersion("1.0.15.0")]
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: NeutralResourcesLanguageAttribute("en")]
