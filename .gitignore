@@ -236,3 +236,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+.vs/restore.dg
