@@ -18,7 +18,7 @@ geo-location by a discrete globally unique mesh number. This is done in
 order to facilitacte the application of some discrete algorithms -
 especially in the area of machine learning - on geo locations.
         </description>
-        <copyright>(C) Microsoft</copyright>
+        <copyright>(C) 2014-2016 Jürgen Pfeifer</copyright>
         <projectUrl>https://github.com/juergenpf/Geodesy</projectUrl>
         <licenseUrl>https://github.com/juergenpf/Geodesy/blob/master/License.md</licenseUrl>
         <tags>Geodesy Maps Geocaching Machinelearning ML</tags>
