@@ -21,14 +21,14 @@ using System.Resources;
 #else
 [assembly: AssemblyConfiguration("Release Version")]
 #endif
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Pfeifer's Software")]
 [assembly: AssemblyProduct("Geodesic")]
-[assembly: AssemblyCopyright("Copyright © Microsoft. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2014-2016 Jürgen Pfeifer. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
-[assembly: AssemblyVersion("1.0.12.0")]
-[assembly: AssemblyFileVersion("1.0.12.0")]
+[assembly: AssemblyVersion("1.0.14.0")]
+[assembly: AssemblyFileVersion("1.0.14.0")]
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: NeutralResourcesLanguageAttribute("en")]
