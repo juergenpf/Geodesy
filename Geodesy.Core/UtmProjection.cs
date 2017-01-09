@@ -28,6 +28,7 @@ namespace Geodesy
         public UtmProjection(Ellipsoid referenceGlobe)
             : base(referenceGlobe)
         {
+            _m = new MathConsts(referenceGlobe);
         }
 
         public override Angle MinLatitude
@@ -45,9 +46,6 @@ namespace Geodesy
             out double scaleFactor,
             out double meridianConvergence)
         {
-            if (M == null)
-                throw new Exception();
-
             var grid = new UtmGrid(this, coordinates);
 
             var northingOffset = grid.IsNorthern ? 0.0 : 10000000.0;
@@ -245,17 +243,6 @@ namespace Geodesy
         }
 
         private MathConsts _m;
-
-        private MathConsts M
-        {
-            get
-            {
-                if (_m != null)
-                    return _m;
-                _m = new MathConsts(ReferenceGlobe);
-                return _m;
-            }
-        }
 
         private static double Atanh(double x)
         {
