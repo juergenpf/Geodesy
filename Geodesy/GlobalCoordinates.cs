@@ -23,8 +23,8 @@ namespace Geodesy
     ///     be canonicalized such that:
     ///     -90 &lt;= latitude &lt;= +90
     ///     -180 &lt; longitude &lt;= +180
-    /// </summary>
-    public struct GlobalCoordinates : IComparable<GlobalCoordinates>
+    /// </summary>  
+    public struct GlobalCoordinates : IComparable<GlobalCoordinates>, IEquatable<GlobalCoordinates>
     {
         /// <summary>Latitude.  Negative latitude is southern hemisphere.</summary>
         private Angle _mLatitude;
@@ -157,6 +157,16 @@ namespace Geodesy
         }
 
         /// <summary>
+        ///     Compare these coordinates to other coordinates for equality
+        /// </summary>
+        /// <param name="other">The other coordinates to compare to</param>
+        /// <returns>true if they are equal</returns>
+        public bool Equals(GlobalCoordinates other)
+        {
+            return (_mLongitude == other._mLongitude) && (_mLatitude == other._mLatitude);
+        }
+
+        /// <summary>
         ///     Compare these coordinates to another object for equality.
         /// </summary>
         /// <param name="obj"></param>
@@ -167,7 +177,7 @@ namespace Geodesy
 
             var other = (GlobalCoordinates) obj;
 
-            return (_mLongitude == other._mLongitude) && (_mLatitude == other._mLatitude);
+            return ((IEquatable<GlobalCoordinates>)this).Equals(other);
         }
 
         /// <summary>
@@ -187,6 +197,7 @@ namespace Geodesy
 
             return builder.ToString();
         }
+
 
         #region operators
 

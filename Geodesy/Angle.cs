@@ -24,7 +24,7 @@ namespace Geodesy
     ///     Angle comparisons are performed in absolute terms - no "wrapping" occurs.
     ///     In other words, 360 degress != 0 degrees.
     /// </summary>
-    public struct Angle : IComparable<Angle>
+    public struct Angle : IComparable<Angle>, IEquatable<Angle>
     {
         // precision to use in comparision operations
         private const double Precision = 0.00000000001;
@@ -152,6 +152,18 @@ namespace Geodesy
         ///     are performed in absolute terms - no "wrapping" occurs.  In other
         ///     words, 360 degress != 0 degrees.
         /// </summary>
+        /// <param name="other">other Angle to compare to</param>
+        /// <returns>'true' if angles are equal</returns>
+        public bool Equals(Angle other)
+        {
+            return Degrees.IsApproximatelyEqual(other.Degrees, Precision);
+        }
+
+        /// <summary>
+        ///     Compare this Angle to another Angle for equality.  Angle comparisons
+        ///     are performed in absolute terms - no "wrapping" occurs.  In other
+        ///     words, 360 degress != 0 degrees.
+        /// </summary>
         /// <param name="obj">object to compare to</param>
         /// <returns>'true' if angles are equal</returns>
         public override bool Equals(object obj)
@@ -160,7 +172,7 @@ namespace Geodesy
 
             var other = (Angle) obj;
 
-            return Degrees.IsApproximatelyEqual(other.Degrees, Precision);
+            return ((IEquatable<Angle>) this).Equals(other);
         }
 
         /// <summary>
@@ -171,6 +183,7 @@ namespace Geodesy
         {
             return Degrees.ToString(NumberFormatInfo.InvariantInfo);
         }
+
 
         #region Operators
 

@@ -21,7 +21,7 @@ namespace Geodesy
     ///     Encapsulates a three dimensional location on a globe (GlobalCoordinates combined with
     ///     an elevation in meters above a reference ellipsoid).
     /// </summary>
-    public struct GlobalPosition : IComparable<GlobalPosition>
+    public struct GlobalPosition : IComparable<GlobalPosition>, IEquatable<GlobalPosition>
     {
         private const double Precision = 0.000000000001;
 
@@ -111,18 +111,28 @@ namespace Geodesy
         }
 
         /// <summary>
+        ///     Compare this position to another position for equality
+        /// </summary>
+        /// <param name="other">Another GlobalPosition to compare to</param>
+        /// <returns>true if both are equal</returns>
+        public bool Equals(GlobalPosition other)
+        {
+            return (Elevation.IsApproximatelyEqual(other.Elevation, Precision))
+                   && (_mCoordinates.Equals(other._mCoordinates));
+        }
+
+        /// <summary>
         ///     Compare this position to another object for equality.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">Another object to compare to</param>
+        /// <returns>true if the obj is a GlobalPosition and is the same.</returns>
         public override bool Equals(object obj)
         {
             if (!(obj is GlobalPosition)) return false;
 
             var other = (GlobalPosition) obj;
 
-            return (Elevation.IsApproximatelyEqual(other.Elevation, Precision))
-                   && (_mCoordinates.Equals(other._mCoordinates));
+            return ((IEquatable<GlobalPosition>)this).Equals(other);
         }
 
         /// <summary>
@@ -139,6 +149,7 @@ namespace Geodesy
 
             return builder.ToString();
         }
+
 
         #region Operators
 
