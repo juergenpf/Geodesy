@@ -17,11 +17,9 @@ namespace Geodesy
     public class GlobalMesh
     {
         private const int MinimumMeshSize = 1;
-        private readonly UtmProjection _utm = new UtmProjection();
-        
+
         // The maximum number of cells required for any UTM Grid 
-        private readonly long _maxMeshesPerGrid;
-        
+
         // The maximum vertical number of cells in any UTM Grid
         private readonly long _maxVerticalMeshes;
 
@@ -48,7 +46,7 @@ namespace Geodesy
             {
                 if (UtmGrid.IsValidOrdinal(ord))
                 {
-                    var theGrid = new UtmGrid(_utm, ord);
+                    var theGrid = new UtmGrid(Projection, ord);
                     maxWidth = Math.Max(maxWidth, theGrid.MapWidth);
                     maxHeight = Math.Max(maxHeight, theGrid.MapHeight);
                 }
@@ -60,7 +58,7 @@ namespace Geodesy
                 (long) Math.Round((maxHeight + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
             if (maxHorizontalMeshes < 2 || _maxVerticalMeshes < 2)
                 throw new ArgumentOutOfRangeException(Resources.MESHSIZE_TOO_BIG);
-            _maxMeshesPerGrid = maxHorizontalMeshes*_maxVerticalMeshes;
+            Count = maxHorizontalMeshes*_maxVerticalMeshes;
         }
 
         /// <summary>
@@ -71,27 +69,18 @@ namespace Geodesy
         /// <summary>
         ///     The UTM Projection for the Globe we cover with the mesh.
         /// </summary>
-        public UtmProjection Projection
-        {
-            get { return _utm; }
-        }
+        public UtmProjection Projection { get; } = new UtmProjection();
 
         /// <summary>
         ///     The (maximum) total number of meshes used to cover an UTM Grid.
         ///     Individual Grids may actually be covered by fewer mesh-cells.
         /// </summary>
-        public long Count
-        {
-            get { return _maxMeshesPerGrid; }
-        }
+        public long Count { get; }
 
         /// <summary>
         ///     The maximum number of a mesh
         /// </summary>
-        public long GlobalCount
-        {
-            get { return _maxMeshesPerGrid*UtmGrid.NumberOfGrids; }
-        }
+        public long GlobalCount => Count*UtmGrid.NumberOfGrids;
 
         /// <summary>
         ///     Return the UtmGrid this mesh belongs to
@@ -102,8 +91,8 @@ namespace Geodesy
         public UtmGrid Grid(long meshNumber)
         {
             ValidateMeshNumber(meshNumber);
-            var ord = (int) (meshNumber/_maxMeshesPerGrid);
-            return new UtmGrid(_utm, ord);
+            var ord = (int) (meshNumber/Count);
+            return new UtmGrid(Projection, ord);
         }
 
         /// <summary>
@@ -115,7 +104,7 @@ namespace Geodesy
         {
             var relX = (long) Math.Round(coord.X - coord.Grid.Origin.X, MidpointRounding.AwayFromZero)/MeshSize;
             var relY = (long) Math.Round(coord.Y - coord.Grid.Origin.Y, MidpointRounding.AwayFromZero)/MeshSize;
-            var res = coord.Grid.Ordinal*_maxMeshesPerGrid + relX*_maxVerticalMeshes + relY;
+            var res = coord.Grid.Ordinal*Count + relX*_maxVerticalMeshes + relY;
             return res;
         }
 
@@ -127,7 +116,7 @@ namespace Geodesy
         /// <returns>The mesh number to which the location belongs</returns>
         public long MeshNumber(GlobalCoordinates coord)
         {
-            return MeshNumber((UtmCoordinate) _utm.ToEuclidian(coord));
+            return MeshNumber((UtmCoordinate) Projection.ToEuclidian(coord));
         }
 
         /// <summary>
@@ -150,7 +139,7 @@ namespace Geodesy
 
         private void MeshOrigin(long meshNumber, out long relX, out long relY)
         {
-            var local = meshNumber%(_maxMeshesPerGrid);
+            var local = meshNumber%(Count);
             relX = (local/_maxVerticalMeshes)*MeshSize;
             relY = (local%_maxVerticalMeshes)*MeshSize;
         }
@@ -271,8 +260,8 @@ namespace Geodesy
                 return new List<long> {meshNumber};
             }
 
-            var center = _utm.FromEuclidian(CenterOf(meshNumber));
-            var calc = new GeodeticCalculator(_utm.ReferenceGlobe);
+            var center = Projection.FromEuclidian(CenterOf(meshNumber));
+            var calc = new GeodeticCalculator(Projection.ReferenceGlobe);
             var result = new List<long>();
 
             for (var y = -distance; y <= distance; y++)

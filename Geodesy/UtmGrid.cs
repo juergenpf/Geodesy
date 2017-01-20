@@ -55,8 +55,6 @@ namespace Geodesy
 
         private readonly UtmProjection _utm;
         private int _band;
-        private Angle _gridHeight;
-        private Angle _gridWidth;
         private GlobalCoordinates _llCoordinates;
         private double _mapHeight;
         private double _mapWidth;
@@ -73,8 +71,8 @@ namespace Geodesy
             _origin = null;
             _mapHeight = 0.0;
             _mapWidth = 0.0;
-            _gridWidth = Xstep;
-            _gridHeight = Ystep;
+            Width = Xstep;
+            Height = Ystep;
             _zone = 0;
             _band = 0;
             _llCoordinates = new GlobalCoordinates();
@@ -262,18 +260,12 @@ namespace Geodesy
         /// <summary>
         ///     Width of the Grid (as an Angle)
         /// </summary>
-        public Angle Width
-        {
-            get { return _gridWidth; }
-        }
+        public Angle Width { get; private set; }
 
         /// <summary>
         ///     Height of the Grid (as an Angle)
         /// </summary>
-        public Angle Height
-        {
-            get { return _gridHeight; }
-        }
+        public Angle Height { get; private set; }
 
         /// <summary>
         ///     Unique numbering of the Grids. The most western, most southern
@@ -281,18 +273,12 @@ namespace Geodesy
         ///     northern limit we go to the lowest south of the next zone to the
         ///     east of the current one.
         /// </summary>
-        public int Ordinal
-        {
-            get { return (_zone - 1)*BandChars.Length + _band; }
-        }
+        public int Ordinal => (_zone - 1)*BandChars.Length + _band;
 
         /// <summary>
         ///     Return true is this is a northern band
         /// </summary>
-        public bool IsNorthern
-        {
-            get { return (_band >= NumberOfBands/2); }
-        }
+        public bool IsNorthern => (_band >= NumberOfBands/2);
 
         private void ComputeFlatSize()
         {
@@ -341,28 +327,28 @@ namespace Geodesy
                 (_zone - 1)*Xstep + MercatorProjection.MinLongitude);
 
             if (_band == MaxBand)
-                _gridHeight = Ystep + 4.0;
+                Height = Ystep + 4.0;
 
             if (_zone == 32 && Band == 'V')
             {
-                _gridWidth += 3.0;
+                Width += 3.0;
                 _llCoordinates.Longitude -= 3.0;
             }
             else if (_zone == 31 && Band == 'V')
             {
-                _gridWidth -= 3.0;
+                Width -= 3.0;
             }
             else if (_band == MaxBand)
             {
                 if (_zone == 31 || _zone == 37)
                 {
-                    _gridWidth += 3.0;
+                    Width += 3.0;
                     if (_zone == 37)
                         _llCoordinates.Longitude -= 3.0;
                 }
                 else if (_zone == 33 || _zone == 35)
                 {
-                    _gridWidth += 6.0;
+                    Width += 6.0;
                     _llCoordinates.Longitude -= 3.0;
                 }
             }

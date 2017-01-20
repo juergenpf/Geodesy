@@ -31,15 +31,9 @@ namespace Geodesy
             _m = new MathConsts(referenceGlobe);
         }
 
-        public override Angle MinLatitude
-        {
-            get { return -80.0; }
-        }
+        public override Angle MinLatitude => -80.0;
 
-        public override Angle MaxLatitude
-        {
-            get { return 84.0; }
-        }
+        public override Angle MaxLatitude => 84.0;
 
         private EuclidianCoordinate ToUtmCoordinates(
             GlobalCoordinates coordinates,

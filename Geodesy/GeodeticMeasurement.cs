@@ -50,60 +50,39 @@ namespace Geodesy
         /// <summary>
         ///     The calculator used to compute this measurement
         /// </summary>
-        public GeodeticCalculator Calculator
-        {
-            get { return _mCurve.Calculator; }
-        }
+        public GeodeticCalculator Calculator => _mCurve.Calculator;
 
         /// <summary>
         ///     Get the average geodetic curve.  This is the geodetic curve as measured
         ///     at the average elevation between two points.
         /// </summary>
-        public GeodeticCurve AverageCurve
-        {
-            get { return _mCurve; }
-        }
+        public GeodeticCurve AverageCurve => _mCurve;
 
         /// <summary>
         ///     Get the ellipsoidal distance (in meters).  This is the length of the average geodetic
         ///     curve.  For actual point-to-point distance, use PointToPointDistance property.
         /// </summary>
-        public double EllipsoidalDistance
-        {
-            get { return _mCurve.EllipsoidalDistance; }
-        }
+        public double EllipsoidalDistance => _mCurve.EllipsoidalDistance;
 
         /// <summary>
         ///     Get the azimuth.  This is angle from north from start to end.
         /// </summary>
-        public Angle Azimuth
-        {
-            get { return _mCurve.Azimuth; }
-        }
+        public Angle Azimuth => _mCurve.Azimuth;
 
         /// <summary>
         ///     Get the reverse azimuth.  This is angle from north from end to start.
         /// </summary>
-        public Angle ReverseAzimuth
-        {
-            get { return _mCurve.ReverseAzimuth; }
-        }
+        public Angle ReverseAzimuth => _mCurve.ReverseAzimuth;
 
         /// <summary>
         ///     Get the elevation change, in meters, going from the starting to the ending point.
         /// </summary>
-        public double ElevationChange
-        {
-            get { return _mElevationChange; }
-        }
+        public double ElevationChange => _mElevationChange;
 
         /// <summary>
         ///     Get the distance travelled, in meters, going from one point to the next.
         /// </summary>
-        public double PointToPointDistance
-        {
-            get { return _mP2P; }
-        }
+        public double PointToPointDistance => _mP2P;
 
         /// <summary>
         ///     Get the GeodeticMeasurement as a culture invariant string

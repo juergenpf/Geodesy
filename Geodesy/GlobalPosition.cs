@@ -28,9 +28,6 @@ namespace Geodesy
         /// <summary>Global coordinates.</summary>
         private GlobalCoordinates _mCoordinates;
 
-        /// <summary>Elevation, in meters, above the surface of the ellipsoid.</summary>
-        private double _mElevation;
-
         /// <summary>
         ///     Creates a new instance of GlobalPosition.
         /// </summary>
@@ -39,7 +36,7 @@ namespace Geodesy
         public GlobalPosition(GlobalCoordinates coords, double elevation)
         {
             _mCoordinates = coords;
-            _mElevation = elevation;
+            Elevation = elevation;
         }
 
         /// <summary>
@@ -76,11 +73,7 @@ namespace Geodesy
         /// <summary>
         ///     Get/set elevation, in meters, above the surface of the reference ellipsoid.
         /// </summary>
-        public double Elevation
-        {
-            get { return _mElevation; }
-            set { _mElevation = value; }
-        }
+        public double Elevation { get; set; }
 
         /// <summary>
         ///     Compare this position to another.  Western longitudes are less than
@@ -97,8 +90,8 @@ namespace Geodesy
             if (retval != 0)
                 return retval;
 
-            if (_mElevation.IsApproximatelyEqual(other._mElevation, Precision)) retval = 0;
-            else if (_mElevation.IsSmaller(other._mElevation, Precision)) retval = -1;
+            if (Elevation.IsApproximatelyEqual(other.Elevation, Precision)) retval = 0;
+            else if (Elevation.IsSmaller(other.Elevation, Precision)) retval = -1;
             else retval = 1;
 
             return retval;
@@ -112,7 +105,7 @@ namespace Geodesy
         {
             var hash = _mCoordinates.GetHashCode();
 
-            if (_mElevation != 0) hash *= (int) _mElevation;
+            if (Elevation != 0) hash *= (int) Elevation;
 
             return hash;
         }
@@ -128,7 +121,7 @@ namespace Geodesy
 
             var other = (GlobalPosition) obj;
 
-            return (_mElevation.IsApproximatelyEqual(other._mElevation, Precision))
+            return (Elevation.IsApproximatelyEqual(other.Elevation, Precision))
                    && (_mCoordinates.Equals(other._mCoordinates));
         }
 
@@ -141,7 +134,7 @@ namespace Geodesy
             var builder = new StringBuilder();
 
             builder.Append(_mCoordinates);
-            builder.Append(_mElevation.ToString(NumberFormatInfo.InvariantInfo));
+            builder.Append(Elevation.ToString(NumberFormatInfo.InvariantInfo));
             builder.Append("m");
 
             return builder.ToString();

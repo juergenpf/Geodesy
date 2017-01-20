@@ -27,12 +27,12 @@ using System.Resources;
 #endif
 [assembly: AssemblyCompany("Pfeifer's Software")]
 [assembly: AssemblyProduct("Geodesic")]
-[assembly: AssemblyCopyright("Copyright © 2014-2016 Jürgen Pfeifer. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2014-2017 Jürgen Pfeifer. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
-[assembly: AssemblyVersion("1.0.15.0")]
-[assembly: AssemblyFileVersion("1.0.15.0")]
+[assembly: AssemblyVersion("1.0.17.0")]
+[assembly: AssemblyFileVersion("1.0.17.0")]
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: NeutralResourcesLanguageAttribute("en")]

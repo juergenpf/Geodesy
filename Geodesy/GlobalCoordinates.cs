@@ -75,15 +75,9 @@ namespace Geodesy
         /// <summary>
         ///     The coordinates of the Antipode of this point
         /// </summary>
-        public GlobalCoordinates Antipode
-        {
-            get
-            {
-                return new GlobalCoordinates(
+        public GlobalCoordinates Antipode => new GlobalCoordinates(
                     -_mLatitude.Degrees,
                     -Math.Sign(_mLongitude.Degrees)*(180.0 - Math.Abs(_mLongitude.Degrees)));
-            }
-        }
 
         /// <summary>
         ///     Compare these coordinates to another set of coordiates.  Western

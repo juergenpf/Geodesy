@@ -23,9 +23,6 @@ namespace Geodesy
         /// <summary>Flattening.</summary>
         private readonly double _mFlattening;
 
-        /// <summary>Semi major axis (meters).</summary>
-        private readonly double _mSemiMajorAxis;
-
         /// <summary>
         ///     Construct a new Ellipsoid.  This is private to ensure the values are
         ///     consistent (flattening = 1.0 / inverseFlattening).  Use the methods
@@ -35,49 +32,32 @@ namespace Geodesy
         /// <param name="flattening"></param>
         private Ellipsoid(double semiMajor, double flattening)
         {
-            _mSemiMajorAxis = semiMajor;
+            SemiMajorAxis = semiMajor;
             _mFlattening = flattening;
         }
 
         /// <summary>Get semi major axis (meters).</summary>
-        public double SemiMajorAxis
-        {
-            get { return _mSemiMajorAxis; }
-        }
+        public double SemiMajorAxis { get; }
 
         /// <summary>Get semi minor axis (meters).</summary>
-        public double SemiMinorAxis
-        {
-            get { return (1.0 - _mFlattening)*_mSemiMajorAxis; }
-        }
+        public double SemiMinorAxis => (1.0 - _mFlattening)*SemiMajorAxis;
+        
 
         /// <summary>Get flattening.</summary>
-        public double Flattening
-        {
-            get { return _mFlattening; }
-        }
+        public double Flattening => _mFlattening;
 
         /// <summary>Get inverse flattening.</summary>
-        public double InverseFlattening
-        {
-            get { return 1.0/_mFlattening; }
-        }
+        public double InverseFlattening => 1.0/_mFlattening;
 
         /// <summary>
         ///     Get axis ratio
         /// </summary>
-        public double Ratio
-        {
-            get { return 1.0 - _mFlattening; }
-        }
+        public double Ratio => 1.0 - _mFlattening;
 
         /// <summary>
         ///     The eccentricity of the Ellipsoid
         /// </summary>
-        public double Eccentricity
-        {
-            get { return Math.Sqrt(1.0 - Math.Pow(Ratio, 2)); }
-        }
+        public double Eccentricity => Math.Sqrt(1.0 - Math.Pow(Ratio, 2));
 
         /// <summary>
         ///     Build an Ellipsoid from the semi major axis measurement and the inverse flattening.
@@ -123,7 +103,7 @@ namespace Geodesy
         /// <returns></returns>
         public override int GetHashCode()
         {
-            double[] xy = {_mSemiMajorAxis, _mSemiMajorAxis};
+            double[] xy = {SemiMajorAxis, SemiMajorAxis};
             return xy.GetHashCode();
         }
 
@@ -135,7 +115,7 @@ namespace Geodesy
         /// <returns>True if both are equal (have the same geometry)</returns>
         public static bool operator ==(Ellipsoid lhs, Ellipsoid rhs)
         {
-            return lhs._mSemiMajorAxis.IsApproximatelyEqual(rhs._mSemiMajorAxis) &&
+            return lhs.SemiMajorAxis.IsApproximatelyEqual(rhs.SemiMajorAxis) &&
                    lhs._mFlattening.IsApproximatelyEqual(rhs._mFlattening);
         }
 

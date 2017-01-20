@@ -25,11 +25,6 @@ namespace Geodesy
         /// <summary>Azimuth (degrees from north).</summary>
         private readonly Angle _mAzimuth;
 
-        /// <summary>
-        ///     The calculator used to compute this curve.
-        /// </summary>
-        private readonly GeodeticCalculator _mCalculator;
-
         /// <summary>Ellipsoidal distance (in meters).</summary>
         private readonly double _mEllipsoidalDistance;
 
@@ -44,24 +39,18 @@ namespace Geodesy
             double ellipsoidalDistance,
             Angle azimuth)
         {
-            _mCalculator = geoCalculator;
+            Calculator = geoCalculator;
             _mEllipsoidalDistance = ellipsoidalDistance;
             _mAzimuth = azimuth;
         }
 
         /// <summary>Ellipsoidal distance (in meters).</summary>
-        public double EllipsoidalDistance
-        {
-            get { return _mEllipsoidalDistance; }
-        }
+        public double EllipsoidalDistance => _mEllipsoidalDistance;
 
         /// <summary>
         ///     Get the azimuth.  This is angle from north from start to end.
         /// </summary>
-        public Angle Azimuth
-        {
-            get { return _mAzimuth; }
-        }
+        public Angle Azimuth => _mAzimuth;
 
         /// <summary>
         ///     Get the reverse azimuth.  This is angle from north from end to start.
@@ -81,10 +70,7 @@ namespace Geodesy
         /// <summary>
         ///     The calculator used to compute this curve
         /// </summary>
-        public GeodeticCalculator Calculator
-        {
-            get { return _mCalculator; }
-        }
+        public GeodeticCalculator Calculator { get; }
 
         /// <summary>
         ///     Get curve as a culture invariant string.

@@ -38,8 +38,11 @@ namespace Geodesy
         /// <summary>180 degree Angle</summary>
         public static readonly Angle Angle180 = new Angle(180.0);
 
-        /// <summary>Angle value in degrees.</summary>
-        private double _mDegrees;
+        /// <summary>
+        ///     Get/set angle measured in degrees.
+        /// </summary>
+        public double Degrees { get; set; }
+
 
         /// <summary>
         ///     Construct a new Angle from a degree measurement.
@@ -47,7 +50,7 @@ namespace Geodesy
         /// <param name="degrees">angle measurement</param>
         public Angle(double degrees)
         {
-            _mDegrees = degrees;
+            Degrees = degrees;
         }
 
         /// <summary>
@@ -59,8 +62,8 @@ namespace Geodesy
         public Angle(int degrees, double minutes)
         {
             ValidateMinutesOrSeconds(minutes);
-            _mDegrees = minutes/60.0;
-            _mDegrees = (degrees < 0) ? (degrees - _mDegrees) : (degrees + _mDegrees);
+            Degrees = minutes/60.0;
+            Degrees = (degrees < 0) ? (degrees - Degrees) : (degrees + Degrees);
         }
 
         /// <summary>
@@ -74,17 +77,8 @@ namespace Geodesy
         {
             ValidateMinutesOrSeconds(minutes);
             ValidateMinutesOrSeconds(seconds);
-            _mDegrees = (seconds/3600.0) + (minutes/60.0);
-            _mDegrees = (degrees < 0) ? (degrees - _mDegrees) : (degrees + _mDegrees);
-        }
-
-        /// <summary>
-        ///     Get/set angle measured in degrees.
-        /// </summary>
-        public double Degrees
-        {
-            get { return _mDegrees; }
-            set { _mDegrees = value; }
+            Degrees = (seconds/3600.0) + (minutes/60.0);
+            Degrees = (degrees < 0) ? (degrees - Degrees) : (degrees + Degrees);
         }
 
         /// <summary>
@@ -92,8 +86,8 @@ namespace Geodesy
         /// </summary>
         public double Radians
         {
-            get { return _mDegrees*PiOver180; }
-            set { _mDegrees = value/PiOver180; }
+            get { return Degrees*PiOver180; }
+            set { Degrees = value/PiOver180; }
         }
 
         /// <summary>
@@ -141,7 +135,7 @@ namespace Geodesy
         /// </summary>
         public Angle Abs()
         {
-            return new Angle(Math.Abs(_mDegrees));
+            return new Angle(Math.Abs(Degrees));
         }
 
         /// <summary>
@@ -150,7 +144,7 @@ namespace Geodesy
         /// <returns>hash code</returns>
         public override int GetHashCode()
         {
-            return _mDegrees.GetHashCode();
+            return Degrees.GetHashCode();
         }
 
         /// <summary>
@@ -166,7 +160,7 @@ namespace Geodesy
 
             var other = (Angle) obj;
 
-            return _mDegrees.IsApproximatelyEqual(other._mDegrees, Precision);
+            return Degrees.IsApproximatelyEqual(other.Degrees, Precision);
         }
 
         /// <summary>
@@ -175,7 +169,7 @@ namespace Geodesy
         /// <returns>The angle as a culture invariant string</returns>
         public override string ToString()
         {
-            return _mDegrees.ToString(NumberFormatInfo.InvariantInfo);
+            return Degrees.ToString(NumberFormatInfo.InvariantInfo);
         }
 
         #region Operators
@@ -188,7 +182,7 @@ namespace Geodesy
         /// <returns>The sum of the angles</returns>
         public static Angle operator +(Angle lhs, Angle rhs)
         {
-            return new Angle(lhs._mDegrees + rhs._mDegrees);
+            return new Angle(lhs.Degrees + rhs.Degrees);
         }
 
         /// <summary>
@@ -199,7 +193,7 @@ namespace Geodesy
         /// <returns>The difference of the angles</returns>
         public static Angle operator -(Angle lhs, Angle rhs)
         {
-            return new Angle(lhs._mDegrees - rhs._mDegrees);
+            return new Angle(lhs.Degrees - rhs.Degrees);
         }
 
         /// <summary>
@@ -210,7 +204,7 @@ namespace Geodesy
         /// <returns>The angle multiplied by the number</returns>
         public static Angle operator *(double lhs, Angle rhs)
         {
-            return new Angle(lhs*rhs._mDegrees);
+            return new Angle(lhs*rhs.Degrees);
         }
 
         /// <summary>
@@ -221,7 +215,7 @@ namespace Geodesy
         /// <returns>The angle multiplied by the number</returns>
         public static Angle operator *(Angle lhs, double rhs)
         {
-            return new Angle(lhs._mDegrees*rhs);
+            return new Angle(lhs.Degrees*rhs);
         }
 
         /// <summary>
@@ -232,7 +226,7 @@ namespace Geodesy
         /// <returns>True if the left operand angle is greater than the right operand angle</returns>
         public static bool operator >(Angle lhs, Angle rhs)
         {
-            return rhs._mDegrees.IsSmaller(lhs._mDegrees, Precision);
+            return rhs.Degrees.IsSmaller(lhs.Degrees, Precision);
         }
 
         /// <summary>
@@ -243,8 +237,8 @@ namespace Geodesy
         /// <returns>True if the left operand angle is greater than or equal the right operand angle</returns>
         public static bool operator >=(Angle lhs, Angle rhs)
         {
-            return rhs._mDegrees.IsApproximatelyEqual(lhs._mDegrees, Precision) ||
-                   rhs._mDegrees.IsSmaller(lhs._mDegrees, Precision);
+            return rhs.Degrees.IsApproximatelyEqual(lhs.Degrees, Precision) ||
+                   rhs.Degrees.IsSmaller(lhs.Degrees, Precision);
         }
 
         /// <summary>
@@ -255,7 +249,7 @@ namespace Geodesy
         /// <returns>True if the left operand angle is less than the right operand angle</returns>
         public static bool operator <(Angle lhs, Angle rhs)
         {
-            return lhs._mDegrees.IsSmaller(rhs._mDegrees, Precision);
+            return lhs.Degrees.IsSmaller(rhs.Degrees, Precision);
         }
 
         /// <summary>
@@ -266,8 +260,8 @@ namespace Geodesy
         /// <returns>True if the left operand angle is less than or equal the right operand angle</returns>
         public static bool operator <=(Angle lhs, Angle rhs)
         {
-            return lhs._mDegrees.IsApproximatelyEqual(rhs._mDegrees, Precision) ||
-                   lhs._mDegrees.IsSmaller(rhs._mDegrees, Precision);
+            return lhs.Degrees.IsApproximatelyEqual(rhs.Degrees, Precision) ||
+                   lhs.Degrees.IsSmaller(rhs.Degrees, Precision);
         }
 
         /// <summary>
@@ -278,7 +272,7 @@ namespace Geodesy
         /// <returns>True if the left operand angle is equal to the right operand angle</returns>
         public static bool operator ==(Angle lhs, Angle rhs)
         {
-            return lhs._mDegrees.IsApproximatelyEqual(rhs._mDegrees, Precision);
+            return lhs.Degrees.IsApproximatelyEqual(rhs.Degrees, Precision);
         }
 
         /// <summary>
@@ -289,7 +283,7 @@ namespace Geodesy
         /// <returns>True if the left operand angle is not equal to the right operand angle</returns>
         public static bool operator !=(Angle lhs, Angle rhs)
         {
-            return !lhs._mDegrees.IsApproximatelyEqual(rhs._mDegrees, Precision);
+            return !lhs.Degrees.IsApproximatelyEqual(rhs.Degrees, Precision);
         }
 
         /// <summary>

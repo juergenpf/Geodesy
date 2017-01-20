@@ -40,10 +40,7 @@ namespace Geodesy
         /// <summary>
         ///     The reference Ellipsoid to use for the calculations
         /// </summary>
-        public Ellipsoid ReferenceGlobe
-        {
-            get { return _mReferenceGlobe; }
-        }
+        public Ellipsoid ReferenceGlobe => _mReferenceGlobe;
 
         /// <summary>
         ///     Calculate the destination and final bearing after traveling a specified
