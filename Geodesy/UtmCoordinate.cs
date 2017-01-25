@@ -77,6 +77,11 @@ namespace Geodesy
             private set { _meridianConvergence = value.Radians; }
         }
 
+        /// <summary>
+        ///     Check whether another euclidian point belongs to the same projection
+        /// </summary>
+        /// <param name="other">The other point</param>
+        /// <returns>True if they belong to the same projection, false otherwise</returns>
         public override bool IsSameProjection(EuclidianCoordinate other)
         {
             var utmOther = other as UtmCoordinate;
@@ -93,6 +98,12 @@ namespace Geodesy
             _computed = true;
         }
 
+        /// <summary>
+        ///     Compute the euclidian distance to another point
+        /// </summary>
+        /// <param name="other">The other point</param>
+        /// <returns>The distance</returns>
+        /// <exception cref="ArgumentException">Raised if the two points don't belong to the same projection</exception>
         public override double DistanceTo(EuclidianCoordinate other)
         {
             var obj = other as UtmCoordinate;
@@ -101,18 +112,32 @@ namespace Geodesy
             return base.DistanceTo(other);
         }
 
+        /// <summary>
+        ///     Check another UtmCoordinate for equality
+        /// </summary>
+        /// <param name="other">The other coordinates</param>
+        /// <returns>True if they are equal</returns>
         public bool Equals(UtmCoordinate other)
         {
             return (other != null && other.Grid.Equals(Grid) &&
                     IsApproximatelyEqual(other, DefaultPrecision));
         }
 
+        /// <summary>
+        ///     Check another object for being an UtmCoordinate and for equality
+        /// </summary>
+        /// <param name="obj">The other object</param>
+        /// <returns>True if the other object is an UtmCoordinate equal to this one</returns>
         public override bool Equals(object obj)
         {
             var other = obj as UtmCoordinate;
             return ((IEquatable<UtmCoordinate>)this).Equals(other);
         }
 
+        /// <summary>
+        ///     Get the hash code for this object
+        /// </summary>
+        /// <returns>The hash code</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();

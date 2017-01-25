@@ -31,8 +31,14 @@ namespace Geodesy
             _m = new MathConsts(referenceGlobe);
         }
 
+        /// <summary>
+        ///     Minimum latitude mapped by the UTM projection
+        /// </summary>
         public override Angle MinLatitude => -80.0;
 
+        /// <summary>
+        ///     Maximum latitude mapped by the UTM projection
+        /// </summary>
         public override Angle MaxLatitude => 84.0;
 
         private EuclidianCoordinate ToUtmCoordinates(
@@ -90,6 +96,11 @@ namespace Geodesy
             return new UtmCoordinate(grid, easting, northing, scaleFactor, meridianConvergence);
         }
 
+        /// <summary>
+        ///     Convert a latitude/longitude coordinate to a Euclidian coordinate on a flat map
+        /// </summary>
+        /// <param name="coordinates">The latitude/longitude coordinates in degrees</param>
+        /// <returns>The euclidian coordinates of that point</returns>
         public override EuclidianCoordinate ToEuclidian(GlobalCoordinates coordinates)
         {
             double scaleFactor;
@@ -159,6 +170,11 @@ namespace Geodesy
             return new GlobalCoordinates(Angle.RadToDeg(phi), Angle.RadToDeg(lambda));
         }
 
+        /// <summary>
+        ///     Get the latitude/longitude coordinates from the euclidian coordinates
+        /// </summary>
+        /// <param name="xy">The euclidien coordinates</param>
+        /// <returns>The latitude/longitude coordinates of that point</returns>
         public override GlobalCoordinates FromEuclidian(EuclidianCoordinate xy)
         {
             double scaleFactor;
@@ -166,6 +182,11 @@ namespace Geodesy
             return FromEuclidian(xy, out scaleFactor, out meridianConvergence);
         }
 
+        /// <summary>
+        ///     Get the Mercator scale factor for the given point
+        /// </summary>
+        /// <param name="point">The point</param>
+        /// <returns>The scale factor</returns>
         public override double ScaleFactor(GlobalCoordinates point)
         {
             double scaleFactor;

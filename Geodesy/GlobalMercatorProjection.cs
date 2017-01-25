@@ -44,6 +44,12 @@ namespace Geodesy
             return ScaleFactor(point.Latitude.Degrees);
         }
 
+
+        /// <summary>
+        ///     Convert a latitude/longitude coordinate to a Euclidian coordinate on a flat map
+        /// </summary>
+        /// <param name="coordinates">The latitude/longitude coordinates in degrees</param>
+        /// <returns>The euclidian coordinates of that point</returns>
         public override EuclidianCoordinate ToEuclidian(GlobalCoordinates coordinates)
         {
             return new EuclidianCoordinate(this)
@@ -53,6 +59,11 @@ namespace Geodesy
             };
         }
 
+        /// <summary>
+        ///     Get the latitude/longitude coordinates from the euclidian coordinates
+        /// </summary>
+        /// <param name="xy">The euclidien coordinates</param>
+        /// <returns>The latitude/longitude coordinates of that point</returns>
         public override GlobalCoordinates FromEuclidian(EuclidianCoordinate xy)
         {
             return new GlobalCoordinates(YToLatitude(xy.Y), XToLongitude(xy.X));
