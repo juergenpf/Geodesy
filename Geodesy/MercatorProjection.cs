@@ -11,7 +11,7 @@ namespace Geodesy
     ///     Base class for Mercator projections tranlating longitude/longitude values on the globe
     ///     into X/Y coordinates on a flat map.
     /// </summary>
-    public abstract class MercatorProjection
+    public abstract class MercatorProjection : IEquatable<MercatorProjection>
     {
         /// <summary>
         ///     The typical reference Meridian
@@ -68,13 +68,13 @@ namespace Geodesy
         ///     Two projections are considered Equal if they are based on
         ///     the same Reference-Globe
         /// </summary>
-        /// <param name="obj">The object to compare against</param>
+        /// <param name="other">The projection to compare against</param>
         /// <returns>True if they are equal</returns>
-        public override bool Equals(object obj)
+        public bool Equals(MercatorProjection other)
         {
-            var other = obj as MercatorProjection;
             return ((null != other) && other.ReferenceGlobe.Equals(ReferenceGlobe));
         }
+
 
         #region Latitude/Longitude limits
 

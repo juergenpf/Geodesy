@@ -11,7 +11,7 @@ namespace Geodesy
     ///     UTM Coordinates need additionally the zone and the band info
     ///     to identify the grid to which the X/Y values belong
     /// </summary>
-    public class UtmCoordinate : EuclidianCoordinate
+    public class UtmCoordinate : EuclidianCoordinate, IEquatable<UtmCoordinate>
     {
         private const double DefaultPrecision = 0.01;
         private bool _computed;
@@ -101,12 +101,16 @@ namespace Geodesy
             return base.DistanceTo(other);
         }
 
+        public bool Equals(UtmCoordinate other)
+        {
+            return (other != null && other.Grid.Equals(Grid) &&
+                    IsApproximatelyEqual(other, DefaultPrecision));
+        }
+
         public override bool Equals(object obj)
         {
             var other = obj as UtmCoordinate;
-
-            return (other != null && other.Grid.Equals(Grid) &&
-                    IsApproximatelyEqual(other, DefaultPrecision));
+            return ((IEquatable<UtmCoordinate>)this).Equals(other);
         }
 
         public override int GetHashCode()
@@ -126,5 +130,6 @@ namespace Geodesy
                    + x.ToString(NumberFormatInfo.InvariantInfo) + " "
                    + y.ToString(NumberFormatInfo.InvariantInfo);
         }
+
     }
 }

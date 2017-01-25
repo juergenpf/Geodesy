@@ -187,12 +187,6 @@ namespace Geodesy
             return Angle.RadToDeg(meridianConvergence);
         }
 
-        public override bool Equals(object obj)
-        {
-            var other = obj as UtmProjection;
-            return ((null != other) && other.ReferenceGlobe.Equals(ReferenceGlobe));
-        }
-
         /*
          * This implementation is based on the formulas discussed in
          * http://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system

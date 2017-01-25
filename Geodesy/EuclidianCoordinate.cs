@@ -3,6 +3,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using Geodesy.Extensions;
 using Geodesy.Properties;
 
@@ -11,17 +12,19 @@ namespace Geodesy
     /// <summary>
     ///     This class specifically models two-dimensional points in a flat plane
     /// </summary>
-    public class EuclidianCoordinate
+    public class EuclidianCoordinate : IEquatable<EuclidianCoordinate>
     {
         private const double DefaultPrecision = 1e-12;
 
         /// <summary>
-        ///     The default coordinates (X and Y are zero)
+        ///     The X coordinate
         /// </summary>
-        /// <param name="projection">The projection owning these coordinates</param>
-        public EuclidianCoordinate(MercatorProjection projection) : this(projection, 0.0, 0.0)
-        {
-        }
+        public double X { get; set; }
+
+        /// <summary>
+        ///     The Y coordinate
+        /// </summary>
+        public double Y { get; set; }
 
         /// <summary>
         ///     Instantiate a new point
@@ -37,14 +40,22 @@ namespace Geodesy
         }
 
         /// <summary>
+        ///     The default coordinates (X and Y are zero)
+        /// </summary>
+        /// <param name="projection">The projection owning these coordinates</param>
+        public EuclidianCoordinate(MercatorProjection projection) : this(projection, 0.0, 0.0)
+        {
+        }
+
+        /// <summary>
         ///     Instantiate a new point from a coordinate array
         /// </summary>
         /// <param name="projection">The projection owning these coordinates</param>
-        /// <param name="xy">The coordinates as array</param>
+        /// <param name="xy">List of xy coordinates</param>
         /// <exception cref="IndexOutOfRangeException">Raised if the array is not two-dimensional</exception>
-        public EuclidianCoordinate(MercatorProjection projection, double[] xy)
+        public EuclidianCoordinate(MercatorProjection projection, IReadOnlyList<double> xy)
         {
-            if (xy.Length != 2)
+            if (xy.Count != 2)
                 throw new IndexOutOfRangeException(Resources.COORD_ARRAY_MUST_BE_2DIM);
             Projection = projection;
             X = xy[0];
@@ -55,16 +66,6 @@ namespace Geodesy
         ///     The Mercator projection that owns these coordinates
         /// </summary>
         public MercatorProjection Projection { get; protected set; }
-
-        /// <summary>
-        ///     The X coordinate
-        /// </summary>
-        public double X { get; set; }
-
-        /// <summary>
-        ///     The Y coordinate
-        /// </summary>
-        public double Y { get; set; }
 
         /// <summary>
         ///     Check whether another euclidian point belongs to the same projection
@@ -107,6 +108,16 @@ namespace Geodesy
         }
 
         /// <summary>
+        ///     Test another coordinate to be the same coordinates.
+        /// </summary>
+        /// <param name="other">The coordinates to test</param>
+        /// <returns>True if this is the same coordinate</returns>
+        public bool Equals(EuclidianCoordinate other)
+        {
+            return other!=null && (IsApproximatelyEqual(other));
+        }
+
+        /// <summary>
         ///     Test another object to be the same coordinates.
         /// </summary>
         /// <param name="obj">The object to test</param>
@@ -114,7 +125,7 @@ namespace Geodesy
         public override bool Equals(object obj)
         {
             var other = obj as EuclidianCoordinate;
-            return (other != null && IsApproximatelyEqual(other));
+            return ((IEquatable<EuclidianCoordinate>) this).Equals(other);
         }
 
         /// <summary>
@@ -123,8 +134,9 @@ namespace Geodesy
         /// <returns></returns>
         public override int GetHashCode()
         {
-            double[] xy = {X, Y, Projection.ReferenceGlobe.SemiMajorAxis, Projection.ReferenceGlobe.Flattening};
+            double[] xy = { X, Y, Projection.ReferenceGlobe.SemiMajorAxis, Projection.ReferenceGlobe.Flattening };
             return xy.GetHashCode();
         }
+
     }
 }

@@ -169,10 +169,7 @@ namespace Geodesy
         public override bool Equals(object obj)
         {
             if (!(obj is Angle)) return false;
-
-            var other = (Angle) obj;
-
-            return ((IEquatable<Angle>) this).Equals(other);
+            return ((IEquatable<Angle>) this).Equals((Angle)obj);
         }
 
         /// <summary>

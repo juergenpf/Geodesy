@@ -22,11 +22,15 @@ namespace Geodesy
     ///     publication on the NOAA website:
     ///     See http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
     /// </summary>
-    public struct GeodeticCalculator
+    public struct GeodeticCalculator : IEquatable<GeodeticCalculator>
     {
         private const double TwoPi = 2.0*Math.PI;
         private const double Precision = 0.0000000000001;
-        private readonly Ellipsoid _mReferenceGlobe;
+
+        /// <summary>
+        ///     The reference Ellipsoid to use for the calculations
+        /// </summary>
+        public Ellipsoid ReferenceGlobe { get; }
 
         /// <summary>
         ///     Instantiate a calculator for the specified reference Ellipsoid
@@ -34,13 +38,8 @@ namespace Geodesy
         /// <param name="referenceGlobe">The reference Ellipsoid</param>
         public GeodeticCalculator(Ellipsoid referenceGlobe)
         {
-            _mReferenceGlobe = referenceGlobe;
+            ReferenceGlobe = referenceGlobe;
         }
-
-        /// <summary>
-        ///     The reference Ellipsoid to use for the calculations
-        /// </summary>
-        public Ellipsoid ReferenceGlobe => _mReferenceGlobe;
 
         /// <summary>
         ///     Calculate the destination and final bearing after traveling a specified
@@ -58,11 +57,11 @@ namespace Geodesy
             double distance,
             out Angle endBearing)
         {
-            var majorAxis = _mReferenceGlobe.SemiMajorAxis;
-            var minorAxis = _mReferenceGlobe.SemiMinorAxis;
+            var majorAxis = ReferenceGlobe.SemiMajorAxis;
+            var minorAxis = ReferenceGlobe.SemiMinorAxis;
             var aSquared = majorAxis*majorAxis;
             var bSquared = minorAxis*minorAxis;
-            var flattening = _mReferenceGlobe.Flattening;
+            var flattening = ReferenceGlobe.Flattening;
             var phi1 = start.Latitude.Radians;
             var alpha1 = startBearing.Radians;
             var cosAlpha1 = Math.Cos(alpha1);
@@ -208,9 +207,9 @@ namespace Geodesy
             //
 
             // get constants
-            var majorAxis = _mReferenceGlobe.SemiMajorAxis;
-            var minorAxis = _mReferenceGlobe.SemiMinorAxis;
-            var flattening = _mReferenceGlobe.Flattening;
+            var majorAxis = ReferenceGlobe.SemiMajorAxis;
+            var minorAxis = ReferenceGlobe.SemiMinorAxis;
+            var flattening = ReferenceGlobe.Flattening;
 
             // get parameters as radians
             var phi1 = start.Latitude.Radians;
@@ -378,8 +377,8 @@ namespace Geodesy
             var phi12 = (phi1 + phi2)/2.0;
 
             // calculate a new ellipsoid to accommodate average elevation
-            var refA = _mReferenceGlobe.SemiMajorAxis;
-            var f = _mReferenceGlobe.Flattening;
+            var refA = ReferenceGlobe.SemiMajorAxis;
+            var f = ReferenceGlobe.Flattening;
             var a = refA + elev12*(1.0 + f*Math.Sin(phi12));
             var ellipsoid = Ellipsoid.FromAAndF(a, f);
             var geoCalc = new GeodeticCalculator(ellipsoid);
@@ -422,6 +421,16 @@ namespace Geodesy
                     stepWidth);
             }
             return result;
+        }
+
+        /// <summary>
+        ///     Test another calculator to be equal to this one
+        /// </summary>
+        /// <param name="other">The other calculator</param>
+        /// <returns>True if they are the same (means have the same reference globe)</returns>
+        public bool Equals(GeodeticCalculator other)
+        {
+            return ReferenceGlobe.Equals(other.ReferenceGlobe);
         }
     }
 }

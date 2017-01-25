@@ -18,10 +18,13 @@ namespace Geodesy
     /// <summary>
     ///     Encapsulation of an ellipsoid, and declaration of common reference ellipsoids.
     /// </summary>
-    public struct Ellipsoid
+    public struct Ellipsoid : IEquatable<Ellipsoid>
     {
-        /// <summary>Flattening.</summary>
-        private readonly double _mFlattening;
+        /// <summary>Get semi major axis (meters).</summary>
+        public double SemiMajorAxis { get; }
+
+        /// <summary>Get flattening.</summary>
+        public double Flattening { get; }
 
         /// <summary>
         ///     Construct a new Ellipsoid.  This is private to ensure the values are
@@ -33,26 +36,19 @@ namespace Geodesy
         private Ellipsoid(double semiMajor, double flattening)
         {
             SemiMajorAxis = semiMajor;
-            _mFlattening = flattening;
+            Flattening = flattening;
         }
 
-        /// <summary>Get semi major axis (meters).</summary>
-        public double SemiMajorAxis { get; }
-
         /// <summary>Get semi minor axis (meters).</summary>
-        public double SemiMinorAxis => (1.0 - _mFlattening)*SemiMajorAxis;
+        public double SemiMinorAxis => (1.0 - Flattening)*SemiMajorAxis;
         
-
-        /// <summary>Get flattening.</summary>
-        public double Flattening => _mFlattening;
-
         /// <summary>Get inverse flattening.</summary>
-        public double InverseFlattening => 1.0/_mFlattening;
+        public double InverseFlattening => 1.0/Flattening;
 
         /// <summary>
         ///     Get axis ratio
         /// </summary>
-        public double Ratio => 1.0 - _mFlattening;
+        public double Ratio => 1.0 - Flattening;
 
         /// <summary>
         ///     The eccentricity of the Ellipsoid
@@ -82,6 +78,16 @@ namespace Geodesy
         }
 
         /// <summary>
+        ///     Test whether or not another ellipsoid is equal to the current one.
+        /// </summary>
+        /// <param name="other">The other ellipsoid</param>
+        /// <returns>True, if the other object is an Ellipsoid with the same geometry</returns>
+        public bool Equals(Ellipsoid other)
+        {
+            return this == other;
+        }
+
+        /// <summary>
         ///     Test whether or not another object is also an Ellipsoid, and
         ///     if yes, whether it's equal to the current one.
         /// </summary>
@@ -93,7 +99,7 @@ namespace Geodesy
             if (!(obj is Ellipsoid))
                 result = false;
             else
-                result = ((Ellipsoid) obj == this);
+                result = ((IEquatable<Ellipsoid>) this).Equals((Ellipsoid) obj);
             return result;
         }
 
@@ -107,6 +113,7 @@ namespace Geodesy
             return xy.GetHashCode();
         }
 
+
         /// <summary>
         ///     Test whether or not two Ellipsoids are the same
         /// </summary>
@@ -116,7 +123,7 @@ namespace Geodesy
         public static bool operator ==(Ellipsoid lhs, Ellipsoid rhs)
         {
             return lhs.SemiMajorAxis.IsApproximatelyEqual(rhs.SemiMajorAxis) &&
-                   lhs._mFlattening.IsApproximatelyEqual(rhs._mFlattening);
+                   lhs.Flattening.IsApproximatelyEqual(rhs.Flattening);
         }
 
         /// <summary>

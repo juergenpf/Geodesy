@@ -10,8 +10,10 @@
  *
  */
 
+using System;
 using System.Globalization;
 using System.Text;
+using Geodesy.Extensions;
 
 namespace Geodesy
 {
@@ -20,13 +22,20 @@ namespace Geodesy
     ///     ellipsoidal distance between two GlobalCoordinates for a specified reference
     ///     ellipsoid.
     /// </summary>
-    public struct GeodeticCurve
+    public struct GeodeticCurve : IEquatable<GeodeticCurve>
     {
-        /// <summary>Azimuth (degrees from north).</summary>
-        private readonly Angle _mAzimuth;
-
         /// <summary>Ellipsoidal distance (in meters).</summary>
-        private readonly double _mEllipsoidalDistance;
+        public double EllipsoidalDistance { get; }
+
+        /// <summary>
+        ///     The calculator used to compute this curve
+        /// </summary>
+        public GeodeticCalculator Calculator { get; }
+
+        /// <summary>
+        ///     Get the azimuth.  This is angle from north from start to end.
+        /// </summary>
+        public Angle Azimuth { get; }
 
         /// <summary>
         ///     Create a new GeodeticCurve.
@@ -40,17 +49,9 @@ namespace Geodesy
             Angle azimuth)
         {
             Calculator = geoCalculator;
-            _mEllipsoidalDistance = ellipsoidalDistance;
-            _mAzimuth = azimuth;
+            EllipsoidalDistance = ellipsoidalDistance;
+            Azimuth = azimuth;
         }
-
-        /// <summary>Ellipsoidal distance (in meters).</summary>
-        public double EllipsoidalDistance => _mEllipsoidalDistance;
-
-        /// <summary>
-        ///     Get the azimuth.  This is angle from north from start to end.
-        /// </summary>
-        public Angle Azimuth => _mAzimuth;
 
         /// <summary>
         ///     Get the reverse azimuth.  This is angle from north from end to start.
@@ -59,18 +60,13 @@ namespace Geodesy
         {
             get
             {
-                if (double.IsNaN(_mAzimuth.Degrees))
+                if (double.IsNaN(Azimuth.Degrees))
                     return double.NaN;
-                if (_mAzimuth.Degrees < 180.0)
-                    return _mAzimuth + 180.0;
-                return _mAzimuth - 180.0;
+                if (Azimuth.Degrees < 180.0)
+                    return Azimuth + 180.0;
+                return Azimuth - 180.0;
             }
         }
-
-        /// <summary>
-        ///     The calculator used to compute this curve
-        /// </summary>
-        public GeodeticCalculator Calculator { get; }
 
         /// <summary>
         ///     Get curve as a culture invariant string.
@@ -81,14 +77,25 @@ namespace Geodesy
             var builder = new StringBuilder();
 
             builder.Append("s=");
-            builder.Append(_mEllipsoidalDistance.ToString(NumberFormatInfo.InvariantInfo));
+            builder.Append(EllipsoidalDistance.ToString(NumberFormatInfo.InvariantInfo));
             builder.Append(";a12=");
-            builder.Append(_mAzimuth);
+            builder.Append(Azimuth);
             builder.Append(";a21=");
             builder.Append(ReverseAzimuth);
             builder.Append(";");
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        ///     Test another curve for equality
+        /// </summary>
+        /// <param name="other">The other geodetic curve</param>
+        /// <returns>True if they are the same</returns>
+        public bool Equals(GeodeticCurve other)
+        {
+            return EllipsoidalDistance.IsApproximatelyEqual(other.EllipsoidalDistance) && Azimuth.Equals(other.Azimuth) &&
+                   Calculator.Equals(other.Calculator);
         }
     }
 }

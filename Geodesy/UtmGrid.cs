@@ -12,7 +12,7 @@ namespace Geodesy
     ///     The globe is partioned into Grids by the UTM projection.
     ///     This structure represents such a grid.
     /// </summary>
-    public struct UtmGrid
+    public struct UtmGrid : IEquatable<UtmGrid>
     {
         private const double Delta = 1e-12;
         private const int MinZone = 1;
@@ -389,6 +389,17 @@ namespace Geodesy
         }
 
         /// <summary>
+        ///     Compare the grid to another grid for equality.
+        /// </summary>
+        /// <param name="other">The other grid</param>
+        /// <returns>True if they are equal</returns>
+        public bool Equals(UtmGrid other)
+        {
+            return (other.Projection.Equals(Projection) &&
+                    (_band == other._band) && (_zone == other._zone));
+        }
+
+        /// <summary>
         ///     Compare these coordinates to another object for equality.
         /// </summary>
         /// <param name="obj"></param>
@@ -398,8 +409,7 @@ namespace Geodesy
             if (obj == null || !(obj is UtmGrid))
                 return false;
             var other = (UtmGrid) obj;
-            return (other.Projection.Equals(Projection) &&
-                    (_band == other._band) && (_zone == other._zone));
+            return ((IEquatable<UtmGrid>) this).Equals(other);
         }
 
         /// <summary>

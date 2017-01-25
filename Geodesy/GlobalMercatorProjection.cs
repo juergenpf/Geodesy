@@ -179,7 +179,6 @@ namespace Geodesy
             var result = new GlobalCoordinates[numberOfPoints];
             result[0] = start;
             result[numberOfPoints - 1] = end;
-            //result[numberOfPoints-1] = end;
             for (var i = 1; i < numberOfPoints - 1; i++)
             {
                 var point = new EuclidianCoordinate(this, cStart.X + i*dx*step, cStart.Y + i*dy*step);
