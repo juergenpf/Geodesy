@@ -117,67 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="COORD_ARRAY_MUST_BE_2DIM1" xml:space="preserve">
+  <data name="COORD_ARRAY_MUST_BE_2DIM" xml:space="preserve">
     <value>A coordinate array must have exactly two elements.</value>
   </data>
-  <data name="GEODETIC_PATH_MIN_21" xml:space="preserve">
+  <data name="GEODETIC_PATH_MIN_2" xml:space="preserve">
     <value>A geodetic path must have at least two points.</value>
   </data>
-  <data name="GRID_EXCEPTION1" xml:space="preserve">
+  <data name="GRID_EXCEPTION" xml:space="preserve">
     <value>The UTM grids 32X,34X and 36X are not assigned.</value>
   </data>
-  <data name="INVALID_BAND1" xml:space="preserve">
+  <data name="INVALID_BAND" xml:space="preserve">
     <value>Invalid UTMBand specified.</value>
   </data>
-  <data name="INVALID_DISTANCE1" xml:space="preserve">
+  <data name="INVALID_DISTANCE" xml:space="preserve">
     <value>Invalid distance</value>
   </data>
-  <data name="INVALID_LATITUDE1" xml:space="preserve">
+  <data name="INVALID_LATITUDE" xml:space="preserve">
     <value>The UTM projection ownly allows latitudes from -80° to +84°</value>
   </data>
-  <data name="INVALID_MESH_NUMBER1" xml:space="preserve">
+  <data name="INVALID_MESH_NUMBER" xml:space="preserve">
     <value>The mesh number is invalid</value>
   </data>
-  <data name="INVALID_ORDINAL1" xml:space="preserve">
+  <data name="INVALID_ORDINAL" xml:space="preserve">
     <value>The ordinal number of the Grid is invalid.</value>
   </data>
-  <data name="INVALID_ZONE1" xml:space="preserve">
+  <data name="INVALID_ZONE" xml:space="preserve">
     <value>Invalid UTM Zone specified</value>
   </data>
-  <data name="MESHSIZE_MIN_VIOLATION1" xml:space="preserve">
+  <data name="MESHSIZE_MIN_VIOLATION" xml:space="preserve">
     <value>The mesh size must be at least 1 meter.</value>
   </data>
-  <data name="MESHSIZE_TOO_BIG1" xml:space="preserve">
+  <data name="MESHSIZE_TOO_BIG" xml:space="preserve">
     <value>The mesh size is to big, it doesn't divide all UTMGrids into multiple cells.</value>
   </data>
-  <data name="MINSEC_0_TO_601" xml:space="preserve">
+  <data name="MINSEC_0_TO_60" xml:space="preserve">
     <value>Minutes or seconds must have a value between 0 and 60.</value>
   </data>
-  <data name="NEGATIVE_DISTANCE1" xml:space="preserve">
+  <data name="NEGATIVE_DISTANCE" xml:space="preserve">
     <value>Distance cannot be negative.</value>
   </data>
-  <data name="NO_NORTH_NEIGHBOR1" xml:space="preserve">
+  <data name="NO_NORTH_NEIGHBOR" xml:space="preserve">
     <value>The grid is in the most northern band, there is no northern neighbor.</value>
   </data>
-  <data name="NO_SOUTH_NEIGHBOR1" xml:space="preserve">
+  <data name="NO_SOUTH_NEIGHBOR" xml:space="preserve">
     <value>The grid is in the most southern band, there is no southern neighbor.</value>
   </data>
-  <data name="NO_UNIQUE_NORTH_NEIGHBOR1" xml:space="preserve">
+  <data name="NO_UNIQUE_NORTH_NEIGHBOR" xml:space="preserve">
     <value>The UTM grid has no unique northern neighbor (exceptionoal grids in northern hemisphere)</value>
   </data>
-  <data name="NO_UNIQUE_SOUTH_NEIGHBOR1" xml:space="preserve">
+  <data name="NO_UNIQUE_SOUTH_NEIGHBOR" xml:space="preserve">
     <value>The UTM grid has no unique southern neighbor (exceptionoal grids in northern hemisphere)</value>
   </data>
-  <data name="NO_UTM_COORDINATE1" xml:space="preserve">
+  <data name="NO_UTM_COORDINATE" xml:space="preserve">
     <value>The coordinate must be an _UtmCoordinate.</value>
   </data>
-  <data name="POINT_NOT_OWNED1" xml:space="preserve">
+  <data name="POINT_NOT_OWNED" xml:space="preserve">
     <value>The euclidian coordinate does not belong to this projection.</value>
   </data>
-  <data name="POINT_NOT_SAME_PROJECTION1" xml:space="preserve">
+  <data name="POINT_NOT_SAME_PROJECTION" xml:space="preserve">
     <value>The euclidian coordinates do not belong to the same projection.</value>
   </data>
-  <data name="PROJECTION_NULL1" xml:space="preserve">
+  <data name="PROJECTION_NULL" xml:space="preserve">
     <value>The projection argument must not be null.</value>
   </data>
 </root>
