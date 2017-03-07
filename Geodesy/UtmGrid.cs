@@ -53,7 +53,6 @@ namespace Geodesy
         /// </summary>
         public static readonly Angle Ystep = 8.0;
 
-        private readonly UtmProjection _utm;
         private int _band;
         private GlobalCoordinates _llCoordinates;
         private double _mapHeight;
@@ -67,7 +66,7 @@ namespace Geodesy
                 throw new ArgumentNullException(Resources.PROJECTION_NULL);
 
             // Assign default values
-            _utm = projection;
+            Projection = projection;
             _origin = null;
             _mapHeight = 0.0;
             _mapWidth = 0.0;
@@ -165,10 +164,7 @@ namespace Geodesy
         /// <summary>
         ///     The projection this grid belongs to
         /// </summary>
-        public UtmProjection Projection
-        {
-            get { return _utm; }
-        }
+        public UtmProjection Projection { get; }
 
         /// <summary>
         ///     The UTM coordinates of the left corner of the wider latitude of the zone
@@ -287,15 +283,15 @@ namespace Geodesy
 
             if (IsNorthern)
             {
-                _origin = (UtmCoordinate) _utm.ToEuclidian(LowerLeftCorner);
-                other = (UtmCoordinate) _utm.ToEuclidian(UpperLeftCorner);
-                right = (UtmCoordinate) _utm.ToEuclidian(LowerRightCorner);
+                _origin = (UtmCoordinate) Projection.ToEuclidian(LowerLeftCorner);
+                other = (UtmCoordinate) Projection.ToEuclidian(UpperLeftCorner);
+                right = (UtmCoordinate) Projection.ToEuclidian(LowerRightCorner);
             }
             else
             {
-                _origin = (UtmCoordinate) _utm.ToEuclidian(UpperLeftCorner);
-                other = (UtmCoordinate) _utm.ToEuclidian(LowerLeftCorner);
-                right = (UtmCoordinate) _utm.ToEuclidian(UpperRightCorner);
+                _origin = (UtmCoordinate) Projection.ToEuclidian(UpperLeftCorner);
+                other = (UtmCoordinate) Projection.ToEuclidian(LowerLeftCorner);
+                right = (UtmCoordinate) Projection.ToEuclidian(UpperRightCorner);
             }
             _mapHeight = Math.Abs(_origin.Y - other.Y);
             _mapWidth = Math.Abs(_origin.X - right.X);
@@ -323,7 +319,7 @@ namespace Geodesy
         {
             // Intial position of the grid
             _llCoordinates = new GlobalCoordinates(
-                _band*Ystep + _utm.MinLatitude,
+                _band*Ystep + Projection.MinLatitude,
                 (_zone - 1)*Xstep + MercatorProjection.MinLongitude);
 
             if (_band == MaxBand)
@@ -525,7 +521,7 @@ namespace Geodesy
                     newZone = MaxZone;
                 if (_band == MaxBand && (newZone == 32 || newZone == 34 || newZone == 36))
                     newZone--;
-                return new UtmGrid(_utm, newZone, _band);
+                return new UtmGrid(Projection, newZone, _band);
             }
         }
 
@@ -541,7 +537,7 @@ namespace Geodesy
                     newZone = MinZone;
                 if (_band == MaxBand && (newZone == 32 || newZone == 34 || newZone == 36))
                     newZone++;
-                return new UtmGrid(_utm, newZone, _band);
+                return new UtmGrid(Projection, newZone, _band);
             }
         }
 
@@ -559,7 +555,7 @@ namespace Geodesy
                 var newBand = _band + 1;
                 if (newBand > MaxBand)
                     throw new GeodesyException(Resources.NO_NORTH_NEIGHBOR);
-                return new UtmGrid(_utm, _zone, newBand);
+                return new UtmGrid(Projection, _zone, newBand);
             }
         }
 
@@ -576,7 +572,7 @@ namespace Geodesy
                 var newBand = _band - 1;
                 if (newBand < MinBand)
                     throw new GeodesyException(Resources.NO_SOUTH_NEIGHBOR);
-                return new UtmGrid(_utm, _zone, newBand);
+                return new UtmGrid(Projection, _zone, newBand);
             }
         }
 

@@ -9,6 +9,11 @@ namespace Geodesy
     /// <summary>
     ///     The exception being used for internal errors in the Geodesy library
     /// </summary>
+#if !PCL
+#if !CORE
+    [Serializable]
+#endif
+#endif
     public class GeodesyException : Exception
     {
         private GeodesyException()

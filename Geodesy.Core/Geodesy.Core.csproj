@@ -10,6 +10,7 @@
     <Version>1.1.0</Version>
     <Authors>Jürgen Pfeifer</Authors>
     <Copyright>Copyright © 2014-2017 Jürgen Pfeifer. All rights reserved.</Copyright>
+    <DefineConstants>TRACE;CORE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Geodesy\Angle.cs" Link="Angle.cs" />
