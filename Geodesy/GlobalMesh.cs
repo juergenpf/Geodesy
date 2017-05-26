@@ -34,7 +34,7 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh size is specified</exception>
         public GlobalMesh(int meshSizeinMeters = 1000)
         {
-            if (meshSizeinMeters <= MinimumMeshSize)
+            if (meshSizeinMeters < MinimumMeshSize)
                 throw new ArgumentOutOfRangeException(Resources.MESHSIZE_MIN_VIOLATION);
             
             MeshSize = meshSizeinMeters;
