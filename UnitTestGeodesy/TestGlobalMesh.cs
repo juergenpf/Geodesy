@@ -1,6 +1,8 @@
 ﻿/* See License.md in the solution root for license information.
  * File: TestGlobalMesh.cs
 */
+
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Geodesy;
 
@@ -50,6 +52,35 @@ namespace UnitTestGeodesy
             Assert.AreEqual(n2.Count,16);
             var n3 = theMesh.Neighborhood(nr, 3);
             Assert.AreEqual(n3.Count,24);
+        }
+
+        [TestMethod]
+        public void TestMeshSizeInMetersValidation()
+        {
+            try
+            {
+                new GlobalMesh(0);
+            }
+            catch (ArgumentOutOfRangeException)
+            { }
+
+            try
+            {
+                new GlobalMesh(1);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                new GlobalMesh(2);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Assert.Fail();
+            }
         }
     }
 }
