@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Geodesy.Core\Geodesy.Core.csproj" />
+    <ProjectReference Include="..\Geodesy\Geodesy.csproj" />
   </ItemGroup>
 
 </Project>
