@@ -2,23 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Geodesy</id>
-        <version>1.1.0</version>
+        <version>2.0.0</version>
         <title>Simple geodesic algorithms</title>
         <authors>Jürgen Pfeifer</authors>
         <owners>Jürgen Pfeifer</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <summary>A library with basic geodesic algorithms to compute distances, directions and coordinate transformations.</summary>
         <description>
-This is a C# class library containing some very basic geodesic algorithms.
-It is based on work by Mike Gavaghan and has been enhanced by me to cover 
-also some variants of Mercators projection. I cover Spherical, Elliptical 
-and UTM projections. Based on UTM I implement an algorithm to put a finer 
-grain mesh over the mapped area of the earth to be able to classify a 
-geo-location by a discrete globally unique mesh number. This is done in 
-order to facilitacte the application of some discrete algorithms -
-especially in the area of machine learning - on geo locations.
+          A library with basic geodesic algorithms to compute distances, directions and coordinate transformations.
         </description>
-        <copyright>(C) 2014-2017 Jürgen Pfeifer</copyright>
+        <copyright>(C) 2014-2018 Jürgen Pfeifer</copyright>
         <projectUrl>https://github.com/juergenpf/Geodesy</projectUrl>
         <licenseUrl>https://github.com/juergenpf/Geodesy/blob/master/License.md</licenseUrl>
         <tags>Geodesy Maps Geocaching Machinelearning ML</tags>
@@ -29,7 +22,7 @@ especially in the area of machine learning - on geo locations.
     <files>
         <file src="NuGetBuild\Release\lib\net45\Geodesy.dll" target="lib\net45\Geodesy.dll" />
         <file src="NuGetBuild\Release\lib\net45\Geodesy.xml" target="lib\net45\Geodesy.xml" />
-        <file src="NuGetBuild\Release\lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.dll" target="lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.dll" />
-        <file src="NuGetBuild\Release\lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.xml" target="lib\portable-net4+sl4+wp7+win8\Geodesy.PCL.xml" />
+        <file src="NuGetBuild\Release\lib\netcoreapp2.0\Geodesy.Core.dll" target="lib\netcoreapp2.0\Geodesy.Core.dll" />
+        <file src="NuGetBuild\Release\lib\netcoreapp2.0\Geodesy.Core.xml" target="lib\netcoreapp2.0\Geodesy.Core.xml" />
     </files>
 </package>

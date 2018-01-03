@@ -112,7 +112,9 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>PUSHD "$(SolutionDir)"
-  CALL .\Scripts\copynuget  "$(ConfigurationName)" "$(TargetDir)" "$(TargetName)" "$(TargetExt)" "portable-net4+sl4+wp7+win8"
+  
+CALL .\Scripts\copynuget  "$(ConfigurationName)" "$(TargetDir)" "$(TargetName)" "$(TargetExt)" "portable-net4+sl4+wp7+win8"
+
 POPD
 </PostBuildEvent>
   </PropertyGroup>

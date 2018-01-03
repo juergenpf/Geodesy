@@ -10,29 +10,21 @@ using System.Resources;
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: ComVisible(false)]
 
-#if !PCL
-#if DNX
-[assembly: AssemblyTitle("Geodesy.Core")]
-#else
 [assembly: AssemblyTitle("Geodesy")]
-#endif
-#else
-[assembly: AssemblyTitle("Geodesy.PCL")]
-#endif
-[assembly: AssemblyDescription("Class library with some geodesic algorithms.")]
+[assembly: AssemblyDescription("A library with basic geodesic algorithms to compute distances, directions and coordinate transformations.")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug Version")]
 #else
 [assembly: AssemblyConfiguration("Release Version")]
 #endif
-[assembly: AssemblyCompany("Pfeifer's Software")]
+[assembly: AssemblyCompany("Pfeifers-Software")]
 [assembly: AssemblyProduct("Geodesic")]
-[assembly: AssemblyCopyright("Copyright © 2014-2017 Jürgen Pfeifer. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2014-2018 Jürgen Pfeifer. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: NeutralResourcesLanguageAttribute("en")]
