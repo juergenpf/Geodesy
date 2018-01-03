@@ -238,3 +238,5 @@ $RECYCLE.BIN/
 *.lnk
 
 .vs/restore.dg
+/.vs/Geodesy/v15/Server/sqlite3/db.lock
+/.vs/Geodesy/v15/Server/sqlite3

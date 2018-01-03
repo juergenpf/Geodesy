@@ -63,12 +63,6 @@
     <Compile Include="TestUtmGrid.cs" />
     <Compile Include="TestGlobalMesh.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Geodesy\Geodesy.csproj">
-      <Project>{5a302b4d-27b5-4ab4-931e-d7d58e50d6f0}</Project>
-      <Name>Geodesy</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
