@@ -34,7 +34,7 @@ namespace Geodesy
         public GlobalMesh(int meshSizeinMeters = 1000)
         {
             if (meshSizeinMeters < MinimumMeshSize)
-                throw new ArgumentOutOfRangeException(Message.MESHSIZE_MIN_VIOLATION);
+                throw new ArgumentOutOfRangeException(Properties.Resource.MESHSIZE_MIN_VIOLATION);
             
             MeshSize = meshSizeinMeters;
             var dblSquareSize = (double) meshSizeinMeters;
@@ -56,7 +56,7 @@ namespace Geodesy
             _maxVerticalMeshes =
                 (long) Math.Round((maxHeight + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
             if (maxHorizontalMeshes < 2 || _maxVerticalMeshes < 2)
-                throw new ArgumentOutOfRangeException(Message.MESHSIZE_TOO_BIG);
+                throw new ArgumentOutOfRangeException(Properties.Resource.MESHSIZE_TOO_BIG);
             Count = maxHorizontalMeshes*_maxVerticalMeshes;
         }
 
@@ -133,7 +133,7 @@ namespace Geodesy
         private void ValidateMeshNumber(long meshNumber)
         {
             if (meshNumber < 0 || meshNumber >= GlobalCount)
-                throw new ArgumentOutOfRangeException(Message.INVALID_MESH_NUMBER);
+                throw new ArgumentOutOfRangeException(Properties.Resource.INVALID_MESH_NUMBER);
         }
 
         private void MeshOrigin(long meshNumber, out long relX, out long relY)
@@ -247,7 +247,7 @@ namespace Geodesy
             const int maxDistance = 3;
 
             if (distance < 0 || distance > maxDistance)
-                throw new ArgumentOutOfRangeException(Message.INVALID_DISTANCE);
+                throw new ArgumentOutOfRangeException(Properties.Resource.INVALID_DISTANCE);
 
             if (distance == 0)
             {

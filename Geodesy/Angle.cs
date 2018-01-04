@@ -126,7 +126,7 @@ namespace Geodesy
         private static void ValidateMinutesOrSeconds(double timeval)
         {
             if (timeval < 0.0 || timeval >= 60.0)
-                throw new ArgumentOutOfRangeException(Message.MINSEC_0_TO_60);
+                throw new ArgumentOutOfRangeException(Properties.Resource.MINSEC_0_TO_60);
         }
 
         /// <summary>

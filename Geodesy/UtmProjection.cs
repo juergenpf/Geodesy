@@ -112,7 +112,7 @@ namespace Geodesy
         {
             var point = xy as UtmCoordinate;
             if (null == point)
-                throw new ArgumentException(Message.NO_UTM_COORDINATE);
+                throw new ArgumentException(Properties.Resource.NO_UTM_COORDINATE);
             var hemi = point.Grid.IsNorthern ? 1 : -1;
 
             var northingOffset = point.Grid.IsNorthern ? 0.0 : 10000000.0;

@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Geodesy</AssemblyName>
     <RootNamespace>Geodesy</RootNamespace>
-    <Version>2.0.4</Version>
+    <Version>2.0.5</Version>
     <Authors>juergenpf</Authors>
     <Company>Pfeifers-Software</Company>
     <Product>Geodesic</Product>
@@ -51,7 +51,7 @@ machine learning - on geo locations.</Description>
     <Compile Include="..\Geodesy\GlobalMesh.cs" Link="GlobalMesh.cs" />
     <Compile Include="..\Geodesy\GlobalPosition.cs" Link="GlobalPosition.cs" />
     <Compile Include="..\Geodesy\MercatorProjection.cs" Link="MercatorProjection.cs" />
-    <Compile Include="..\Geodesy\Message.Designer.cs" Link="Message.Designer.cs" />
+    <Compile Include="..\Geodesy\Properties\Resource.Designer.cs" Link="Properties\Resource.Designer.cs" />
     <Compile Include="..\Geodesy\SphericalMercatorProjection.cs" Link="SphericalMercatorProjection.cs" />
     <Compile Include="..\Geodesy\UtmCoordinate.cs" Link="UtmCoordinate.cs" />
     <Compile Include="..\Geodesy\UtmGrid.cs" Link="UtmGrid.cs" />
@@ -59,7 +59,7 @@ machine learning - on geo locations.</Description>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\Geodesy\Message.resx" Link="Message.resx">
+    <EmbeddedResource Include="..\Geodesy\Properties\Resource.resx" Link="Properties\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>

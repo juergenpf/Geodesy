@@ -156,7 +156,7 @@ namespace Geodesy
             mercatorRhumbDistance = 0;
             bearing = 0;
             if (numberOfPoints < 2)
-                throw new ArgumentOutOfRangeException(Message.GEODETIC_PATH_MIN_2);
+                throw new ArgumentOutOfRangeException(Properties.Resource.GEODETIC_PATH_MIN_2);
             if (start == end || numberOfPoints == 2)
                 return new[] {start, end};
 
