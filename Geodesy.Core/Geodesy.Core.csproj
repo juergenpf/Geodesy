@@ -28,7 +28,7 @@ especially in the area of machine learning - on geo locations.</PackageReleaseNo
     <AssemblyName>Geodesy</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\Geodesy.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\Geodesy.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Geodesy\Angle.cs" Link="Angle.cs" />
