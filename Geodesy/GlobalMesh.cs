@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using Geodesy.Properties;
 
 namespace Geodesy
 {
@@ -35,7 +34,7 @@ namespace Geodesy
         public GlobalMesh(int meshSizeinMeters = 1000)
         {
             if (meshSizeinMeters < MinimumMeshSize)
-                throw new ArgumentOutOfRangeException(Resources.MESHSIZE_MIN_VIOLATION);
+                throw new ArgumentOutOfRangeException(Message.MESHSIZE_MIN_VIOLATION);
             
             MeshSize = meshSizeinMeters;
             var dblSquareSize = (double) meshSizeinMeters;
@@ -57,7 +56,7 @@ namespace Geodesy
             _maxVerticalMeshes =
                 (long) Math.Round((maxHeight + dblSquareSize - 1.0)/dblSquareSize, MidpointRounding.AwayFromZero);
             if (maxHorizontalMeshes < 2 || _maxVerticalMeshes < 2)
-                throw new ArgumentOutOfRangeException(Resources.MESHSIZE_TOO_BIG);
+                throw new ArgumentOutOfRangeException(Message.MESHSIZE_TOO_BIG);
             Count = maxHorizontalMeshes*_maxVerticalMeshes;
         }
 
@@ -134,7 +133,7 @@ namespace Geodesy
         private void ValidateMeshNumber(long meshNumber)
         {
             if (meshNumber < 0 || meshNumber >= GlobalCount)
-                throw new ArgumentOutOfRangeException(Resources.INVALID_MESH_NUMBER);
+                throw new ArgumentOutOfRangeException(Message.INVALID_MESH_NUMBER);
         }
 
         private void MeshOrigin(long meshNumber, out long relX, out long relY)
@@ -156,9 +155,8 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate CenterOf(long meshNumber)
         {
-            long relX, relY;
             var theGrid = Grid(meshNumber);
-            MeshOrigin(meshNumber, out relX, out relY);
+            MeshOrigin(meshNumber, out long relX, out long relY);
             double nx = (double)relX + 0.5*(double)MeshSize;
             double ny = (double)relY + 0.5*(double)MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + nx, theGrid.Origin.Y + ny);
@@ -176,9 +174,8 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate LowerLeft(long meshNumber)
         {
-            long relX, relY;
             var theGrid = Grid(meshNumber);
-            MeshOrigin(meshNumber, out relX, out relY);
+            MeshOrigin(meshNumber, out long relX, out long relY);
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
 
@@ -194,9 +191,8 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate LowerRight(long meshNumber)
         {
-            long relX, relY;
             var theGrid = Grid(meshNumber);
-            MeshOrigin(meshNumber, out relX, out relY);
+            MeshOrigin(meshNumber, out long relX, out long relY);
             relX += MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
@@ -213,9 +209,8 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate UpperLeft(long meshNumber)
         {
-            long relX, relY;
             var theGrid = Grid(meshNumber);
-            MeshOrigin(meshNumber, out relX, out relY);
+            MeshOrigin(meshNumber, out long relX, out long relY);
             relY += MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
         }
@@ -232,9 +227,8 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
         public UtmCoordinate UpperRight(long meshNumber)
         {
-            long relX, relY;
             var theGrid = Grid(meshNumber);
-            MeshOrigin(meshNumber, out relX, out relY);
+            MeshOrigin(meshNumber, out long relX, out long relY);
             relX += MeshSize;
             relY += MeshSize;
             return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
@@ -253,7 +247,7 @@ namespace Geodesy
             const int maxDistance = 3;
 
             if (distance < 0 || distance > maxDistance)
-                throw new ArgumentOutOfRangeException(Resources.INVALID_DISTANCE);
+                throw new ArgumentOutOfRangeException(Message.INVALID_DISTANCE);
 
             if (distance == 0)
             {

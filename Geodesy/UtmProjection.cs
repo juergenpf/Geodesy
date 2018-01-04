@@ -3,7 +3,6 @@
 */
 
 using System;
-using Geodesy.Properties;
 
 namespace Geodesy
 {
@@ -103,9 +102,7 @@ namespace Geodesy
         /// <returns>The euclidian coordinates of that point</returns>
         public override EuclidianCoordinate ToEuclidian(GlobalCoordinates coordinates)
         {
-            double scaleFactor;
-            double meridianConvergence;
-            return ToUtmCoordinates(coordinates, out scaleFactor, out meridianConvergence);
+            return ToUtmCoordinates(coordinates, out double scaleFactor, out double meridianConvergence);
         }
 
         internal GlobalCoordinates FromEuclidian(
@@ -115,7 +112,7 @@ namespace Geodesy
         {
             var point = xy as UtmCoordinate;
             if (null == point)
-                throw new ArgumentException(Resources.NO_UTM_COORDINATE);
+                throw new ArgumentException(Message.NO_UTM_COORDINATE);
             var hemi = point.Grid.IsNorthern ? 1 : -1;
 
             var northingOffset = point.Grid.IsNorthern ? 0.0 : 10000000.0;
@@ -177,9 +174,7 @@ namespace Geodesy
         /// <returns>The latitude/longitude coordinates of that point</returns>
         public override GlobalCoordinates FromEuclidian(EuclidianCoordinate xy)
         {
-            double scaleFactor;
-            double meridianConvergence;
-            return FromEuclidian(xy, out scaleFactor, out meridianConvergence);
+            return FromEuclidian(xy, out double scaleFactor, out double meridianConvergence);
         }
 
         /// <summary>
@@ -189,9 +184,7 @@ namespace Geodesy
         /// <returns>The scale factor</returns>
         public override double ScaleFactor(GlobalCoordinates point)
         {
-            double scaleFactor;
-            double meridianConvergence;
-            var c = ToUtmCoordinates(point, out scaleFactor, out meridianConvergence);
+            var c = ToUtmCoordinates(point, out double scaleFactor, out double meridianConvergence);
             return scaleFactor;
         }
 
@@ -202,9 +195,7 @@ namespace Geodesy
         /// <returns>The meridian convergence</returns>
         public Angle MeridianConvergence(GlobalCoordinates point)
         {
-            double scaleFactor;
-            double meridianConvergence;
-            var c = ToUtmCoordinates(point, out scaleFactor, out meridianConvergence);
+            var c = ToUtmCoordinates(point, out double scaleFactor, out double meridianConvergence);
             return Angle.RadToDeg(meridianConvergence);
         }
 

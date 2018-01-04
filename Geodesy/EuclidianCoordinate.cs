@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using Geodesy.Extensions;
-using Geodesy.Properties;
 
 namespace Geodesy
 {
@@ -56,7 +55,7 @@ namespace Geodesy
         public EuclidianCoordinate(MercatorProjection projection, IReadOnlyList<double> xy)
         {
             if (xy.Count != 2)
-                throw new IndexOutOfRangeException(Resources.COORD_ARRAY_MUST_BE_2DIM);
+                throw new IndexOutOfRangeException(Message.COORD_ARRAY_MUST_BE_2DIM);
             Projection = projection;
             X = xy[0];
             Y = xy[1];
@@ -86,7 +85,7 @@ namespace Geodesy
         public virtual double DistanceTo(EuclidianCoordinate other)
         {
             if (!IsSameProjection(other))
-                throw new ArgumentException(Resources.POINT_NOT_SAME_PROJECTION);
+                throw new ArgumentException(Message.POINT_NOT_SAME_PROJECTION);
             return Math.Sqrt((X - other.X)*(X - other.X) + (Y - other.Y)*(Y - other.Y));
         }
 

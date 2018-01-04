@@ -12,7 +12,6 @@
 
 using System;
 using Geodesy.Extensions;
-using Geodesy.Properties;
 
 namespace Geodesy
 {
@@ -72,7 +71,7 @@ namespace Geodesy
             var sinU1 = tanU1*cosU1;
 
             if (Math.Sign(distance) < 0)
-                throw new ArgumentOutOfRangeException(Resources.NEGATIVE_DISTANCE);
+                throw new ArgumentOutOfRangeException(Message.NEGATIVE_DISTANCE);
 
             // eq. 1
             var sigma1 = Math.Atan2(tanU1, cosAlpha1);
@@ -405,7 +404,7 @@ namespace Geodesy
             int numberOfPoints = 10)
         {
             if (numberOfPoints < 2)
-                throw new ArgumentOutOfRangeException(Resources.GEODETIC_PATH_MIN_2);
+                throw new ArgumentOutOfRangeException(Message.GEODETIC_PATH_MIN_2);
             if (start == end || numberOfPoints == 2)
                 return new[] {start, end};
 

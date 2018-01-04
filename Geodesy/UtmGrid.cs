@@ -4,7 +4,6 @@
 
 using System;
 using System.Globalization;
-using Geodesy.Properties;
 
 namespace Geodesy
 {
@@ -62,11 +61,9 @@ namespace Geodesy
 
         private UtmGrid(UtmProjection projection)
         {
-            if (null == projection)
-                throw new ArgumentNullException(Resources.PROJECTION_NULL);
 
             // Assign default values
-            Projection = projection;
+            Projection = projection ?? throw new ArgumentNullException(Message.PROJECTION_NULL);
             _origin = null;
             _mapHeight = 0.0;
             _mapWidth = 0.0;
@@ -112,7 +109,7 @@ namespace Geodesy
         public UtmGrid(UtmProjection projection, int ordinal) : this(projection)
         {
             if (ordinal < 0 || ordinal >= NumberOfGrids)
-                throw new ArgumentOutOfRangeException(Resources.INVALID_ORDINAL);
+                throw new ArgumentOutOfRangeException(Message.INVALID_ORDINAL);
 
             SetZoneAndBandInConstructor(1 + ordinal/NumberOfBands, ordinal%NumberOfBands);
         }
@@ -126,7 +123,7 @@ namespace Geodesy
         public UtmGrid(UtmProjection projection, GlobalCoordinates coord) : this(projection)
         {
             if (coord.Latitude < projection.MinLatitude || coord.Latitude > projection.MaxLatitude)
-                throw new ArgumentOutOfRangeException(Resources.INVALID_LATITUDE);
+                throw new ArgumentOutOfRangeException(Message.INVALID_LATITUDE);
 
             var longitude = MercatorProjection.NormalizeLongitude(coord.Longitude).Degrees + 180.0;
             var latitude = projection.NormalizeLatitude(coord.Latitude);
@@ -216,7 +213,7 @@ namespace Geodesy
             set
             {
                 if (value < MinZone || value > MaxZone)
-                    throw new ArgumentOutOfRangeException(Resources.INVALID_ZONE);
+                    throw new ArgumentOutOfRangeException(Message.INVALID_ZONE);
                 _zone = value;
                 ComputeSizes();
                 if (_origin != null)
@@ -234,7 +231,7 @@ namespace Geodesy
             private set
             {
                 if (value < MinBand || value > MaxBand)
-                    throw new ArgumentOutOfRangeException(Resources.INVALID_BAND);
+                    throw new ArgumentOutOfRangeException(Message.INVALID_BAND);
                 _band = value;
                 ComputeSizes();
                 if (_origin != null)
@@ -353,13 +350,13 @@ namespace Geodesy
         private void SetZoneAndBandInConstructor(int zone, int band, bool noGridException = false)
         {
             if (!noGridException && (band == MaxBand) && (zone == 32 || zone == 34 || zone == 36))
-                throw new ArgumentOutOfRangeException(Resources.GRID_EXCEPTION);
+                throw new ArgumentOutOfRangeException(Message.GRID_EXCEPTION);
 
             if (zone < MinZone || zone > MaxZone)
-                throw new ArgumentOutOfRangeException(Resources.INVALID_ZONE);
+                throw new ArgumentOutOfRangeException(Message.INVALID_ZONE);
             _zone = zone;
             if (band < MinBand || band > MaxBand)
-                throw new ArgumentOutOfRangeException(Resources.INVALID_BAND);
+                throw new ArgumentOutOfRangeException(Message.INVALID_BAND);
             _band = band;
             ComputeSizes();
         }
@@ -551,10 +548,10 @@ namespace Geodesy
             {
                 if ((Band == 'U' && _zone == 31) || 
                     ((Band == 'W') && (_zone == 32 || _zone == 34 || _zone == 36)))
-                    throw new GeodesyException(Resources.NO_UNIQUE_NORTH_NEIGHBOR);
+                    throw new GeodesyException(Message.NO_UNIQUE_NORTH_NEIGHBOR);
                 var newBand = _band + 1;
                 if (newBand > MaxBand)
-                    throw new GeodesyException(Resources.NO_NORTH_NEIGHBOR);
+                    throw new GeodesyException(Message.NO_NORTH_NEIGHBOR);
                 return new UtmGrid(Projection, _zone, newBand);
             }
         }
@@ -568,10 +565,10 @@ namespace Geodesy
             get
             {
                 if ((Band=='W' && _zone==31) || ((Band=='X') && _zone>=31 && _zone <=37))
-                    throw new GeodesyException(Resources.NO_UNIQUE_SOUTH_NEIGHBOR);
+                    throw new GeodesyException(Message.NO_UNIQUE_SOUTH_NEIGHBOR);
                 var newBand = _band - 1;
                 if (newBand < MinBand)
-                    throw new GeodesyException(Resources.NO_SOUTH_NEIGHBOR);
+                    throw new GeodesyException(Message.NO_SOUTH_NEIGHBOR);
                 return new UtmGrid(Projection, _zone, newBand);
             }
         }

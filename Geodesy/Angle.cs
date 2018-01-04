@@ -13,7 +13,6 @@
 using System;
 using System.Globalization;
 using Geodesy.Extensions;
-using Geodesy.Properties;
 
 namespace Geodesy
 {
@@ -127,7 +126,7 @@ namespace Geodesy
         private static void ValidateMinutesOrSeconds(double timeval)
         {
             if (timeval < 0.0 || timeval >= 60.0)
-                throw new ArgumentOutOfRangeException(Resources.MINSEC_0_TO_60);
+                throw new ArgumentOutOfRangeException(Message.MINSEC_0_TO_60);
         }
 
         /// <summary>

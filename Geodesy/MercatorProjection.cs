@@ -3,7 +3,6 @@
 */
 
 using System;
-using Geodesy.Properties;
 
 namespace Geodesy
 {
@@ -144,7 +143,7 @@ namespace Geodesy
             if (point1 == null || point2 == null)
                 throw new ArgumentNullException();
             if (!(point1.Projection.Equals(this) && point2.Projection.Equals(this)))
-                throw new ArgumentException(Resources.POINT_NOT_OWNED);
+                throw new ArgumentException(Message.POINT_NOT_OWNED);
             return point1.DistanceTo(point2);
         }
 

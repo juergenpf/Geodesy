@@ -59,10 +59,10 @@
     <Compile Include="GlobalMesh.cs" />
     <Compile Include="GlobalPosition.cs" />
     <Compile Include="MercatorProjection.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Message.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Message.resx</DependentUpon>
     </Compile>
     <Compile Include="SphericalMercatorProjection.cs" />
     <Compile Include="UtmCoordinate.cs" />
@@ -70,9 +70,9 @@
     <Compile Include="UtmProjection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Message.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Message.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
