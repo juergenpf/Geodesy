@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Geodesy</AssemblyName>
     <RootNamespace>Geodesy</RootNamespace>
-    <Version>2.0.3</Version>
+    <Version>2.0.4</Version>
     <Authors>juergenpf</Authors>
     <Company>Pfeifers-Software</Company>
     <Product>Geodesic</Product>
@@ -56,6 +56,12 @@ machine learning - on geo locations.</Description>
     <Compile Include="..\Geodesy\UtmCoordinate.cs" Link="UtmCoordinate.cs" />
     <Compile Include="..\Geodesy\UtmGrid.cs" Link="UtmGrid.cs" />
     <Compile Include="..\Geodesy\UtmProjection.cs" Link="UtmProjection.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Geodesy\Message.resx" Link="Message.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
