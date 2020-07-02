@@ -1,4 +1,4 @@
-Copyright (c) 2014-2018 Juergen Pfeifer. All rights reserved. 
+Copyright (c) 2014-2020 Juergen Pfeifer. All rights reserved. 
 
 Apache 2.0 License 
 
