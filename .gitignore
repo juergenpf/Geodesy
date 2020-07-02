@@ -83,6 +83,9 @@ $tf/
 # Guidance Automation Toolkit
 *.gpState
 
+# Visual Studio Files
+.vs/
+
 # ReSharper is a .NET coding add-in
 _ReSharper*/
 *.[Rr]e[Ss]harper
@@ -237,5 +240,3 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-.vs/restore.dg
-/.vs/Geodesy/v15/Server/sqlite3
