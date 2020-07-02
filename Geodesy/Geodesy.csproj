@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48</TargetFrameworks>
     <AssemblyName>Geodesy</AssemblyName>
-    <Version>3.0.0</Version>
-    <Authors>juergenpf</Authors>
+    <Version>3.0.1</Version>
+    <Authors>Juergen Pfeifer</Authors>
     <Company>Pfeifers-Software</Company>
     <Product>Geodesic</Product>
     <Description>This is a C# class library containing some very basic geodesic algorithms.
@@ -18,7 +18,7 @@ over the mapped area of the earth to be able to classify a geo-location by a
 discrete globally unique mesh number. This is done in order to facilitacte the 
 application of some discrete algorithms - especially in the area of 
 machine learning - on geo locations.</Description>
-    <Copyright>Copyright © 2014-2020 Jürgen Pfeifer. All rights reserved.</Copyright>
+    <Copyright>Copyright © 2014-2020 Juergen Pfeifer. All rights reserved.</Copyright>
     <PackageLicenseFile>License.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/juergenpf/Geodesy</PackageProjectUrl>
     <RepositoryUrl>https://github.com/juergenpf/Geodesy.git</RepositoryUrl>
