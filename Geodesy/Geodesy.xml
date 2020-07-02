@@ -1,0 +1,1856 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Geodesy</name>
+    </assembly>
+    <members>
+        <member name="T:Geodesy.Angle">
+            <summary>
+                Encapsulation of an Angle.  Angles are constructed and serialized in
+                degrees for human convenience, but a conversion to radians is provided
+                for mathematical calculations.
+                Angle comparisons are performed in absolute terms - no "wrapping" occurs.
+                In other words, 360 degress != 0 degrees.
+            </summary>
+        </member>
+        <member name="F:Geodesy.Angle.PiOver180">
+            <summary>Degrees/Radians conversion constant.</summary>
+        </member>
+        <member name="F:Geodesy.Angle.Zero">
+            <summary>Zero Angle</summary>
+        </member>
+        <member name="F:Geodesy.Angle.Angle180">
+            <summary>180 degree Angle</summary>
+        </member>
+        <member name="P:Geodesy.Angle.Degrees">
+            <summary>
+                Get/set angle measured in degrees.
+            </summary>
+        </member>
+        <member name="M:Geodesy.Angle.#ctor(System.Double)">
+            <summary>
+                Construct a new Angle from a degree measurement.
+            </summary>
+            <param name="degrees">angle measurement</param>
+        </member>
+        <member name="M:Geodesy.Angle.#ctor(System.Int32,System.Double)">
+            <summary>
+                Construct a new Angle from degrees and minutes.
+            </summary>
+            <param name="degrees">degree portion of angle measurement</param>
+            <param name="minutes">minutes portion of angle measurement (0 &lt;= minutes &lt; 60)</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if the minutes are not in range</exception>
+        </member>
+        <member name="M:Geodesy.Angle.#ctor(System.Int32,System.Int32,System.Double)">
+            <summary>
+                Construct a new Angle from degrees, minutes, and seconds.
+            </summary>
+            <param name="degrees">degree portion of angle measurement</param>
+            <param name="minutes">minutes portion of angle measurement (0 &lt;= minutes &lt; 60)</param>
+            <param name="seconds">seconds portion of angle measurement (0 &lt;= seconds &lt; 60)</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if the minutes or seconds are not in range</exception>
+        </member>
+        <member name="P:Geodesy.Angle.Radians">
+            <summary>
+                Get/set angle measured in radians.
+            </summary>
+        </member>
+        <member name="M:Geodesy.Angle.CompareTo(Geodesy.Angle)">
+            <summary>
+                Compare this angle to another angle.
+            </summary>
+            <param name="other">other angle to compare to.</param>
+            <returns>result according to IComparable contract/></returns>
+        </member>
+        <member name="M:Geodesy.Angle.DegToRad(System.Double)">
+            <summary>
+                Convert degrees to radians
+            </summary>
+            <param name="deg">Degrees</param>
+            <returns>Radians</returns>
+        </member>
+        <member name="M:Geodesy.Angle.RadToDeg(System.Double)">
+            <summary>
+                Convert radians to degrees
+            </summary>
+            <param name="rad">Radians</param>
+            <returns>Degrees</returns>
+        </member>
+        <member name="M:Geodesy.Angle.Abs">
+            <summary>
+                Get the absolute value of the angle (in degrees).
+            </summary>
+        </member>
+        <member name="M:Geodesy.Angle.GetHashCode">
+            <summary>
+                Calculate a hash code for the angle.
+            </summary>
+            <returns>hash code</returns>
+        </member>
+        <member name="M:Geodesy.Angle.Equals(Geodesy.Angle)">
+            <summary>
+                Compare this Angle to another Angle for equality.  Angle comparisons
+                are performed in absolute terms - no "wrapping" occurs.  In other
+                words, 360 degress != 0 degrees.
+            </summary>
+            <param name="other">other Angle to compare to</param>
+            <returns>'true' if angles are equal</returns>
+        </member>
+        <member name="M:Geodesy.Angle.Equals(System.Object)">
+            <summary>
+                Compare this Angle to another Angle for equality.  Angle comparisons
+                are performed in absolute terms - no "wrapping" occurs.  In other
+                words, 360 degress != 0 degrees.
+            </summary>
+            <param name="obj">object to compare to</param>
+            <returns>'true' if angles are equal</returns>
+        </member>
+        <member name="M:Geodesy.Angle.ToString">
+            <summary>
+                Get coordinates as a string. This string is always culture invariant.
+            </summary>
+            <returns>The angle as a culture invariant string</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_Addition(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Add two angles
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>The sum of the angles</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_Subtraction(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Subtract two angles
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>The difference of the angles</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_Multiply(System.Double,Geodesy.Angle)">
+            <summary>
+                Multiply an angle with a number
+            </summary>
+            <param name="lhs">The left operand number</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>The angle multiplied by the number</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_Multiply(Geodesy.Angle,System.Double)">
+            <summary>
+                Multiply an angle with a number
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand number</param>
+            <returns>The angle multiplied by the number</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_GreaterThan(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Test whether an angle is greater than another one
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>True if the left operand angle is greater than the right operand angle</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_GreaterThanOrEqual(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Test whether an angle is greater than or equal another one
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>True if the left operand angle is greater than or equal the right operand angle</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_LessThan(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Test whether an angle is less than another one
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>True if the left operand angle is less than the right operand angle</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_LessThanOrEqual(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Test whether an angle is less than or equal another one
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>True if the left operand angle is less than or equal the right operand angle</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_Equality(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Test whether an angle is equal to another one
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>True if the left operand angle is equal to the right operand angle</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_Inequality(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Test whether an angle is not equal to another one
+            </summary>
+            <param name="lhs">The left operand angle</param>
+            <param name="rhs">The right operand angle</param>
+            <returns>True if the left operand angle is not equal to the right operand angle</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_UnaryNegation(Geodesy.Angle)">
+            <summary>
+                Negate the value of an angle
+            </summary>
+            <param name="unitary">The angle</param>
+            <returns>The negative value of the angle</returns>
+        </member>
+        <member name="M:Geodesy.Angle.op_Implicit(System.Double)~Geodesy.Angle">
+            <summary>
+                Imlplicity cast a double as an Angle measured in degrees.
+            </summary>
+            <param name="degrees">angle in degrees</param>
+            <returns>double cast as an Angle</returns>
+        </member>
+        <member name="T:Geodesy.Ellipsoid">
+            <summary>
+                Encapsulation of an ellipsoid, and declaration of common reference ellipsoids.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Ellipsoid.SemiMajorAxis">
+            <summary>Get semi major axis (meters).</summary>
+        </member>
+        <member name="P:Geodesy.Ellipsoid.Flattening">
+            <summary>Get flattening.</summary>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.#ctor(System.Double,System.Double)">
+            <summary>
+                Construct a new Ellipsoid.  This is private to ensure the values are
+                consistent (flattening = 1.0 / inverseFlattening).  Use the methods
+                FromAAndInverseF() and FromAAndF() to create new instances.
+            </summary>
+            <param name="semiMajor"></param>
+            <param name="flattening"></param>
+        </member>
+        <member name="P:Geodesy.Ellipsoid.SemiMinorAxis">
+            <summary>Get semi minor axis (meters).</summary>
+        </member>
+        <member name="P:Geodesy.Ellipsoid.InverseFlattening">
+            <summary>Get inverse flattening.</summary>
+        </member>
+        <member name="P:Geodesy.Ellipsoid.Ratio">
+            <summary>
+                Get axis ratio
+            </summary>
+        </member>
+        <member name="P:Geodesy.Ellipsoid.Eccentricity">
+            <summary>
+                The eccentricity of the Ellipsoid
+            </summary>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.FromAAndInverseF(System.Double,System.Double)">
+            <summary>
+                Build an Ellipsoid from the semi major axis measurement and the inverse flattening.
+            </summary>
+            <param name="semiMajor">Semi major axis (meters)</param>
+            <param name="inverseFlattening">The inverse flattening</param>
+            <returns>The Ellipsoid</returns>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.FromAAndF(System.Double,System.Double)">
+            <summary>
+                Build an Ellipsoid from the semi major axis measurement and the flattening.
+            </summary>
+            <param name="semiMajor">Semi major axis (meters)</param>
+            <param name="flattening">The flattening</param>
+            <returns>The Ellipsoid</returns>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.Equals(Geodesy.Ellipsoid)">
+            <summary>
+                Test whether or not another ellipsoid is equal to the current one.
+            </summary>
+            <param name="other">The other ellipsoid</param>
+            <returns>True, if the other object is an Ellipsoid with the same geometry</returns>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.Equals(System.Object)">
+            <summary>
+                Test whether or not another object is also an Ellipsoid, and
+                if yes, whether it's equal to the current one.
+            </summary>
+            <param name="obj">The other object</param>
+            <returns>True, if the other object is an Ellipsoid with the same geometry</returns>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.GetHashCode">
+            <summary>
+                The hash code of the Ellipsoid
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.op_Equality(Geodesy.Ellipsoid,Geodesy.Ellipsoid)">
+            <summary>
+                Test whether or not two Ellipsoids are the same
+            </summary>
+            <param name="lhs">The first Ellipsoid</param>
+            <param name="rhs">The second Ellipsoid</param>
+            <returns>True if both are equal (have the same geometry)</returns>
+        </member>
+        <member name="M:Geodesy.Ellipsoid.op_Inequality(Geodesy.Ellipsoid,Geodesy.Ellipsoid)">
+            <summary>
+                Test whether or not two Ellipsoids are not the same
+            </summary>
+            <param name="lhs">The first Ellipsoid</param>
+            <param name="rhs">The second Ellipsoid</param>
+            <returns>True if both are not equal (have a different geometry)</returns>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.WGS84">
+            <summary>The WGS84 ellipsoid.</summary>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.GRS80">
+            <summary>The GRS80 ellipsoid.</summary>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.GRS67">
+            <summary>The GRS67 ellipsoid.</summary>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.ANS">
+            <summary>The ANS ellipsoid.</summary>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.WGS72">
+            <summary>The WGS72 ellipsoid.</summary>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.Clarke1858">
+            <summary>The Clarke1858 ellipsoid.</summary>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.Clarke1880">
+            <summary>The Clarke1880 ellipsoid.</summary>
+        </member>
+        <member name="F:Geodesy.Ellipsoid.Sphere">
+            <summary>A spherical "ellipsoid".</summary>
+        </member>
+        <member name="T:Geodesy.EllipticalMercatorProjection">
+            <summary>
+                This is the Mercator projection assuming the earth is a perfect elipsoid.
+                It's more exact, but the math is slightly more complex and thus slower.
+            </summary>
+        </member>
+        <member name="M:Geodesy.EllipticalMercatorProjection.#ctor">
+            <summary>
+                Instantiate an elliptical Mercator projection with WGS84 as Ellipsoid
+            </summary>
+        </member>
+        <member name="M:Geodesy.EllipticalMercatorProjection.#ctor(Geodesy.Ellipsoid)">
+            <summary>
+                Instantiate an elliptical Mercator projection with this reference Ellipsoid
+            </summary>
+            <param name="referenceGlobe">The reference Ellipsoid for the projection</param>
+        </member>
+        <member name="M:Geodesy.EllipticalMercatorProjection.LatitudeToY(Geodesy.Angle)">
+            <summary>
+                Convert the longitude (n degrees) to an Y-coordinate (in meters) on a Mercator map
+            </summary>
+            <param name="latitude">The longitude in degrees</param>
+            <returns>The Y coordinate in meters</returns>
+        </member>
+        <member name="M:Geodesy.EllipticalMercatorProjection.YToLatitude(System.Double)">
+            <summary>
+                Convert the Y coordinate (in meters) on a Mercator map back into the longitude
+            </summary>
+            <param name="y">The Y coordinate (in meters) on a Mercator map</param>
+            <returns>The longitude (in degrees)</returns>
+        </member>
+        <member name="T:Geodesy.EuclidianCoordinate">
+            <summary>
+                This class specifically models two-dimensional points in a flat plane
+            </summary>
+        </member>
+        <member name="P:Geodesy.EuclidianCoordinate.X">
+            <summary>
+                The X coordinate
+            </summary>
+        </member>
+        <member name="P:Geodesy.EuclidianCoordinate.Y">
+            <summary>
+                The Y coordinate
+            </summary>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.#ctor(Geodesy.MercatorProjection,System.Double,System.Double)">
+            <summary>
+                Instantiate a new point
+            </summary>
+            <param name="projection">The projection owning these coordinates</param>
+            <param name="x">The X coordinate</param>
+            <param name="y">The Y coordinate</param>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.#ctor(Geodesy.MercatorProjection)">
+            <summary>
+                The default coordinates (X and Y are zero)
+            </summary>
+            <param name="projection">The projection owning these coordinates</param>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.#ctor(Geodesy.MercatorProjection,System.Collections.Generic.IReadOnlyList{System.Double})">
+            <summary>
+                Instantiate a new point from a coordinate array
+            </summary>
+            <param name="projection">The projection owning these coordinates</param>
+            <param name="xy">List of xy coordinates</param>
+            <exception cref="T:System.IndexOutOfRangeException">Raised if the array is not two-dimensional</exception>
+        </member>
+        <member name="P:Geodesy.EuclidianCoordinate.Projection">
+            <summary>
+                The Mercator projection that owns these coordinates
+            </summary>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.IsSameProjection(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Check whether another euclidian point belongs to the same projection
+            </summary>
+            <param name="other">The other point</param>
+            <returns>True if they belong to the same projection, false otherwise</returns>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.DistanceTo(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Compute the euclidian distance to another point
+            </summary>
+            <param name="other">The other point</param>
+            <returns>The distance</returns>
+            <exception cref="T:System.ArgumentException">Raised if the two points don't belong to the same projection</exception>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.IsApproximatelyEqual(Geodesy.EuclidianCoordinate,System.Double)">
+            <summary>
+                Check wether another coordinate is close to this one in a given precision
+            </summary>
+            <param name="other">The other coordinate</param>
+            <param name="precision">The precision (defaults to some small value)</param>
+            <returns>True if the coordinates are nearly the same.</returns>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.Equals(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Test another coordinate to be the same coordinates.
+            </summary>
+            <param name="other">The coordinates to test</param>
+            <returns>True if this is the same coordinate</returns>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.Equals(System.Object)">
+            <summary>
+                Test another object to be the same coordinates.
+            </summary>
+            <param name="obj">The object to test</param>
+            <returns>True if the object is the same coordinate</returns>
+        </member>
+        <member name="M:Geodesy.EuclidianCoordinate.GetHashCode">
+            <summary>
+                The Hashcode of the coordinates
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Geodesy.Extensions.ExtendDouble">
+            <summary>
+                Extend the double class with methods to do numerically more proper
+                comparisons of two double numbers.
+            </summary>
+        </member>
+        <member name="F:Geodesy.Extensions.ExtendDouble.DefaultPrecision">
+            <summary>
+                The default precision to use when comparing two doubles
+            </summary>
+        </member>
+        <member name="M:Geodesy.Extensions.ExtendDouble.IsApproximatelyEqual(System.Double,System.Double,System.Double)">
+            <summary>
+                Test whether or not a double is equal to another double in the limits of a given precision
+            </summary>
+            <param name="a">The first number</param>
+            <param name="b">The second number</param>
+            <param name="delta">The precision to use</param>
+            <returns>True if they are approx. equal, false otherwise</returns>
+        </member>
+        <member name="M:Geodesy.Extensions.ExtendDouble.IsSmaller(System.Double,System.Double,System.Double)">
+            <summary>
+                Test wether or not a double is smaller than another one,
+                as long as they are not approximately equal.
+            </summary>
+            <param name="value1">The first number</param>
+            <param name="value2">The second number</param>
+            <param name="delta">The precision to use</param>
+            <returns>True if they are not approx. equal and the first number is less than the second.</returns>
+        </member>
+        <member name="M:Geodesy.Extensions.ExtendDouble.IsZero(System.Double)">
+            <summary>
+                Test wether a double is zero
+            </summary>
+            <param name="val">The value to test</param>
+            <returns>True, if the number is zero</returns>
+        </member>
+        <member name="M:Geodesy.Extensions.ExtendDouble.IsNegative(System.Double)">
+            <summary>
+                Test wether a double is negative
+            </summary>
+            <param name="val">The value to test</param>
+            <returns>True, if the number is negative</returns>
+        </member>
+        <member name="M:Geodesy.Extensions.ExtendDouble.IsPositive(System.Double)">
+            <summary>
+                Test wether a double is positive
+            </summary>
+            <param name="val">The value to test</param>
+            <returns>True, if the number is positive</returns>
+        </member>
+        <member name="T:Geodesy.GeodesyException">
+            <summary>
+                The exception being used for internal errors in the Geodesy library
+            </summary>
+        </member>
+        <member name="M:Geodesy.GeodesyException.#ctor(System.String)">
+            <summary>
+                New GeodesyException with a specified message
+            </summary>
+            <param name="message">The message for this exception</param>
+        </member>
+        <member name="M:Geodesy.GeodesyException.#ctor(System.String,System.Exception)">
+            <summary>
+                New GeodesyException with a specified message and causing inner exception
+            </summary>
+            <param name="message">The message for this exception</param>
+            <param name="innerException">The inner exception causing this Geodesy exception</param>
+        </member>
+        <member name="T:Geodesy.GeodeticCalculator">
+            <summary>
+                Implementation of Thaddeus Vincenty's algorithms to solve the direct and
+                inverse geodetic problems.  For more information, see Vincent's original
+                publication on the NOAA website:
+                See http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticCalculator.ReferenceGlobe">
+            <summary>
+                The reference Ellipsoid to use for the calculations
+            </summary>
+        </member>
+        <member name="M:Geodesy.GeodeticCalculator.#ctor(Geodesy.Ellipsoid)">
+            <summary>
+                Instantiate a calculator for the specified reference Ellipsoid
+            </summary>
+            <param name="referenceGlobe">The reference Ellipsoid</param>
+        </member>
+        <member name="M:Geodesy.GeodeticCalculator.CalculateEndingGlobalCoordinates(Geodesy.GlobalCoordinates,Geodesy.Angle,System.Double,Geodesy.Angle@)">
+            <summary>
+                Calculate the destination and final bearing after traveling a specified
+                distance, and a specified starting bearing, for an initial location.
+                This is the solution to the direct geodetic problem.
+            </summary>
+            <param name="start">starting location</param>
+            <param name="startBearing">starting bearing (degrees)</param>
+            <param name="distance">distance to travel (meters)</param>
+            <param name="endBearing">bearing at destination (degrees)</param>
+            <returns>The coordinates of the final location of the traveling</returns>
+        </member>
+        <member name="M:Geodesy.GeodeticCalculator.CalculateEndingGlobalCoordinates(Geodesy.GlobalCoordinates,Geodesy.Angle,System.Double)">
+            <summary>
+                Calculate the destination after traveling a specified distance, and a
+                specified starting bearing, for an initial location. This is the
+                solution to the direct geodetic problem.
+            </summary>
+            <param name="start">starting location</param>
+            <param name="startBearing">starting bearing (degrees)</param>
+            <param name="distance">distance to travel (meters)</param>
+            <returns>The coordinates of the final location of the traveling</returns>
+        </member>
+        <member name="M:Geodesy.GeodeticCalculator.CalculateGeodeticCurve(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Calculate the geodetic curve between two points on a specified reference ellipsoid.
+                This is the solution to the inverse geodetic problem.
+            </summary>
+            <param name="start">starting coordinates</param>
+            <param name="end">ending coordinates </param>
+            <returns>The geodetic curve information to get from start to end</returns>
+        </member>
+        <member name="M:Geodesy.GeodeticCalculator.CalculateGeodeticMeasurement(Geodesy.GlobalPosition,Geodesy.GlobalPosition)">
+            <summary>
+                Calculate the three dimensional geodetic measurement between two positions
+                measured in reference to a specified ellipsoid.
+                This calculation is performed by first computing a new ellipsoid by expanding or contracting
+                the reference ellipsoid such that the new ellipsoid passes through the average elevation
+                of the two positions.  A geodetic curve across the new ellisoid is calculated.  The
+                point-to-point distance is calculated as the hypotenuse of a right triangle where the length
+                of one side is the ellipsoidal distance and the other is the difference in elevation.
+            </summary>
+            <param name="start">starting position</param>
+            <param name="end">ending position</param>
+            <returns>The geodetic measurement information to get from start to end</returns>
+        </member>
+        <member name="M:Geodesy.GeodeticCalculator.CalculateGeodeticPath(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates,System.Int32)">
+            <summary>
+                Compute a geodetic path from start to end witha given number of points
+            </summary>
+            <param name="start">starting coordinates</param>
+            <param name="end">ending coordinates</param>
+            <param name="numberOfPoints">Number of points on the path (including start and end)</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the number of points is less than 2</exception>
+            <returns>An array of points describing the path from start to end</returns>
+        </member>
+        <member name="M:Geodesy.GeodeticCalculator.Equals(Geodesy.GeodeticCalculator)">
+            <summary>
+                Test another calculator to be equal to this one
+            </summary>
+            <param name="other">The other calculator</param>
+            <returns>True if they are the same (means have the same reference globe)</returns>
+        </member>
+        <member name="T:Geodesy.GeodeticCurve">
+            <summary>
+                This is the outcome of a geodetic calculation.  It represents the path and
+                ellipsoidal distance between two GlobalCoordinates for a specified reference
+                ellipsoid.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticCurve.EllipsoidalDistance">
+            <summary>Ellipsoidal distance (in meters).</summary>
+        </member>
+        <member name="P:Geodesy.GeodeticCurve.Calculator">
+            <summary>
+                The calculator used to compute this curve
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticCurve.Azimuth">
+            <summary>
+                Get the azimuth.  This is angle from north from start to end.
+            </summary>
+        </member>
+        <member name="M:Geodesy.GeodeticCurve.#ctor(Geodesy.GeodeticCalculator,System.Double,Geodesy.Angle)">
+            <summary>
+                Create a new GeodeticCurve.
+            </summary>
+            <param name="geoCalculator">The calculator used to compute this curve</param>
+            <param name="ellipsoidalDistance">ellipsoidal distance in meters</param>
+            <param name="azimuth">azimuth in degrees</param>
+        </member>
+        <member name="P:Geodesy.GeodeticCurve.ReverseAzimuth">
+            <summary>
+                Get the reverse azimuth.  This is angle from north from end to start.
+            </summary>
+        </member>
+        <member name="M:Geodesy.GeodeticCurve.ToString">
+            <summary>
+                Get curve as a culture invariant string.
+            </summary>
+            <returns>The parameters describing the curve as culture invariant string</returns>
+        </member>
+        <member name="M:Geodesy.GeodeticCurve.Equals(Geodesy.GeodeticCurve)">
+            <summary>
+                Test another curve for equality
+            </summary>
+            <param name="other">The other geodetic curve</param>
+            <returns>True if they are the same</returns>
+        </member>
+        <member name="T:Geodesy.GeodeticMeasurement">
+            <summary>
+                This is the outcome of a three dimensional geodetic calculation.  It represents
+                the path a between two GlobalPositions for a specified reference ellipsoid.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticMeasurement.Calculator">
+            <summary>
+                The calculator used to compute this measurement
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticMeasurement.AverageCurve">
+            <summary>
+                Get the average geodetic curve.  This is the geodetic curve as measured
+                at the average elevation between two points.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticMeasurement.EllipsoidalDistance">
+            <summary>
+                Get the ellipsoidal distance (in meters).  This is the length of the average geodetic
+                curve.  For actual point-to-point distance, use PointToPointDistance property.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticMeasurement.Azimuth">
+            <summary>
+                Get the azimuth.  This is angle from north from start to end.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticMeasurement.ReverseAzimuth">
+            <summary>
+                Get the reverse azimuth.  This is angle from north from end to start.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticMeasurement.ElevationChange">
+            <summary>
+                Get the elevation change, in meters, going from the starting to the ending point.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GeodeticMeasurement.PointToPointDistance">
+            <summary>
+                Get the distance travelled, in meters, going from one point to the next.
+            </summary>
+        </member>
+        <member name="M:Geodesy.GeodeticMeasurement.#ctor(Geodesy.GeodeticCurve,System.Double)">
+            <summary>
+                Creates a new instance of GeodeticMeasurement.
+            </summary>
+            <param name="averageCurve">the geodetic curve as measured at the average elevation between two points</param>
+            <param name="elevationChange">the change in elevation, in meters, going from the starting point to the ending point</param>
+        </member>
+        <member name="M:Geodesy.GeodeticMeasurement.ToString">
+            <summary>
+                Get the GeodeticMeasurement as a culture invariant string
+            </summary>
+            <returns>The measurement as culture invariant string</returns>
+        </member>
+        <member name="M:Geodesy.GeodeticMeasurement.Equals(Geodesy.GeodeticMeasurement)">
+            <summary>
+                Test wether another measurement is the same
+            </summary>
+            <param name="other">Another measurement</param>
+            <returns>True if both are the same</returns>
+        </member>
+        <member name="T:Geodesy.GlobalCoordinates">
+            <summary>
+                Encapsulation of latitude and longitude coordinates on a globe.  Negative
+                latitude is southern hemisphere.  Negative longitude is western hemisphere.
+                Any angle may be specified for longtiude and latitude, but all angles will
+                be canonicalized such that:
+                -90 &lt;= latitude &lt;= +90
+                -180 &lt; longitude &lt;= +180
+            </summary>  
+        </member>
+        <member name="F:Geodesy.GlobalCoordinates._mLatitude">
+            <summary>Latitude.  Negative latitude is southern hemisphere.</summary>
+        </member>
+        <member name="F:Geodesy.GlobalCoordinates._mLongitude">
+            <summary>Longitude.  Negative longitude is western hemisphere.</summary>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.#ctor(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Construct a new GlobalCoordinates.  Angles will be canonicalized.
+            </summary>
+            <param name="latitude">latitude</param>
+            <param name="longitude">longitude</param>
+        </member>
+        <member name="P:Geodesy.GlobalCoordinates.Latitude">
+            <summary>
+                Get/set latitude.  The latitude value will be canonicalized (which might
+                result in a change to the longitude). Negative latitude is southern hemisphere.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GlobalCoordinates.Longitude">
+            <summary>
+                Get/set longitude.  The longitude value will be canonicalized. Negative
+                longitude is western hemisphere.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GlobalCoordinates.Antipode">
+            <summary>
+                The coordinates of the Antipode of this point
+            </summary>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.CompareTo(Geodesy.GlobalCoordinates)">
+            <summary>
+                Compare these coordinates to another set of coordiates.  Western
+                longitudes are less than eastern logitudes.  If longitudes are equal,
+                then southern latitudes are less than northern latitudes.
+            </summary>
+            <param name="other">instance to compare to</param>
+            <returns>-1, 0, or +1 as per IComparable contract</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.Canonicalize">
+            <summary>
+                Canonicalize the current latitude and longitude values such that:
+                -90 &lt;= latitude &lt;= +90
+                -180 &lt; longitude &lt;= +180
+            </summary>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.IsApproximatelyEqual(Geodesy.GlobalCoordinates,System.Double)">
+            <summary>
+                Test whether or not another coordinate is close to this coordinate
+                within a defined precision.
+            </summary>
+            <param name="other">The coordinates of the ther place</param>
+            <param name="precision">The precsion (optional, defaults to some small value)</param>
+            <returns>True if the places are close to each other</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.GetHashCode">
+            <summary>
+                Get a hash code for these coordinates.
+            </summary>
+            <returns>The hash code</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.Equals(Geodesy.GlobalCoordinates)">
+            <summary>
+                Compare these coordinates to other coordinates for equality
+            </summary>
+            <param name="other">The other coordinates to compare to</param>
+            <returns>true if they are equal</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.Equals(System.Object)">
+            <summary>
+                Compare these coordinates to another object for equality.
+            </summary>
+            <param name="obj"></param>
+            <returns>True if they are the same</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.ToString">
+            <summary>
+                Get coordinates as a culture invariant string.
+            </summary>
+            <returns>The coordinates as culture invariant string</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.op_Equality(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Test whether two GlobalCoordinates are the same
+            </summary>
+            <param name="lhs">The first coordinate</param>
+            <param name="rhs">The second coordinate</param>
+            <returns>True if they are the same</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.op_Inequality(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Test whether two GlobalCoordinates are not the same
+            </summary>
+            <param name="lhs">The first coordinate</param>
+            <param name="rhs">The second coordinate</param>
+            <returns>True if they are not the same</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.op_GreaterThan(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Test whether one GlobalCoordinates is greater than the other
+            </summary>
+            <param name="lhs">The first coordinate</param>
+            <param name="rhs">The second coordinate</param>
+            <returns>True if the first coordinate is greater</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.op_GreaterThanOrEqual(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Test whether one GlobalCoordinates is greater or equal than the other
+            </summary>
+            <param name="lhs">The first coordinate</param>
+            <param name="rhs">The second coordinate</param>
+            <returns>True if the first coordinate is greater or equal</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.op_LessThan(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Test whether one GlobalCoordinates is smaller than the other
+            </summary>
+            <param name="lhs">The first coordinate</param>
+            <param name="rhs">The second coordinate</param>
+            <returns>True if the first coordinate is smaller</returns>
+        </member>
+        <member name="M:Geodesy.GlobalCoordinates.op_LessThanOrEqual(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Test whether one GlobalCoordinates is smaller or equal than the other
+            </summary>
+            <param name="lhs">The first coordinate</param>
+            <param name="rhs">The second coordinate</param>
+            <returns>True if the first coordinate is smaller or equal</returns>
+        </member>
+        <member name="T:Geodesy.GlobalMercatorProjection">
+            <summary>
+                This is the base class of all Mercator projections that map the
+                globe as a whole.
+            </summary>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.#ctor(Geodesy.Ellipsoid)">
+            <summary>
+                Instantiate a projection with the given reference Ellipsoid
+            </summary>
+            <param name="referenceGlobe">The reference Ellipsoid</param>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.ScaleFactor(System.Double)">
+            <summary>
+                Get the Mercator scale factor for the given latitude
+            </summary>
+            <param name="latitude">The latitude</param>
+            <returns>The scale factor</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.ScaleFactor(Geodesy.GlobalCoordinates)">
+            <summary>
+                Get the Mercator scale factor for the given point
+            </summary>
+            <param name="point">The point</param>
+            <returns>The scale factor</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.ToEuclidian(Geodesy.GlobalCoordinates)">
+            <summary>
+                Convert a latitude/longitude coordinate to a Euclidian coordinate on a flat map
+            </summary>
+            <param name="coordinates">The latitude/longitude coordinates in degrees</param>
+            <returns>The euclidian coordinates of that point</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.FromEuclidian(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Get the latitude/longitude coordinates from the euclidian coordinates
+            </summary>
+            <param name="xy">The euclidien coordinates</param>
+            <returns>The latitude/longitude coordinates of that point</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.GlobalCoordinatesToXy(Geodesy.GlobalCoordinates)">
+            <summary>
+                Convert coordinates to an XY position on a Mercator map
+            </summary>
+            <param name="coordinates">The coordinates on the globe</param>
+            <returns>An array of two doubles, the first is X, the second Y</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.XyToGlobalCoordinates(System.Double,System.Double)">
+            <summary>
+                Convert a XY position on a Mercator map into global coordinates
+            </summary>
+            <param name="x">The X position on the Mercator map</param>
+            <param name="y">The Y position on the Mercator map</param>
+            <returns>The global coordinates</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.XyToGlobalCoordinates(System.Double[])">
+            <summary>
+                Convert a XY position on a Mercator map into global coordinates
+            </summary>
+            <param name="xy">The xy position on the Mercator map</param>
+            <returns>The global coordinates</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.LongitudeToX(Geodesy.Angle)">
+            <summary>
+                Convert the longitude (n degrees) to an X-coordinate (in meters) on a Mercator map
+            </summary>
+            <param name="longitude">The longitude in degrees</param>
+            <returns>The X coordinate in meters</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.XToLongitude(System.Double)">
+            <summary>
+                Convert the X coordinate (in meters) on a Mercator map back into the longitude
+            </summary>
+            <param name="x">The X coordinate (in meters) on a Mercator map</param>
+            <returns>The longitude (in degrees)</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.LatitudeToY(Geodesy.Angle)">
+            <summary>
+                Convert the longitude (n degrees) to an Y-coordinate (in meters) on a Mercator map
+            </summary>
+            <param name="latitude">The longitude in degrees</param>
+            <returns>The Y coordinate in meters</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.YToLatitude(System.Double)">
+            <summary>
+                Convert the Y coordinate (in meters) on a Mercator map back into the longitude
+            </summary>
+            <param name="y">The Y coordinate (in meters) on a Mercator map</param>
+            <returns>The longitude (in degrees)</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMercatorProjection.CalculatePath(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates,System.Double@,Geodesy.Angle@,System.Int32)">
+            <summary>
+                Compute a loxodromic path from start to end witha given number of points
+            </summary>
+            <param name="start">starting coordinates</param>
+            <param name="end">ending coordinates</param>
+            <param name="mercatorRhumbDistance">The distance of the two points on a Rhumb line on the Mercator projection</param>
+            <param name="bearing">The constant course for the path</param>
+            <param name="numberOfPoints">Number of points on the path (including start and end)</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the number of points is less than 2</exception>
+            <returns>An array of points describing the loxodromic path from start to end</returns>
+        </member>
+        <member name="T:Geodesy.GlobalMesh">
+            <summary>
+                This class overlays the globe with a mesh of squares.
+                The algorithm is based on subdividing the UTM grids into
+                finer cell structures, so the coverage is for latitudes
+                between 80° South and 84° North.
+            </summary>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.#ctor(System.Int32)">
+            <summary>
+                Instantiate the Mesh with the given nuber of meters as the size
+                of the mesh squares. We do not support squares less than 1m.
+                Please note that the actual mesh size used is a derived value
+                that approximates the requested mesh size in order to provide
+                better computational efficiency.
+            </summary>
+            <param name="meshSizeinMeters">The size of the squares in meter. The defauklt value is 1000m.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh size is specified</exception>
+        </member>
+        <member name="P:Geodesy.GlobalMesh.MeshSize">
+            <summary>
+                The size of the mesh squares in meters. We only support full meters.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GlobalMesh.Projection">
+            <summary>
+                The UTM Projection for the Globe we cover with the mesh.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GlobalMesh.Count">
+            <summary>
+                The (maximum) total number of meshes used to cover an UTM Grid.
+                Individual Grids may actually be covered by fewer mesh-cells.
+            </summary>
+        </member>
+        <member name="P:Geodesy.GlobalMesh.GlobalCount">
+            <summary>
+                The maximum number of a mesh
+            </summary>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.Grid(System.Int64)">
+            <summary>
+                Return the UtmGrid this mesh belongs to
+            </summary>
+            <param name="meshNumber"></param>
+            <returns>The UtmGrid in which this mesh cell is located</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.MeshNumber(Geodesy.UtmCoordinate)">
+            <summary>
+                Get the globally unique Mesh number of a coordinate
+            </summary>
+            <param name="coord">The UTM coordinate to convert</param>
+            <returns>The mesh number to which the coordinate belongs</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.MeshNumber(Geodesy.GlobalCoordinates)">
+            <summary>
+                Get the globally unique Mesh number of a location given by
+                latitude and longitude.
+            </summary>
+            <param name="coord">The location to convert</param>
+            <returns>The mesh number to which the location belongs</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.MeshNumber(Geodesy.Angle,Geodesy.Angle)">
+            <summary>
+                Get the globally unique Mesh number of a location given by
+                latitude and longitude.
+            </summary>
+            <param name="latitude">The latitude (in degrees)</param>
+            <param name="longitude">The longitude (in degrees)</param>
+            <returns>The mesh number to which the location belongs</returns>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.CenterOf(System.Int64)">
+            <summary>
+                Return the central coordinates of a Mesh given by its number.
+                Please note that this center is on the UTM map, but at the borders
+                of a grid this coordinate may actually overlap and belong to another
+                UTM grid. So if you convert them to a Latitude/Longitude and then back
+                to an UtmCoordinate, you may get different values.
+            </summary>
+            <param name="meshNumber">The number of the mesh</param>
+            <returns>The UTM coordinates of the center of the square</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.LowerLeft(System.Int64)">
+            <summary>
+                Return the lower left corner coordinates of a Mesh given by its number.
+                Please note that this point is on the UTM map, but at the borders
+                of a grid this coordinate may actually overlap and belong to another
+                UTM grid. So if you convert them to a Latitude/Longitude and then back
+                to an UtmCoordinate, you may get different values.
+            </summary>
+            <param name="meshNumber"></param>
+            <returns>The UTM coordinates of the lower left corner of the Mesh</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.LowerRight(System.Int64)">
+            <summary>
+                Return the lower right corner coordinates of a Mesh given by its number.
+                Please note that this point is on the UTM map, but at the borders
+                of a grid this coordinate may actually overlap and belong to another
+                UTM grid. So if you convert them to a Latitude/Longitude and then back
+                to an UtmCoordinate, you may get different values.
+            </summary>
+            <param name="meshNumber"></param>
+            <returns>The UTM coordinates of the lower right corner of the Mesh</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.UpperLeft(System.Int64)">
+            <summary>
+                Return the upper left corner coordinates of a Mesh given by its number.
+                Please note that this point is on the UTM map, but at the borders
+                of a grid this coordinate may actually overlap and belong to another
+                UTM grid. So if you convert them to a Latitude/Longitude and then back
+                to an UtmCoordinate, you may get different values.
+            </summary>
+            <param name="meshNumber"></param>
+            <returns>The UTM coordinates of the upper left corner of the Mesh</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.UpperRight(System.Int64)">
+            <summary>
+                Return the upper right corner coordinates of a Mesh given by its number.
+                Please note that this point is on the UTM map, but at the borders
+                of a grid this coordinate may actually overlap and belong to another
+                UTM grid. So if you convert them to a Latitude/Longitude and then back
+                to an UtmCoordinate, you may get different values.
+            </summary>
+            <param name="meshNumber"></param>
+            <returns>The UTM coordinates of the upper right corner of the Mesh</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        </member>
+        <member name="M:Geodesy.GlobalMesh.Neighborhood(System.Int64,System.Int32)">
+            <summary>
+                Get the list of neighbor meshes in a specified "distance". Distance 1 means
+                direct neighbors, 2 means neighbors that are 2 meshes away etc.
+            </summary>
+            <param name="meshNumber">The mesh number</param>
+            <param name="distance">The distance (0-3 currently supported)</param>
+            <returns>The list of mesh numbers of the neighbors</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid mesh number is specified</exception>
+        </member>
+        <member name="T:Geodesy.GlobalPosition">
+            <summary>
+                Encapsulates a three dimensional location on a globe (GlobalCoordinates combined with
+                an elevation in meters above a reference ellipsoid).
+            </summary>
+        </member>
+        <member name="F:Geodesy.GlobalPosition._mCoordinates">
+            <summary>Global coordinates.</summary>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.#ctor(Geodesy.GlobalCoordinates,System.Double)">
+            <summary>
+                Creates a new instance of GlobalPosition.
+            </summary>
+            <param name="coords">coordinates on the reference ellipsoid.</param>
+            <param name="elevation">elevation, in meters, above the reference ellipsoid.</param>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.#ctor(Geodesy.GlobalCoordinates)">
+            <summary>
+                Creates a new instance of GlobalPosition for a position on the surface of
+                the reference ellipsoid.
+            </summary>
+            <param name="coords"></param>
+        </member>
+        <member name="P:Geodesy.GlobalPosition.Coordinates">
+            <summary>Get/set global coordinates.</summary>
+        </member>
+        <member name="P:Geodesy.GlobalPosition.Latitude">
+            <summary>Get/set latitude.</summary>
+        </member>
+        <member name="P:Geodesy.GlobalPosition.Longitude">
+            <summary>Get/set longitude.</summary>
+        </member>
+        <member name="P:Geodesy.GlobalPosition.Elevation">
+            <summary>
+                Get/set elevation, in meters, above the surface of the reference ellipsoid.
+            </summary>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.CompareTo(Geodesy.GlobalPosition)">
+            <summary>
+                Compare this position to another.  Western longitudes are less than
+                eastern logitudes.  If longitudes are equal, then southern latitudes are
+                less than northern latitudes.  If coordinates are equal, lower elevations
+                are less than higher elevations
+            </summary>
+            <param name="other">instance to compare to</param>
+            <returns>-1, 0, or +1 as per IComparable contract</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.GetHashCode">
+            <summary>
+                Calculate a hash code.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.Equals(Geodesy.GlobalPosition)">
+            <summary>
+                Compare this position to another position for equality
+            </summary>
+            <param name="other">Another GlobalPosition to compare to</param>
+            <returns>true if both are equal</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.Equals(System.Object)">
+            <summary>
+                Compare this position to another object for equality.
+            </summary>
+            <param name="obj">Another object to compare to</param>
+            <returns>true if the obj is a GlobalPosition and is the same.</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.ToString">
+            <summary>
+                Get position as a culture invariant string.
+            </summary>
+            <returns>The position as culture invariant string</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.op_Equality(Geodesy.GlobalPosition,Geodesy.GlobalPosition)">
+            <summary>
+                Test two GlobalPositions for equality
+            </summary>
+            <param name="lhs">The first position</param>
+            <param name="rhs">The second position</param>
+            <returns>True if they are the same</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.op_Inequality(Geodesy.GlobalPosition,Geodesy.GlobalPosition)">
+            <summary>
+                Test two GlobalPositions for equality
+            </summary>
+            <param name="lhs">The first position</param>
+            <param name="rhs">The second position</param>
+            <returns>True if they are the same</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.op_LessThan(Geodesy.GlobalPosition,Geodesy.GlobalPosition)">
+            <summary>
+                Test whether a GlobalPosition is smaller than another one
+            </summary>
+            <param name="lhs">The first position</param>
+            <param name="rhs">The second position</param>
+            <returns>True if the first position is smaller than the second</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.op_LessThanOrEqual(Geodesy.GlobalPosition,Geodesy.GlobalPosition)">
+            <summary>
+                Test whether a GlobalPosition is smaller or equal than another one
+            </summary>
+            <param name="lhs">The first position</param>
+            <param name="rhs">The second position</param>
+            <returns>True if the first position is smaller than or equal to the second</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.op_GreaterThan(Geodesy.GlobalPosition,Geodesy.GlobalPosition)">
+            <summary>
+                Test whether a GlobalPosition is greater than another one
+            </summary>
+            <param name="lhs">The first position</param>
+            <param name="rhs">The second position</param>
+            <returns>True if the first position is greater than the second</returns>
+        </member>
+        <member name="M:Geodesy.GlobalPosition.op_GreaterThanOrEqual(Geodesy.GlobalPosition,Geodesy.GlobalPosition)">
+            <summary>
+                Test whether a GlobalPosition is greater or equal than another one
+            </summary>
+            <param name="lhs">The first position</param>
+            <param name="rhs">The second position</param>
+            <returns>True if the first position is greater than or equal to the second</returns>
+        </member>
+        <member name="T:Geodesy.MercatorProjection">
+            <summary>
+                Base class for Mercator projections tranlating longitude/longitude values on the globe
+                into X/Y coordinates on a flat map.
+            </summary>
+        </member>
+        <member name="F:Geodesy.MercatorProjection.GreenwichMeridian">
+            <summary>
+                The typical reference Meridian
+            </summary>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.#ctor(Geodesy.Ellipsoid)">
+            <summary>
+                Instantiate a Meractor projection with this reference Ellipsoid
+            </summary>
+            <param name="referenceGlobe"></param>
+        </member>
+        <member name="P:Geodesy.MercatorProjection.ReferenceMeridian">
+            <summary>
+                The reference meridian for the projection, usually this is Greenwich with 0° longitude
+            </summary>
+        </member>
+        <member name="P:Geodesy.MercatorProjection.ReferenceGlobe">
+            <summary>
+                The reference Ellipsoid for this projection
+            </summary>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.ScaleFactor(Geodesy.GlobalCoordinates)">
+            <summary>
+                Get the Mercator scale factor for the given point
+            </summary>
+            <param name="point">The point</param>
+            <returns>The scale factor</returns>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.ToEuclidian(Geodesy.GlobalCoordinates)">
+            <summary>
+                Convert a latitude/longitude coordinate to a Euclidian coordinate on a flat map
+            </summary>
+            <param name="coordinates">The latitude/longitude coordinates in degrees</param>
+            <returns>The euclidian coordinates of that point</returns>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.FromEuclidian(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Get the latitude/longitude coordinates from the euclidian coordinates
+            </summary>
+            <param name="xy">The euclidien coordinates</param>
+            <returns>The latitude/longitude coordinates of that point</returns>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.Equals(Geodesy.MercatorProjection)">
+            <summary>
+                Two projections are considered Equal if they are based on
+                the same Reference-Globe
+            </summary>
+            <param name="other">The projection to compare against</param>
+            <returns>True if they are equal</returns>
+        </member>
+        <member name="P:Geodesy.MercatorProjection.MaxLatitude">
+            <summary>
+                Maximum possible longitude for this projection
+            </summary>
+        </member>
+        <member name="P:Geodesy.MercatorProjection.MinLatitude">
+            <summary>
+                Minimum possible longitude for this projection
+            </summary>
+        </member>
+        <member name="F:Geodesy.MercatorProjection.MaxLongitude">
+            <summary>
+                Maximum possible longitude for this projection
+            </summary>
+        </member>
+        <member name="F:Geodesy.MercatorProjection.MinLongitude">
+            <summary>
+                Minimum possible longitude for this projection
+            </summary>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.NormalizeLatitude(Geodesy.Angle)">
+            <summary>
+                Ensure Latitude stays in range
+            </summary>
+            <param name="latitude">The longitude value</param>
+            <returns>The normalized longitude</returns>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.NormalizeLongitude(Geodesy.Angle)">
+            <summary>
+                Ensure Latitude stays in range
+            </summary>
+            <param name="longitude">The longitude value</param>
+            <returns>The normalized longitude</returns>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.EuclidianDistance(Geodesy.EuclidianCoordinate,Geodesy.EuclidianCoordinate)">
+            <summary>
+                Compute the euclidian distance between two points given by rectangular coordinates
+                Please note, that due to scaling effects this might be quite different from the true
+                geodetic distance. To get a good approximation, you must divide this value by a
+                scale factor.
+            </summary>
+            <param name="point1">The first point</param>
+            <param name="point2">The second point</param>
+            <returns>The distance between the points</returns>
+            <exception cref="T:System.ArgumentException">Raised if the two points don't belong to the same projection</exception>
+            <exception cref="T:System.ArgumentNullException">Raised if one of the points is null</exception>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.EuclidianDistance(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Compute the euclidian distance between two points given by rectangular coordinates.
+                Please note, that due to scaling effects this might be quite different from the true
+                geodetic distance. To get a good approximation, you must divide this value by a
+                scale factor.
+            </summary>
+            <param name="point1">The first point</param>
+            <param name="point2">The second point</param>
+            <returns>The distance between the points</returns>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.EuclidianDistance(System.Double[],System.Double[])">
+            <summary>
+                Compute the euclidian distance between two points given by rectangular coordinates
+                Please note, that due to scaling effects this might be quite different from the true
+                geodetic distance. To get a good approximation, you must divide this value by a
+                scale factor.
+            </summary>
+            <param name="point1">The first point</param>
+            <param name="point2">The second point</param>
+            <returns>The distance between the points</returns>
+            <exception cref="T:System.IndexOutOfRangeException">Raised if one of the arrays is not two-dimensional</exception>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.GeodesicDistance(Geodesy.GlobalCoordinates,Geodesy.GlobalCoordinates)">
+            <summary>
+                Get the geodesic distance between two points on the globe
+            </summary>
+            <param name="start">The starting point</param>
+            <param name="end">The ending point</param>
+            <returns>The distance in meters</returns>
+        </member>
+        <member name="M:Geodesy.MercatorProjection.GeodesicDistance(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+                Compute the geodesic distance of two points on the globe
+            </summary>
+            <param name="longitudeStart">The longitude of the starting point in degrees</param>
+            <param name="latitudeStart">The longitude of the starting point in degrees</param>
+            <param name="longitudeEnd">The longitude of the endig point in degrees</param>
+            <param name="latitudeEnd">The longitude of the ending point in degrees</param>
+            <returns></returns>
+        </member>
+        <member name="T:Geodesy.Properties.Resource">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.COORD_ARRAY_MUST_BE_2DIM">
+            <summary>
+              Looks up a localized string similar to A coordinate array must have exactly two elements..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.GEODETIC_PATH_MIN_2">
+            <summary>
+              Looks up a localized string similar to A geodetic path must have at least two points..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.GRID_EXCEPTION">
+            <summary>
+              Looks up a localized string similar to The UTM grids 32X,34X and 36X are not assigned..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.INVALID_BAND">
+            <summary>
+              Looks up a localized string similar to Invalid UTMBand specified..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.INVALID_DISTANCE">
+            <summary>
+              Looks up a localized string similar to Invalid distance.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.INVALID_LATITUDE">
+            <summary>
+              Looks up a localized string similar to The UTM projection ownly allows latitudes from -80° to +84°.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.INVALID_MESH_NUMBER">
+            <summary>
+              Looks up a localized string similar to The mesh number is invalid.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.INVALID_ORDINAL">
+            <summary>
+              Looks up a localized string similar to The ordinal number of the Grid is invalid..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.INVALID_ZONE">
+            <summary>
+              Looks up a localized string similar to Invalid UTM Zone specified.
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.MESHSIZE_MIN_VIOLATION">
+            <summary>
+              Looks up a localized string similar to The mesh size must be at least 1 meter..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.MESHSIZE_TOO_BIG">
+            <summary>
+              Looks up a localized string similar to The mesh size is to big, it doesn&apos;t divide all UTMGrids into multiple cells..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.MINSEC_0_TO_60">
+            <summary>
+              Looks up a localized string similar to Minutes or seconds must have a value between 0 and 60..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.NEGATIVE_DISTANCE">
+            <summary>
+              Looks up a localized string similar to Distance cannot be negative..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.NO_NORTH_NEIGHBOR">
+            <summary>
+              Looks up a localized string similar to The grid is in the most northern band, there is no northern neighbor..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.NO_SOUTH_NEIGHBOR">
+            <summary>
+              Looks up a localized string similar to The grid is in the most southern band, there is no southern neighbor..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.NO_UNIQUE_NORTH_NEIGHBOR">
+            <summary>
+              Looks up a localized string similar to The UTM grid has no unique northern neighbor (exceptionoal grids in northern hemisphere).
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.NO_UNIQUE_SOUTH_NEIGHBOR">
+            <summary>
+              Looks up a localized string similar to The UTM grid has no unique southern neighbor (exceptionoal grids in northern hemisphere).
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.NO_UTM_COORDINATE">
+            <summary>
+              Looks up a localized string similar to The coordinate must be an _UtmCoordinate..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.POINT_NOT_OWNED">
+            <summary>
+              Looks up a localized string similar to The euclidian coordinate does not belong to this projection..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.POINT_NOT_SAME_PROJECTION">
+            <summary>
+              Looks up a localized string similar to The euclidian coordinates do not belong to the same projection..
+            </summary>
+        </member>
+        <member name="P:Geodesy.Properties.Resource.PROJECTION_NULL">
+            <summary>
+              Looks up a localized string similar to The projection argument must not be null..
+            </summary>
+        </member>
+        <member name="T:Geodesy.SphericalMercatorProjection">
+            <summary>
+                This is the Mercator projection assuming the earth is a perfect sphere.
+                It's less exact, but the math is slightly easier and thus faster.
+            </summary>
+        </member>
+        <member name="M:Geodesy.SphericalMercatorProjection.#ctor">
+            <summary>
+                Instantiate a spherical Mercator projection
+            </summary>
+        </member>
+        <member name="M:Geodesy.SphericalMercatorProjection.YToLatitude(System.Double)">
+            <summary>
+                Convert the Y coordinate (in meters) on a Mercator map back into the longitude
+            </summary>
+            <param name="y">The Y coordinate (in meters) on a Mercator map</param>
+            <returns>The longitude (in degrees)</returns>
+        </member>
+        <member name="M:Geodesy.SphericalMercatorProjection.LatitudeToY(Geodesy.Angle)">
+            <summary>
+                Convert the longitude (n degrees) to an Y-coordinate (in meters) on a Mercator map
+            </summary>
+            <param name="latitude">The longitude in degrees</param>
+            <returns>The Y coordinate in meters</returns>
+        </member>
+        <member name="T:Geodesy.UtmCoordinate">
+            <summary>
+                UTM Coordinates need additionally the zone and the band info
+                to identify the grid to which the X/Y values belong
+            </summary>
+        </member>
+        <member name="M:Geodesy.UtmCoordinate.#ctor(Geodesy.UtmGrid,System.Double,System.Double)">
+            <summary>
+                Instantiate a new point on an UTM map
+            </summary>
+            <param name="grid">The UTM grid</param>
+            <param name="easting">The X value</param>
+            <param name="northing">The Y value</param>
+        </member>
+        <member name="P:Geodesy.UtmCoordinate.Grid">
+            <summary>
+                The UTM Grid this point belongs to.
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmCoordinate.ScaleFactor">
+            <summary>
+                The scale factor at this location
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmCoordinate.MeridianConvergence">
+            <summary>
+                The meridian convergence at this location
+            </summary>
+        </member>
+        <member name="M:Geodesy.UtmCoordinate.IsSameProjection(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Check whether another euclidian point belongs to the same projection
+            </summary>
+            <param name="other">The other point</param>
+            <returns>True if they belong to the same projection, false otherwise</returns>
+        </member>
+        <member name="M:Geodesy.UtmCoordinate.DistanceTo(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Compute the euclidian distance to another point
+            </summary>
+            <param name="other">The other point</param>
+            <returns>The distance</returns>
+            <exception cref="T:System.ArgumentException">Raised if the two points don't belong to the same projection</exception>
+        </member>
+        <member name="M:Geodesy.UtmCoordinate.Equals(Geodesy.UtmCoordinate)">
+            <summary>
+                Check another UtmCoordinate for equality
+            </summary>
+            <param name="other">The other coordinates</param>
+            <returns>True if they are equal</returns>
+        </member>
+        <member name="M:Geodesy.UtmCoordinate.Equals(System.Object)">
+            <summary>
+                Check another object for being an UtmCoordinate and for equality
+            </summary>
+            <param name="obj">The other object</param>
+            <returns>True if the other object is an UtmCoordinate equal to this one</returns>
+        </member>
+        <member name="M:Geodesy.UtmCoordinate.GetHashCode">
+            <summary>
+                Get the hash code for this object
+            </summary>
+            <returns>The hash code</returns>
+        </member>
+        <member name="M:Geodesy.UtmCoordinate.ToString">
+            <summary>
+                The culture invariant string representation of the UTM coordinate
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Geodesy.UtmGrid">
+            <summary>
+                The globe is partioned into Grids by the UTM projection.
+                This structure represents such a grid.
+            </summary>
+        </member>
+        <member name="F:Geodesy.UtmGrid.NumberOfZones">
+            <summary>
+                The number of (horizontal) zones
+            </summary>
+        </member>
+        <member name="F:Geodesy.UtmGrid.NumberOfBands">
+            <summary>
+                The number of (vertical) bands.
+            </summary>
+        </member>
+        <member name="F:Geodesy.UtmGrid.NumberOfGrids">
+            <summary>
+                The theoretical number of UTM Grids on the globe. Actually there are
+                fewer ones, because there are exceptions.  <seealso cref="F:Geodesy.UtmGrid.NumberOfUsedGrids"/>
+            </summary>
+        </member>
+        <member name="F:Geodesy.UtmGrid.NumberOfUsedGrids">
+            <summary>
+                The number of UTM Grids really used. There are 3 potential combinations
+                in the X-Band that are an exception and not used (32X, 34X, 36X)
+            </summary>
+        </member>
+        <member name="F:Geodesy.UtmGrid.Xstep">
+            <summary>
+                Horizontal stepwidth for the Grids
+            </summary>
+        </member>
+        <member name="F:Geodesy.UtmGrid.Ystep">
+            <summary>
+                Vertical stepwidth for the Grids
+            </summary>
+        </member>
+        <member name="M:Geodesy.UtmGrid.#ctor(Geodesy.UtmProjection,System.Int32,System.Int32)">
+            <summary>
+                Instantiate a new UTM Grid object
+            </summary>
+            <param name="projection">The UTM projection this grid belongs to</param>
+            <param name="zone">The zone of the grid</param>
+            <param name="band">The band of the grid</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Throw if zone or band are invalid</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if the projection is null</exception>
+        </member>
+        <member name="M:Geodesy.UtmGrid.#ctor(Geodesy.UtmProjection,System.Int32,System.Char)">
+            <summary>
+                Instantiate a new UTM Grid object
+            </summary>
+            <param name="projection">The UTM projection this grid belongs to</param>
+            <param name="zone">The zone of the grid</param>
+            <param name="band">The band of the grid</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if zone or band are requested</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if the projection is null</exception>
+        </member>
+        <member name="M:Geodesy.UtmGrid.#ctor(Geodesy.UtmProjection,System.Int32)">
+            <summary>
+                Instantiate a grid by its ordinal number.
+            </summary>
+            <param name="projection">The UTM projection this Grid belongs to</param>
+            <param name="ordinal">The unique ordinal number of the grid</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the ordinal number is invalid</exception>
+        </member>
+        <member name="M:Geodesy.UtmGrid.#ctor(Geodesy.UtmProjection,Geodesy.GlobalCoordinates)">
+            <summary>
+                The UTM Grid for a given latitude/longitude
+            </summary>
+            <param name="projection">The projection to use</param>
+            <param name="coord">Latitude/Longitude of the location</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the latitude is out of the limits for the UTM projection</exception>
+        </member>
+        <member name="P:Geodesy.UtmGrid.Projection">
+            <summary>
+                The projection this grid belongs to
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.Origin">
+            <summary>
+                The UTM coordinates of the left corner of the wider latitude of the zone
+                which is the latitude closer to the aequator.
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.MapWidth">
+            <summary>
+                The width of this grid (in meters)
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.MapHeight">
+            <summary>
+                The height of this grid (in meters)
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.Zone">
+            <summary>
+                The UTM zone the point belongs to.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid UTM zone number is specified</exception>
+        </member>
+        <member name="P:Geodesy.UtmGrid.BandNr">
+            <summary>
+                Get the numeric representation of the band (0 based)
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Raised if an invalid UTM band number is specified</exception>
+        </member>
+        <member name="P:Geodesy.UtmGrid.Band">
+            <summary>
+                The UTM band the point belongs to.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">If the band character is out of its limits</exception>
+        </member>
+        <member name="P:Geodesy.UtmGrid.Width">
+            <summary>
+                Width of the Grid (as an Angle)
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.Height">
+            <summary>
+                Height of the Grid (as an Angle)
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.Ordinal">
+            <summary>
+                Unique numbering of the Grids. The most western, most southern
+                gets #0. Then we go north continue counting, when reaching the
+                northern limit we go to the lowest south of the next zone to the
+                east of the current one.
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.IsNorthern">
+            <summary>
+                Return true is this is a northern band
+            </summary>
+        </member>
+        <member name="M:Geodesy.UtmGrid.IsValidOrdinal(System.Int32)">
+            <summary>
+                Check wether or not an Ordinal number is valid
+            </summary>
+            <param name="ordinal">The ordinal to check</param>
+            <returns>True if this is a valid ordinal number</returns>
+        </member>
+        <member name="M:Geodesy.UtmGrid.IsInside(Geodesy.GlobalCoordinates)">
+            <summary>
+                Check wether a point is in the grid
+            </summary>
+            <param name="point">The point to test</param>
+            <returns>True if the point is inside</returns>
+        </member>
+        <member name="M:Geodesy.UtmGrid.Equals(Geodesy.UtmGrid)">
+            <summary>
+                Compare the grid to another grid for equality.
+            </summary>
+            <param name="other">The other grid</param>
+            <returns>True if they are equal</returns>
+        </member>
+        <member name="M:Geodesy.UtmGrid.Equals(System.Object)">
+            <summary>
+                Compare these coordinates to another object for equality.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Geodesy.UtmGrid.op_Equality(Geodesy.UtmGrid,Geodesy.UtmGrid)">
+            <summary>
+                Test two Grids for equality
+            </summary>
+            <param name="lhs">The first grid</param>
+            <param name="rhs">The second grid</param>
+            <returns>True if the first equals the second grid</returns>
+        </member>
+        <member name="M:Geodesy.UtmGrid.op_Inequality(Geodesy.UtmGrid,Geodesy.UtmGrid)">
+            <summary>
+                Test two Grids for inequality
+            </summary>
+            <param name="lhs">The first grid</param>
+            <param name="rhs">The second grid</param>
+            <returns>True if the first is not equal to the second grid</returns>
+        </member>
+        <member name="M:Geodesy.UtmGrid.GetHashCode">
+            <summary>
+                The Hashcode
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Geodesy.UtmGrid.ToString">
+            <summary>
+                The culture invariant string representation of the Grid
+            </summary>
+            <returns>ZThe name of the Grid</returns>
+        </member>
+        <member name="P:Geodesy.UtmGrid.LowerLeftCorner">
+            <summary>
+                The latitude/longitude of the lower left corner of this grid
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.UpperRightCorner">
+            <summary>
+                The latitude/longitude of the upper right corner of this grid
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.UpperLeftCorner">
+            <summary>
+                The latitude/longitude of the upper left corner of this grid
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.LowerRightCorner">
+            <summary>
+                The latitude/longitude of the lower right corner of this grid
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.CenterMeridian">
+            <summary>
+                The longitude of the center of this Grid
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.West">
+            <summary>
+                The western neighbor of the grid
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.East">
+            <summary>
+                The eastern neighbor of the grid
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmGrid.North">
+            <summary>
+                The northern neighbor of the grid
+            </summary>
+            <exception cref="T:Geodesy.GeodesyException">If there is no northern neighbor</exception>
+        </member>
+        <member name="P:Geodesy.UtmGrid.South">
+            <summary>
+                The southern neighbor of the grid
+            </summary>
+            <exception cref="T:Geodesy.GeodesyException">If there is no southern neighbor</exception>
+        </member>
+        <member name="T:Geodesy.UtmProjection">
+            <summary>
+                The Universal Transverse Mercator Projection
+            </summary>
+        </member>
+        <member name="M:Geodesy.UtmProjection.#ctor">
+            <summary>
+                Instantiate an UTM projection with WGS84 as reference
+                ///
+            </summary>
+        </member>
+        <member name="M:Geodesy.UtmProjection.#ctor(Geodesy.Ellipsoid)">
+            <summary>
+                Instantiate an UTM projection with this reference Ellipsoid
+            </summary>
+            <param name="referenceGlobe">The reference Ellipsoid</param>
+        </member>
+        <member name="P:Geodesy.UtmProjection.MinLatitude">
+            <summary>
+                Minimum latitude mapped by the UTM projection
+            </summary>
+        </member>
+        <member name="P:Geodesy.UtmProjection.MaxLatitude">
+            <summary>
+                Maximum latitude mapped by the UTM projection
+            </summary>
+        </member>
+        <member name="M:Geodesy.UtmProjection.ToEuclidian(Geodesy.GlobalCoordinates)">
+            <summary>
+                Convert a latitude/longitude coordinate to a Euclidian coordinate on a flat map
+            </summary>
+            <param name="coordinates">The latitude/longitude coordinates in degrees</param>
+            <returns>The euclidian coordinates of that point</returns>
+        </member>
+        <member name="M:Geodesy.UtmProjection.FromEuclidian(Geodesy.EuclidianCoordinate)">
+            <summary>
+                Get the latitude/longitude coordinates from the euclidian coordinates
+            </summary>
+            <param name="xy">The euclidien coordinates</param>
+            <returns>The latitude/longitude coordinates of that point</returns>
+        </member>
+        <member name="M:Geodesy.UtmProjection.ScaleFactor(Geodesy.GlobalCoordinates)">
+            <summary>
+                Get the Mercator scale factor for the given point
+            </summary>
+            <param name="point">The point</param>
+            <returns>The scale factor</returns>
+        </member>
+        <member name="M:Geodesy.UtmProjection.MeridianConvergence(Geodesy.GlobalCoordinates)">
+            <summary>
+                Compute the meridian convergence for a location
+            </summary>
+            <param name="point">The location defined by latitude/longitude</param>
+            <returns>The meridian convergence</returns>
+        </member>
+    </members>
+</doc>
