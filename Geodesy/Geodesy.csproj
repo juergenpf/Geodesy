@@ -31,7 +31,7 @@ machine learning - on geo locations.</Description>
   </PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>C:\Users\juergen\Source\Repos\Geodesy\Geodesy\Geodesy.xml</DocumentationFile>
+		<DocumentationFile>Geodesy.xml</DocumentationFile>
 	</PropertyGroup>
 
   <ItemGroup>
