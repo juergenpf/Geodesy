@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>Geodesy</AssemblyName>
-    <Version>3.0.1</Version>
+    <Version>3.1.0</Version>
     <Authors>Juergen Pfeifer</Authors>
     <Company>Pfeifers-Software</Company>
     <Product>Geodesic</Product>
@@ -18,8 +18,7 @@ over the mapped area of the earth to be able to classify a geo-location by a
 discrete globally unique mesh number. This is done in order to facilitacte the 
 application of some discrete algorithms - especially in the area of 
 machine learning - on geo locations.</Description>
-    <Copyright>Copyright © 2014-2020 Juergen Pfeifer. All rights reserved.</Copyright>
-    <PackageLicenseFile>License.md</PackageLicenseFile>
+    <Copyright>Copyright © 2014-2020 Juergen Pfeifer.</Copyright>
     <PackageProjectUrl>https://github.com/juergenpf/Geodesy</PackageProjectUrl>
     <RepositoryUrl>https://github.com/juergenpf/Geodesy.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -28,18 +27,12 @@ machine learning - on geo locations.</Description>
 - Version 3 switches to .NET Standard multi-target build</PackageReleaseNotes>
     <RootNamespace>Geodesy</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>Geodesy.xml</DocumentationFile>
-	</PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\License.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	  <IncludeSymbols>true</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	  <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>  </PropertyGroup>
 
 	<ItemGroup>
 		<Compile Update="Properties\Resource.Designer.cs">
@@ -60,5 +53,9 @@ machine learning - on geo locations.</Description>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
 
 </Project>

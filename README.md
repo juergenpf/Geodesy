@@ -1,5 +1,8 @@
 This is a C# class library containing some very basic geodesic algorithms.
-It is based on work by Mike Gavaghan (see http://www.gavaghan.org/blog/free-source-code/geodesy-library-vincentys-formula/)
+It is based on work by Mike Gavaghan 
+
+(see http://www.gavaghan.org/blog/free-source-code/geodesy-library-vincentys-formula/)
+
 and has been enhanced by me to cover also some variants of Mercators projection of the earth to
 flat maps. I cover Spherical and Elliptical Mercator projections, mapping the earth to a single
 flat map. I also handle the Universal Transverse Mercator (UTM) projection, dividing the earth into
