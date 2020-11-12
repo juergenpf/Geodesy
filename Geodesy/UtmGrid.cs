@@ -97,8 +97,7 @@ namespace Geodesy
         /// <exception cref="ArgumentNullException">Thrown if the projection is null</exception>
         public UtmGrid(UtmProjection projection, int zone, char band)
             : this(projection, zone, BandChars.IndexOf(band))
-        {
-        }
+        { }
 
         /// <summary>
         ///     Instantiate a grid by its ordinal number.
@@ -209,7 +208,7 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid UTM zone number is specified</exception>
         public int Zone
         {
-            get { return _zone; }
+            get => _zone;
             set
             {
                 if (value < MinZone || value > MaxZone)
@@ -227,7 +226,7 @@ namespace Geodesy
         /// <exception cref="ArgumentOutOfRangeException">Raised if an invalid UTM band number is specified</exception>
         public int BandNr
         {
-            get { return _band; }
+            get => _band;
             private set
             {
                 if (value < MinBand || value > MaxBand)
@@ -246,8 +245,8 @@ namespace Geodesy
         //TODO Check the correct Exception type
         public char Band
         {
-            get { return BandChars[_band]; }
-            set { BandNr = BandChars.IndexOf(value); }
+            get => BandChars[_band];
+            set => BandNr = BandChars.IndexOf(value);
         }
 
         /// <summary>
@@ -306,10 +305,7 @@ namespace Geodesy
 
             var zone = 1 + ordinal/NumberOfBands;
             var band = ordinal%NumberOfBands;
-            if (band == MaxBand && (zone == 32 || zone == 34 || zone == 36))
-                return false;
-
-            return true;
+            return band != MaxBand || (zone != 32 && zone != 34 && zone != 36);
         }
 
         private void ComputeSizes()
@@ -322,27 +318,33 @@ namespace Geodesy
             if (_band == MaxBand)
                 Height = Ystep + 4.0;
 
-            if (_zone == 32 && Band == 'V')
+            switch (_zone)
             {
-                Width += 3.0;
-                _llCoordinates.Longitude -= 3.0;
-            }
-            else if (_zone == 31 && Band == 'V')
-            {
-                Width -= 3.0;
-            }
-            else if (_band == MaxBand)
-            {
-                if (_zone == 31 || _zone == 37)
-                {
+                case 32 when Band == 'V':
                     Width += 3.0;
-                    if (_zone == 37)
-                        _llCoordinates.Longitude -= 3.0;
-                }
-                else if (_zone == 33 || _zone == 35)
-                {
-                    Width += 6.0;
                     _llCoordinates.Longitude -= 3.0;
+                    break;
+                case 31 when Band == 'V':
+                    Width -= 3.0;
+                    break;
+                default:
+                {
+                    if (_band == MaxBand)
+                    {
+                        if (_zone == 31 || _zone == 37)
+                        {
+                            Width += 3.0;
+                            if (_zone == 37)
+                                _llCoordinates.Longitude -= 3.0;
+                        }
+                        else if (_zone == 33 || _zone == 35)
+                        {
+                            Width += 6.0;
+                            _llCoordinates.Longitude -= 3.0;
+                        }
+                    }
+
+                    break;
                 }
             }
         }
@@ -373,12 +375,9 @@ namespace Geodesy
         /// <returns>True if the point is inside</returns>
         public bool IsInside(GlobalCoordinates point)
         {
-            if (point.Longitude >= LowerLeftCorner.Longitude && point.Longitude <= LowerRightCorner.Longitude)
-            {
-                if (point.Latitude >= LowerLeftCorner.Latitude && point.Latitude <= UpperLeftCorner.Latitude)
-                    return true;
-            }
-            return false;
+            if (point.Longitude < LowerLeftCorner.Longitude || point.Longitude > LowerRightCorner.Longitude)
+                return false;
+            return point.Latitude >= LowerLeftCorner.Latitude && point.Latitude <= UpperLeftCorner.Latitude;
         }
 
         /// <summary>
@@ -399,7 +398,7 @@ namespace Geodesy
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is UtmGrid))
+            if (!(obj is UtmGrid))
                 return false;
             var other = (UtmGrid) obj;
             return ((IEquatable<UtmGrid>) this).Equals(other);
@@ -450,57 +449,36 @@ namespace Geodesy
         /// <summary>
         ///     The latitude/longitude of the lower left corner of this grid
         /// </summary>
-        public GlobalCoordinates LowerLeftCorner
-        {
-            get { return _llCoordinates; }
-        }
+        public GlobalCoordinates LowerLeftCorner => _llCoordinates;
 
         /// <summary>
         ///     The latitude/longitude of the upper right corner of this grid
         /// </summary>
-        public GlobalCoordinates UpperRightCorner
-        {
-            get
-            {
-                return new GlobalCoordinates(
-                    _llCoordinates.Latitude + Height - Delta,
-                    _llCoordinates.Longitude + Width - Delta);
-            }
-        }
+        public GlobalCoordinates UpperRightCorner =>
+            new GlobalCoordinates(
+                _llCoordinates.Latitude + Height - Delta,
+                _llCoordinates.Longitude + Width - Delta);
 
         /// <summary>
         ///     The latitude/longitude of the upper left corner of this grid
         /// </summary>
-        public GlobalCoordinates UpperLeftCorner
-        {
-            get
-            {
-                return new GlobalCoordinates(
-                    _llCoordinates.Latitude + Height - Delta,
-                    _llCoordinates.Longitude);
-            }
-        }
+        public GlobalCoordinates UpperLeftCorner =>
+            new GlobalCoordinates(
+                _llCoordinates.Latitude + Height - Delta,
+                _llCoordinates.Longitude);
 
         /// <summary>
         ///     The latitude/longitude of the lower right corner of this grid
         /// </summary>
-        public GlobalCoordinates LowerRightCorner
-        {
-            get
-            {
-                return new GlobalCoordinates(
-                    _llCoordinates.Latitude,
-                    _llCoordinates.Longitude + Width - Delta);
-            }
-        }
+        public GlobalCoordinates LowerRightCorner =>
+            new GlobalCoordinates(
+                _llCoordinates.Latitude,
+                _llCoordinates.Longitude + Width - Delta);
 
         /// <summary>
         ///     The longitude of the center of this Grid
         /// </summary>
-        public Angle CenterMeridian
-        {
-            get { return _llCoordinates.Longitude + Width*0.5; }
-        }
+        public Angle CenterMeridian => _llCoordinates.Longitude + Width*0.5;
 
         #endregion
 

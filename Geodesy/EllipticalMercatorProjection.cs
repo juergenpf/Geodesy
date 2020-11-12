@@ -16,8 +16,7 @@ namespace Geodesy
         ///     Instantiate an elliptical Mercator projection with WGS84 as Ellipsoid
         /// </summary>
         public EllipticalMercatorProjection() : this(Ellipsoid.WGS84)
-        {
-        }
+        { }
 
         /// <summary>
         ///     Instantiate an elliptical Mercator projection with this reference Ellipsoid
@@ -25,8 +24,7 @@ namespace Geodesy
         /// <param name="referenceGlobe">The reference Ellipsoid for the projection</param>
         public EllipticalMercatorProjection(Ellipsoid referenceGlobe)
             : base(referenceGlobe)
-        {
-        }
+        { }
 
         /*
          * The implementation is based on the recommendations of the OpenStreetMap project-

@@ -60,7 +60,7 @@ namespace Geodesy
                     Compute();
                 return _scaleFactor;
             }
-            private set { _scaleFactor = value; }
+            private set => _scaleFactor = value;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Geodesy
                     Compute();
                 return Angle.RadToDeg(_meridianConvergence);
             }
-            private set { _meridianConvergence = value.Radians; }
+            private set => _meridianConvergence = value.Radians;
         }
 
         /// <summary>
@@ -82,14 +82,9 @@ namespace Geodesy
         /// </summary>
         /// <param name="other">The other point</param>
         /// <returns>True if they belong to the same projection, false otherwise</returns>
-        public override bool IsSameProjection(EuclidianCoordinate other)
+        protected override bool IsSameProjection(EuclidianCoordinate other)
         {
-            var utmOther = other as UtmCoordinate;
-            if (null != utmOther)
-            {
-                return utmOther.Grid.Equals(Grid);
-            }
-            return false;
+            return other is UtmCoordinate utmOther && utmOther.Grid.Equals(Grid);
         }
 
         private void Compute()
@@ -106,8 +101,7 @@ namespace Geodesy
         /// <exception cref="ArgumentException">Raised if the two points don't belong to the same projection</exception>
         public override double DistanceTo(EuclidianCoordinate other)
         {
-            var obj = other as UtmCoordinate;
-            if (obj == null || !Grid.Equals(obj.Grid))
+            if (!(other is UtmCoordinate obj) || !Grid.Equals(obj.Grid))
                 throw new ArgumentException();
             return base.DistanceTo(other);
         }

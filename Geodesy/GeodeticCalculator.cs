@@ -21,7 +21,7 @@ namespace Geodesy
     ///     publication on the NOAA website:
     ///     See http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
     /// </summary>
-    public struct GeodeticCalculator : IEquatable<GeodeticCalculator>
+    public readonly struct GeodeticCalculator : IEquatable<GeodeticCalculator>
     {
         private const double TwoPi = 2.0*Math.PI;
         private const double Precision = 0.0000000000001;
@@ -301,11 +301,9 @@ namespace Geodesy
                 // see how much improvement we got
                 var change = Math.Abs((lambda - lambda0)/lambda);
 
-                if ((i > 1) && (change < Precision))
-                {
-                    converged = true;
-                    break;
-                }
+                if ((i <= 1) || (!(change < Precision))) continue;
+                converged = true;
+                break;
             }
 
             // eq. 19

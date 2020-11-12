@@ -22,7 +22,7 @@ namespace Geodesy
     ///     ellipsoidal distance between two GlobalCoordinates for a specified reference
     ///     ellipsoid.
     /// </summary>
-    public struct GeodeticCurve : IEquatable<GeodeticCurve>
+    public readonly struct GeodeticCurve : IEquatable<GeodeticCurve>
     {
         /// <summary>Ellipsoidal distance (in meters).</summary>
         public double EllipsoidalDistance { get; }

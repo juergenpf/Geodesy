@@ -18,7 +18,7 @@ namespace Geodesy
     /// <summary>
     ///     Encapsulation of an ellipsoid, and declaration of common reference ellipsoids.
     /// </summary>
-    public struct Ellipsoid : IEquatable<Ellipsoid>
+    public readonly struct Ellipsoid : IEquatable<Ellipsoid>
     {
         /// <summary>Get semi major axis (meters).</summary>
         public double SemiMajorAxis { get; }
@@ -95,12 +95,7 @@ namespace Geodesy
         /// <returns>True, if the other object is an Ellipsoid with the same geometry</returns>
         public override bool Equals(object obj)
         {
-            bool result;
-            if (!(obj is Ellipsoid))
-                result = false;
-            else
-                result = ((IEquatable<Ellipsoid>) this).Equals((Ellipsoid) obj);
-            return result;
+            return obj is Ellipsoid ellipsoid && ((IEquatable<Ellipsoid>) this).Equals(ellipsoid);
         }
 
         /// <summary>

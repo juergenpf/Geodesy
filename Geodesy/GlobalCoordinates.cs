@@ -50,7 +50,7 @@ namespace Geodesy
         /// </summary>
         public Angle Latitude
         {
-            get { return _mLatitude; }
+            get => _mLatitude;
             set
             {
                 _mLatitude = value;
@@ -64,7 +64,7 @@ namespace Geodesy
         /// </summary>
         public Angle Longitude
         {
-            get { return _mLongitude; }
+            get => _mLongitude;
             set
             {
                 _mLongitude = value;
@@ -153,7 +153,8 @@ namespace Geodesy
         /// <returns>The hash code</returns>
         public override int GetHashCode()
         {
-            return _mLongitude.GetHashCode()*(_mLatitude.GetHashCode() + 1021)*1000033;
+            Angle[] tmp = { _mLongitude, _mLatitude };
+            return tmp.GetHashCode();
         }
 
         /// <summary>

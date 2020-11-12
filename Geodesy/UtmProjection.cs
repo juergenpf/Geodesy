@@ -77,16 +77,16 @@ namespace Geodesy
             {
                 sum0 += (_m.Alpha[j - 1]*Math.Cos(2.0*j*chitick)*Math.Sinh(2.0*j*etatick));
             }
-            var easting = _m.E0 + _m.K0*_m.A*(etatick + sum0);
+            var easting = MathConsts.E0 + MathConsts.K0*_m.A*(etatick + sum0);
 
             sum0 = 0.0;
             for (var j = 1; j <= 3; j++)
             {
                 sum0 += (_m.Alpha[j - 1]*Math.Sin(2.0*j*chitick)*Math.Cosh(2.0*j*etatick));
             }
-            var northing = northingOffset + _m.K0*_m.A*(chitick + sum0);
+            var northing = northingOffset + MathConsts.K0*_m.A*(chitick + sum0);
 
-            scaleFactor = (_m.K0*_m.A/ReferenceGlobe.SemiMajorAxis)*
+            scaleFactor = (MathConsts.K0*_m.A/ReferenceGlobe.SemiMajorAxis)*
                           Math.Sqrt(((sigma*sigma + tau*tau)/(t*t + Math.Pow(Math.Cos(lambda - lambda0), 2.0)))*
                                     (1.0 + Math.Pow(Math.Tan(phi)*((1.0 - _m.N)/(1.0 + _m.N)), 2.0)));
             meridianConvergence = Math.Atan((tau*Math.Sqrt(1.0 + t*t) + sigma*t*Math.Tan(lambda - lambda0))/
@@ -102,7 +102,7 @@ namespace Geodesy
         /// <returns>The euclidian coordinates of that point</returns>
         public override EuclidianCoordinate ToEuclidian(GlobalCoordinates coordinates)
         {
-            return ToUtmCoordinates(coordinates, out double scaleFactor, out double meridianConvergence);
+            return ToUtmCoordinates(coordinates, out _, out _);
         }
 
         internal GlobalCoordinates FromEuclidian(
@@ -110,14 +110,13 @@ namespace Geodesy
             out double scaleFactor,
             out double meridianConvergence)
         {
-            var point = xy as UtmCoordinate;
-            if (null == point)
+            if (!(xy is UtmCoordinate point))
                 throw new ArgumentException(Properties.Resource.NO_UTM_COORDINATE);
             var hemi = point.Grid.IsNorthern ? 1 : -1;
 
             var northingOffset = point.Grid.IsNorthern ? 0.0 : 10000000.0;
-            var chi = (point.Y - northingOffset)/(_m.K0*_m.A);
-            var eta = (point.X - _m.E0)/(_m.K0*_m.A);
+            var chi = (point.Y - northingOffset)/(MathConsts.K0*_m.A);
+            var eta = (point.X - MathConsts.E0)/(MathConsts.K0*_m.A);
 
             var sum = 0.0;
             for (var j = 1; j <= 3; j++)
@@ -155,7 +154,7 @@ namespace Geodesy
 
             var lambda0 = point.Grid.CenterMeridian.Radians;
             var lambda = lambda0 + Math.Atan(Math.Sinh(etatick)/Math.Cos(chitick));
-            var k = ((_m.K0*_m.A)/ReferenceGlobe.SemiMajorAxis)*
+            var k = ((MathConsts.K0*_m.A)/ReferenceGlobe.SemiMajorAxis)*
                     Math.Sqrt(((Math.Pow(Math.Cos(chitick), 2.0) + Math.Pow(Math.Sinh(etatick), 2.0))/
                                (sigmatick*sigmatick + tautick*tautick))*
                               (1.0 + Math.Pow(((1.0 - _m.N)/(1.0 + _m.N))*Math.Tan(phi), 2.0)));
@@ -174,7 +173,7 @@ namespace Geodesy
         /// <returns>The latitude/longitude coordinates of that point</returns>
         public override GlobalCoordinates FromEuclidian(EuclidianCoordinate xy)
         {
-            return FromEuclidian(xy, out double scaleFactor, out double meridianConvergence);
+            return FromEuclidian(xy, out _, out _);
         }
 
         /// <summary>
@@ -184,7 +183,7 @@ namespace Geodesy
         /// <returns>The scale factor</returns>
         public override double ScaleFactor(GlobalCoordinates point)
         {
-            var c = ToUtmCoordinates(point, out double scaleFactor, out double meridianConvergence);
+            ToUtmCoordinates(point, out var scaleFactor, out _);
             return scaleFactor;
         }
 
@@ -195,7 +194,7 @@ namespace Geodesy
         /// <returns>The meridian convergence</returns>
         public Angle MeridianConvergence(GlobalCoordinates point)
         {
-            var c = ToUtmCoordinates(point, out double scaleFactor, out double meridianConvergence);
+            ToUtmCoordinates(point, out _, out var meridianConvergence);
             return Angle.RadToDeg(meridianConvergence);
         }
 
@@ -210,8 +209,8 @@ namespace Geodesy
         private class MathConsts
         {
             public readonly double[] Alpha, Beta, Delta;
-            public readonly double E0 = 500000;
-            public readonly double K0 = 0.9996;
+            public const double E0 = 500000;
+            public const double K0 = 0.9996;
             public readonly double N, A;
 
             internal MathConsts(Ellipsoid ellipsoid)
@@ -242,7 +241,7 @@ namespace Geodesy
             }
         }
 
-        private MathConsts _m;
+        private readonly MathConsts _m;
 
         private static double Atanh(double x)
         {

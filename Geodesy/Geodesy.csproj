@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFrameworks>net5.0;netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>Geodesy</AssemblyName>
-    <Version>3.1.0</Version>
+    <Version>4.0.0</Version>
     <Authors>Juergen Pfeifer</Authors>
     <Company>Pfeifers-Software</Company>
     <Product>Geodesic</Product>
@@ -24,7 +24,8 @@ machine learning - on geo locations.</Description>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Geodesy Maps Geocaching Machinelearning ML</PackageTags>
     <PackageReleaseNotes>- Version 2 drops PCL builds in favour of .NET standard
-- Version 3 switches to .NET Standard multi-target build</PackageReleaseNotes>
+- Version 3 switches to .NET Standard multi-target build
+- Version 4 builds also for net5.0</PackageReleaseNotes>
     <RootNamespace>Geodesy</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>

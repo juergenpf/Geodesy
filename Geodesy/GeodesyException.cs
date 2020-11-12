@@ -9,24 +9,18 @@ namespace Geodesy
     /// <summary>
     ///     The exception being used for internal errors in the Geodesy library
     /// </summary>
-#if !PCL
-#if !CORE
     [Serializable]
-#endif
-#endif
     public class GeodesyException : Exception
     {
         private GeodesyException()
-        {
-        }
+        { }
 
         /// <summary>
         ///     New GeodesyException with a specified message
         /// </summary>
         /// <param name="message">The message for this exception</param>
         public GeodesyException(string message) : base(message)
-        {
-        }
+        { }
 
         /// <summary>
         ///     New GeodesyException with a specified message and causing inner exception
@@ -35,7 +29,6 @@ namespace Geodesy
         /// <param name="innerException">The inner exception causing this Geodesy exception</param>
         public GeodesyException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
+        { }
     }
 }

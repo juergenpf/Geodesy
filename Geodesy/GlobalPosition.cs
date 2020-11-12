@@ -46,28 +46,27 @@ namespace Geodesy
         /// <param name="coords"></param>
         public GlobalPosition(GlobalCoordinates coords)
             : this(coords, 0.0)
-        {
-        }
+        { }
 
         /// <summary>Get/set global coordinates.</summary>
         public GlobalCoordinates Coordinates
         {
-            get { return _mCoordinates; }
-            set { _mCoordinates = value; }
+            get => _mCoordinates;
+            set => _mCoordinates = value;
         }
 
         /// <summary>Get/set latitude.</summary>
         public Angle Latitude
         {
-            get { return _mCoordinates.Latitude; }
-            set { _mCoordinates.Latitude = value; }
+            get => _mCoordinates.Latitude;
+            set => _mCoordinates.Latitude = value;
         }
 
         /// <summary>Get/set longitude.</summary>
         public Angle Longitude
         {
-            get { return _mCoordinates.Longitude; }
-            set { _mCoordinates.Longitude = value; }
+            get => _mCoordinates.Longitude;
+            set => _mCoordinates.Longitude = value;
         }
 
         /// <summary>

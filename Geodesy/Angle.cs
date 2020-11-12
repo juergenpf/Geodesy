@@ -85,8 +85,8 @@ namespace Geodesy
         /// </summary>
         public double Radians
         {
-            get { return Degrees*PiOver180; }
-            set { Degrees = value/PiOver180; }
+            get => Degrees*PiOver180;
+            set => Degrees = value/PiOver180;
         }
 
         /// <summary>
@@ -167,8 +167,7 @@ namespace Geodesy
         /// <returns>'true' if angles are equal</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is Angle)) return false;
-            return ((IEquatable<Angle>) this).Equals((Angle)obj);
+            return obj is Angle angle && ((IEquatable<Angle>) this).Equals(angle);
         }
 
         /// <summary>

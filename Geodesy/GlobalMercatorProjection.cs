@@ -3,6 +3,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace Geodesy
 {
@@ -145,8 +146,8 @@ namespace Geodesy
         /// <param name="bearing">The constant course for the path</param>
         /// <param name="numberOfPoints">Number of points on the path (including start and end)</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the number of points is less than 2</exception>
-        /// <returns>An array of points describing the loxodromic path from start to end</returns>
-        public GlobalCoordinates[] CalculatePath(
+        /// <returns>An enumeration of points describing the loxodromic path from start to end</returns>
+        public IEnumerable<GlobalCoordinates> CalculatePath(
             GlobalCoordinates start,
             GlobalCoordinates end,
             out double mercatorRhumbDistance,

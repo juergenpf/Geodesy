@@ -33,8 +33,8 @@ namespace Geodesy
         /// </summary>
         public Angle ReferenceMeridian
         {
-            get { return _referenceMeridian; }
-            set { _referenceMeridian = NormalizeLongitude(value); }
+            get => _referenceMeridian;
+            set => _referenceMeridian = NormalizeLongitude(value);
         }
 
         /// <summary>
@@ -80,18 +80,12 @@ namespace Geodesy
         /// <summary>
         ///     Maximum possible longitude for this projection
         /// </summary>
-        public virtual Angle MaxLatitude
-        {
-            get { return Angle.RadToDeg(Math.Atan(Math.Sinh(Math.PI))); }
-        }
+        public virtual Angle MaxLatitude => Angle.RadToDeg(Math.Atan(Math.Sinh(Math.PI)));
 
         /// <summary>
         ///     Minimum possible longitude for this projection
         /// </summary>
-        public virtual Angle MinLatitude
-        {
-            get { return -MaxLatitude; }
-        }
+        public virtual Angle MinLatitude => -MaxLatitude;
 
         /// <summary>
         ///     Maximum possible longitude for this projection

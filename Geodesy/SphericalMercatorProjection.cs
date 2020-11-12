@@ -16,8 +16,7 @@ namespace Geodesy
         ///     Instantiate a spherical Mercator projection
         /// </summary>
         public SphericalMercatorProjection() : base(Ellipsoid.Sphere)
-        {
-        }
+        { }
 
         /// <summary>
         ///     Convert the Y coordinate (in meters) on a Mercator map back into the longitude

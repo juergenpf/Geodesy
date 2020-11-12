@@ -21,7 +21,7 @@ namespace Geodesy
     ///     This is the outcome of a three dimensional geodetic calculation.  It represents
     ///     the path a between two GlobalPositions for a specified reference ellipsoid.
     /// </summary>
-    public struct GeodeticMeasurement : IEquatable<GeodeticMeasurement>
+    public readonly struct GeodeticMeasurement : IEquatable<GeodeticMeasurement>
     {
         /// <summary>
         ///     The calculator used to compute this measurement

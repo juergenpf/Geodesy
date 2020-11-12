@@ -43,8 +43,7 @@ namespace Geodesy
         /// </summary>
         /// <param name="projection">The projection owning these coordinates</param>
         public EuclidianCoordinate(MercatorProjection projection) : this(projection, 0.0, 0.0)
-        {
-        }
+        { }
 
         /// <summary>
         ///     Instantiate a new point from a coordinate array
@@ -64,14 +63,14 @@ namespace Geodesy
         /// <summary>
         ///     The Mercator projection that owns these coordinates
         /// </summary>
-        public MercatorProjection Projection { get; protected set; }
+        public MercatorProjection Projection { get; }
 
         /// <summary>
         ///     Check whether another euclidian point belongs to the same projection
         /// </summary>
         /// <param name="other">The other point</param>
         /// <returns>True if they belong to the same projection, false otherwise</returns>
-        public virtual bool IsSameProjection(EuclidianCoordinate other)
+        protected virtual bool IsSameProjection(EuclidianCoordinate other)
         {
             return (other != null && other.Projection.Equals(Projection));
         }
@@ -95,7 +94,7 @@ namespace Geodesy
         /// <param name="other">The other coordinate</param>
         /// <param name="precision">The precision (defaults to some small value)</param>
         /// <returns>True if the coordinates are nearly the same.</returns>
-        public virtual bool IsApproximatelyEqual(
+        protected virtual bool IsApproximatelyEqual(
             EuclidianCoordinate other,
             double precision = DefaultPrecision)
         {

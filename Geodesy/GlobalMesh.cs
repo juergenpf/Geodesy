@@ -277,18 +277,17 @@ namespace Geodesy
                             if (Math.Abs(x) == distance)
                                 add = true;
                         }
-                        if (add)
+
+                        if (!add) continue;
+                        bearing = Math.Sign(x) < 0 ? 270.0 : 90.0;
+                        var horizontal = (x != 0) ? 
+                            calc.CalculateEndingGlobalCoordinates(vertical, bearing, (double)(Math.Abs(x) * MeshSize)) 
+                            : vertical;
+                        try
                         {
-                            bearing = Math.Sign(x) < 0 ? 270.0 : 90.0;
-                            var horizontal = (x != 0) ? 
-                                calc.CalculateEndingGlobalCoordinates(vertical, bearing, (double)(Math.Abs(x) * MeshSize)) 
-                                : vertical;
-                            try
-                            {
-                                result.Add(MeshNumber(horizontal));
-                            }
-                            catch (Exception) { }
+                            result.Add(MeshNumber(horizontal));
                         }
+                        catch (Exception) { }
                     }
                 }
             }
