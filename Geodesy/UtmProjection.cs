@@ -11,6 +11,8 @@ namespace Geodesy
     /// </summary>
     public class UtmProjection : MercatorProjection
     {
+        internal const double Southern_Northing_Offset = 10000000.0;
+
         /// <summary>
         ///     Instantiate an UTM projection with WGS84 as reference
         ///     ///
@@ -47,7 +49,7 @@ namespace Geodesy
         {
             var grid = new UtmGrid(this, coordinates);
 
-            var northingOffset = grid.IsNorthern ? 0.0 : 10000000.0;
+            var northingOffset = grid.IsNorthern ? 0.0 : Southern_Northing_Offset;
 
             // Various constants for the mathematical approximations
 
@@ -114,7 +116,7 @@ namespace Geodesy
                 throw new ArgumentException(Properties.Resource.NO_UTM_COORDINATE);
             var hemi = point.Grid.IsNorthern ? 1 : -1;
 
-            var northingOffset = point.Grid.IsNorthern ? 0.0 : 10000000.0;
+            var northingOffset = point.Grid.IsNorthern ? 0.0 : Southern_Northing_Offset;
             var chi = (point.Y - northingOffset)/(MathConsts.K0*_m.A);
             var eta = (point.X - MathConsts.E0)/(MathConsts.K0*_m.A);
 

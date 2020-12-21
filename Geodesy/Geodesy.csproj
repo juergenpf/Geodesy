@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>Geodesy</AssemblyName>
-    <Version>4.0.0</Version>
+    <Version>4.1.0</Version>
     <Authors>Juergen Pfeifer</Authors>
     <Company>Pfeifers-Software</Company>
     <Product>Geodesic</Product>
@@ -25,7 +25,9 @@ machine learning - on geo locations.</Description>
     <PackageTags>Geodesy Maps Geocaching Machinelearning ML</PackageTags>
     <PackageReleaseNotes>- Version 2 drops PCL builds in favour of .NET standard
 - Version 3 switches to .NET Standard multi-target build
-- Version 4 builds also for net5.0</PackageReleaseNotes>
+- Version 4 builds also for net5.0
+- Version 4.1 fixes a bug for mesh calculations on the southern hemisphere.
+    </PackageReleaseNotes>
     <RootNamespace>Geodesy</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>

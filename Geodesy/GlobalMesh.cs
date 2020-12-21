@@ -43,12 +43,10 @@ namespace Geodesy
 
             for (var ord = 0; ord < UtmGrid.NumberOfGrids; ord++)
             {
-                if (UtmGrid.IsValidOrdinal(ord))
-                {
-                    var theGrid = new UtmGrid(Projection, ord);
-                    maxWidth = Math.Max(maxWidth, theGrid.MapWidth);
-                    maxHeight = Math.Max(maxHeight, theGrid.MapHeight);
-                }
+                if (!UtmGrid.IsValidOrdinal(ord)) continue;
+                var theGrid = new UtmGrid(Projection, ord);
+                maxWidth = Math.Max(maxWidth, theGrid.MapWidth);
+                maxHeight = Math.Max(maxHeight, theGrid.MapHeight);
             }
 
             var maxHorizontalMeshes =
@@ -101,8 +99,8 @@ namespace Geodesy
         /// <returns>The mesh number to which the coordinate belongs</returns>
         public long MeshNumber(UtmCoordinate coord)
         {
-            var relX = (long) Math.Round(coord.X - coord.Grid.Origin.X, MidpointRounding.AwayFromZero)/MeshSize;
-            var relY = (long) Math.Round(coord.Y - coord.Grid.Origin.Y, MidpointRounding.AwayFromZero)/MeshSize;
+            var relX = (long) Math.Round(coord.X - coord.Grid.SouthernWest.X, MidpointRounding.AwayFromZero)/MeshSize;
+            var relY = (long) Math.Round(coord.Y - coord.Grid.SouthernWest.Y, MidpointRounding.AwayFromZero)/MeshSize;
             var res = coord.Grid.Ordinal*Count + relX*_maxVerticalMeshes + relY;
             return res;
         }
@@ -157,9 +155,9 @@ namespace Geodesy
         {
             var theGrid = Grid(meshNumber);
             MeshOrigin(meshNumber, out long relX, out long relY);
-            double nx = (double)relX + 0.5*(double)MeshSize;
-            double ny = (double)relY + 0.5*(double)MeshSize;
-            return new UtmCoordinate(theGrid, theGrid.Origin.X + nx, theGrid.Origin.Y + ny);
+            var nx = (double)relX + 0.5*(double)MeshSize;
+            var ny = (double)relY + 0.5*(double)MeshSize;
+            return new UtmCoordinate(theGrid, theGrid.SouthernWest.X + nx, theGrid.SouthernWest.Y + ny);
         }
 
         /// <summary>
@@ -176,7 +174,7 @@ namespace Geodesy
         {
             var theGrid = Grid(meshNumber);
             MeshOrigin(meshNumber, out long relX, out long relY);
-            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+            return new UtmCoordinate(theGrid, theGrid.SouthernWest.X + relX, theGrid.SouthernWest.Y + relY);
         }
 
         /// <summary>
@@ -194,7 +192,7 @@ namespace Geodesy
             var theGrid = Grid(meshNumber);
             MeshOrigin(meshNumber, out long relX, out long relY);
             relX += MeshSize;
-            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+            return new UtmCoordinate(theGrid, theGrid.SouthernWest.X + relX, theGrid.SouthernWest.Y + relY);
         }
 
         /// <summary>
@@ -212,7 +210,7 @@ namespace Geodesy
             var theGrid = Grid(meshNumber);
             MeshOrigin(meshNumber, out long relX, out long relY);
             relY += MeshSize;
-            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+            return new UtmCoordinate(theGrid, theGrid.SouthernWest.X + relX, theGrid.SouthernWest.Y + relY);
         }
 
         /// <summary>
@@ -231,7 +229,7 @@ namespace Geodesy
             MeshOrigin(meshNumber, out long relX, out long relY);
             relX += MeshSize;
             relY += MeshSize;
-            return new UtmCoordinate(theGrid, theGrid.Origin.X + relX, theGrid.Origin.Y + relY);
+            return new UtmCoordinate(theGrid, theGrid.SouthernWest.X + relX, theGrid.SouthernWest.Y + relY);
         }
 
         /// <summary>

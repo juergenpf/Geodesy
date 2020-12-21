@@ -24,6 +24,16 @@ namespace UnitTestGeodesy
         }
 
         [TestMethod]
+        public void TestMeshSize()
+        {
+            var theMesh = new GlobalMesh(25000);
+            var n = theMesh.MeshSize;
+            var c = theMesh.GlobalCount;
+            Assert.IsTrue(n > 0);
+            Assert.IsTrue(c > 0);
+        }
+
+        [TestMethod]
         public void TestBoundingBox()
         {
             var theMesh = new GlobalMesh(1000);

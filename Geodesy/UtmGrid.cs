@@ -42,6 +42,10 @@ namespace Geodesy
         /// </summary>
         public const int NumberOfUsedGrids = NumberOfGrids - 3;
 
+        /*  Please note for the next two constant that they rely on the implement<tion of a
+            default conversion from type "double" to type "Angle", assuming that the double
+            is a degree value.
+         */
         /// <summary>
         ///     Horizontal stepwidth for the Grids
         /// </summary>
@@ -57,6 +61,7 @@ namespace Geodesy
         private double _mapHeight;
         private double _mapWidth;
         private UtmCoordinate _origin;
+        private UtmCoordinate _southernWest;
         private int _zone;
 
         private UtmGrid(UtmProjection projection)
@@ -65,6 +70,7 @@ namespace Geodesy
             // Assign default values
             Projection = projection ?? throw new ArgumentNullException(Properties.Resource.PROJECTION_NULL);
             _origin = null;
+            _southernWest = null;
             _mapHeight = 0.0;
             _mapWidth = 0.0;
             Width = Xstep;
@@ -177,6 +183,20 @@ namespace Geodesy
         }
 
         /// <summary>
+        ///     The UTM coordinates of the most western corner of the w latitude of the zone
+        ///     which is the latitude most southern
+        /// </summary>
+        public UtmCoordinate SouthernWest
+        {
+            get
+            {
+                if (null == _southernWest)
+                    ComputeFlatSize();
+                return _southernWest;
+            }
+        }
+
+        /// <summary>
         ///     The width of this grid (in meters)
         /// </summary>
         public double MapWidth
@@ -265,7 +285,7 @@ namespace Geodesy
         ///     northern limit we go to the lowest south of the next zone to the
         ///     east of the current one.
         /// </summary>
-        public int Ordinal => (_zone - 1)*BandChars.Length + _band;
+        public int Ordinal => (_zone - 1)*NumberOfBands + _band;
 
         /// <summary>
         ///     Return true is this is a northern band
@@ -277,16 +297,17 @@ namespace Geodesy
             UtmCoordinate other;
             UtmCoordinate right;
 
+            _southernWest = (UtmCoordinate)Projection.ToEuclidian(LowerLeftCorner);
             if (IsNorthern)
             {
-                _origin = (UtmCoordinate) Projection.ToEuclidian(LowerLeftCorner);
+                _origin = _southernWest;
                 other = (UtmCoordinate) Projection.ToEuclidian(UpperLeftCorner);
                 right = (UtmCoordinate) Projection.ToEuclidian(LowerRightCorner);
             }
             else
             {
                 _origin = (UtmCoordinate) Projection.ToEuclidian(UpperLeftCorner);
-                other = (UtmCoordinate) Projection.ToEuclidian(LowerLeftCorner);
+                other = _southernWest;
                 right = (UtmCoordinate) Projection.ToEuclidian(UpperRightCorner);
             }
             _mapHeight = Math.Abs(_origin.Y - other.Y);
@@ -316,7 +337,7 @@ namespace Geodesy
                 (_zone - 1)*Xstep + MercatorProjection.MinLongitude);
 
             if (_band == MaxBand)
-                Height = Ystep + 4.0;
+                Height = Ystep.Degrees + 4.0;
 
             switch (_zone)
             {
